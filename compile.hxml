@@ -1,0 +1,9 @@
+-cp src
+-lib heaps
+-lib echo
+-lib exp-ecs
+-lib exp-fsm
+-lib domkit
+-js main.js
+-main Main
+-debug
