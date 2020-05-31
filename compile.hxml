@@ -1,6 +1,6 @@
 -cp src
--lib heaps
 -lib echo
+-lib kha
 -lib exp-ecs
 -lib exp-fsm
 -lib domkit

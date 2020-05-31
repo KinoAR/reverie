@@ -1,10 +1,6 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
   "configurations": [
-    
+  
     {
       "type": "chrome",
       "request": "launch",
@@ -13,15 +9,34 @@
       "webRoot": "${workspaceFolder}"
     },
     {
-			"name": "HashLink",
-			"request": "launch",
-			"type": "hl",
-			"hxml": "compile-native.hxml",
-			"cwd": "${workspaceRoot}",
-			"preLaunchTask": {
-				"type" : "haxe",
-				"args" : "active configuration"
-			}
-		}
-  ]
+      "name": "HashLink",
+      "request": "launch",
+      "type": "hl",
+      "hxml": "compile-native.hxml",
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": {
+        "type": "haxe",
+        "args": "active configuration"
+      }
+    },
+    {
+      "type": "electron",
+      "request": "launch",
+      "name": "Kha: HTML5",
+      "appDir": "${workspaceFolder}/build/debug-html5",
+      "cwd": "${workspaceFolder}/build/debug-html5",
+      "sourceMaps": true,
+      "preLaunchTask": "Kha: Build for Debug HTML5",
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "krom",
+      "request": "launch",
+      "name": "Kha: Krom",
+      "preLaunchTask": "Kha: Build for Krom",
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ],
+  "compounds": [],
+  "version": "0.2.0"
 }

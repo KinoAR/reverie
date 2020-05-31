@@ -1,9 +1,9 @@
 package rev;
 
 
-class Sprite extends h2d.Graphics {
+class Sprite extends Drawable {
   
-  public function new(parent: h2d.Object) {
+  public function new(parent: Drawable) {
     super(parent);
   }
 }
