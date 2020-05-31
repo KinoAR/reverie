@@ -1,5 +1,5 @@
 package rev;
-
+import math.V2;
 class Text extends Drawable {
 
   public var letterSpacing:Int;
@@ -10,13 +10,18 @@ class Text extends Drawable {
   public var textWidth:Int;
   public var text:String;
 
-  public function new(font:String, ?parent:Object) {
-    super(null, parent);
+  public function new(rc:RenderContext, font:String, ?parent:Object) {
+    super(rc, parent);
     this.textColor = 0xFFFFFF;
   }
 
   public function setText(text:String) {
     this.text = text;
+  }
+
+  public function drawText(text:String, position:V2) {
+    this.setText(text);
+    this.rc.drawText(this.text, position);
   }
 
   public override function setColor(color:Int) {
@@ -26,4 +31,5 @@ class Text extends Drawable {
   public override function resetColor() {
     this.textColor=0xFFFFFF;
   }
+
 }
