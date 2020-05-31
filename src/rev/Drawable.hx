@@ -7,9 +7,11 @@ class Drawable {
   public var x:Float;
   public var y:Float;
   public var g2: Graphics;
+  public var rc:RenderContext;
   public var color:Int;
 
-  public function new(?parent:Object) {
+  public function new(rc:RenderContext,?parent:Object) {
+    this.rc = rc;
     this.color = 0xFFFFFF;
   }
 
