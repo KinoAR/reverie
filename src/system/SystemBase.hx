@@ -4,7 +4,7 @@ import rev.Object;
 
 class SystemBase {
   
-  public var nodes:Array<Object>
+  public var nodes:Array<Object>;
   public function addNode(node:Object) {
 
   }
