@@ -1,11 +1,14 @@
 
 package;
 
+import math.V2;
 import kha.Assets;
 import kha.Image;
 import kha.Framebuffer;
 import kha.Scheduler;
 import kha.System;
+import Globals;
+import rev.RenderContext;
 
 class Project {
   var exampleImage:Image;
@@ -28,9 +31,12 @@ class Project {
 
   function render(frameBuffers: Array<Framebuffer>) {
    var g2 = frameBuffers[0].g2; 
-   g2.begin();
+   var rc = new RenderContext(g2);
+   trace("Render");
+   Globals.setGraphics(g2);
+   rc.begin();
    trace(exampleImage);
-   g2.drawImage(exampleImage, 30, 30);
-   g2.end();
+   rc.drawImage(exampleImage, new V2(30, 30));
+   rc.end();
   }
 }

@@ -9,7 +9,7 @@ class Drawable {
   public var g2: Graphics;
   public var color:Int;
 
-  public function new(g2:Graphics, ?parent:Object) {
+  public function new(?parent:Object) {
     this.color = 0xFFFFFF;
   }
 
@@ -29,21 +29,4 @@ class Drawable {
   public function resetColor() {
     this.color=0xFFFFFF;
   }
-
-  public function drawRect(x:Float, y:Float, width:Float, height:Float, ?strength:Float) {
-    g2.drawRect(x, y, width, height, strength);
-    return this;
-  }
-
-  public function fillRect(x:Float, y:Float, width:Float, height:Float ) {
-    g2.fillRect(x, y, width, height);
-    return this;
-  }
-
-  public function drawLine(x1:Float, y1:Float, x2:Float, y2:Float, ?strength:Float) {
-    g2.drawLine(x1, y1, x2, y2, strength);
-    return this;
-  }
-
-
 }
