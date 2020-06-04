@@ -1,11 +1,19 @@
 package rev;
 
 import kha.Image;
+import kha.FastFloat;
+import kha.graphics2.ImageScaleQuality;
 import math.V2;
 
 class RenderContext {
 
   public var g2:kha.graphics2.Graphics;
+  public var color(get,set) :kha.Color;
+  public var font(get,set) :kha.Font;
+  public var fontSize(get,set):Int;
+  public var imageScaleQuality(get, set):ImageScaleQuality;
+  public var mipmapScaleQuality(get,set):ImageScaleQuality;
+
   public function new(graphics:kha.graphics2.Graphics) {
     this.g2 = graphics;
   }
@@ -24,6 +32,100 @@ class RenderContext {
 
   public function clear(?color) {
     this.g2.clear(color);
+  }
+
+  private function get_color() :kha.Color{
+    return this.g2.color;
+  }
+
+  private function set_color(color:kha.Color):kha.Color {
+    return this.g2.color = color;
+  }
+
+  public function setColor(color) {
+    this.g2.color = color;
+  }
+
+  public function getColor(color) {
+    return this.g2.color;
+  }
+
+  public function setFont(font:kha.Font) {
+    this.g2.font = font;
+  }
+
+  public function getFont():kha.Font {
+    return this.g2.font;
+  }
+
+  private function get_font():kha.Font {
+    return this.g2.font;
+  }
+
+  private function set_font(font:kha.Font):kha.Font {
+    return this.g2.font = font;
+  }
+
+  public function setFontSize(value:Int) {
+    this.g2.fontSize = value;
+  }
+
+  public function getFontSize():Int {
+    return this.g2.fontSize;
+  }
+
+  private function get_fontSize():Int {
+    return this.g2.fontSize;
+  }
+
+  private function set_fontSize(value:Int):Int {
+    return this.g2.fontSize = value;
+  }
+
+  private function get_imageScaleQuality():ImageScaleQuality {
+    return this.g2.imageScaleQuality;
+  }
+
+  private function set_imageScaleQuality(value:ImageScaleQuality):ImageScaleQuality {
+    return this.g2.imageScaleQuality = value;
+  }
+
+  private function get_mipmapScaleQuality():ImageScaleQuality {
+    return this.g2.mipmapScaleQuality;
+  }
+
+  private function set_mipmapScaleQuality(value:ImageScaleQuality):ImageScaleQuality {
+    return this.g2.mipmapScaleQuality = value;
+  }
+
+  public function scale(scaleV:V2) {
+    this.g2.scale(scaleV.x, scaleV.y);
+  }
+
+  public function translate(toV:V2) {
+    this.g2.translate(toV.x, toV.y);
+  }
+
+  public function pushTranslation(toV:V2) {
+    this.g2.pushTranslation(toV.x, toV.y);
+  }
+
+  public function rotate(angle:FastFloat, center:V2) {
+    this.g2.rotate(angle, center.x, center.y);
+  }
+
+  public function pushRotation(angle:FastFloat, center:V2) {
+    this.g2.pushRotation(angle, center.x, center.y);
+  }
+
+  //Add transformations functions if necessary
+
+  public function pushOpacity(opacity:Float) {
+    this.g2.pushOpacity(opacity);
+  }
+
+  public function popOpacity() : Float {
+    return this.g2.popOpacity();
   }
 
   public function setOpacity(opacity:Float) {
@@ -54,8 +156,12 @@ class RenderContext {
     this.g2.drawImage(img, v2.x, v2.y);
   }
 
-  public function drawSubImage(img:Image, x:Float, y:Float, sx:Float, sy:Float, sw:Float, sh:Float) {
-    this.g2.drawSubImage(img, x, y, sx, sy, sw, sh);
+  public function drawSubImage(img:Image, position:V2, sx:Float, sy:Float, sw:Float, sh:Float) {
+    this.g2.drawSubImage(img, position.x, position.y, sx, sy, sw, sh);
+  }
+
+  public function drawScaledSubImage(img:Image, sx: FastFloat, sy: FastFloat, sw: FastFloat, sh: FastFloat, dx: FastFloat, dy: FastFloat, dw: FastFloat, dh: FastFloat) {
+    this.g2.drawScaledSubImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
   }
 
   public function fillTriangle(point1:V2, point2:V2, point3:V2) {
