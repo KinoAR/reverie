@@ -85,4 +85,32 @@ class Drawable {
   public function getPosition() {
     return this.position;
   }
+
+  /**
+   * Pushes the opacity to be used by the rendering context.
+   * @param opacity 
+   */
+  public function pushOpacity(opacity:Float) {
+    this.rc.pushOpacity(opacity);
+  }
+
+  /**
+   * Pop the opacity being used by the rendering context.
+   * @return Float
+   */
+  public function popOpacity() : Float {
+    return this.rc.popOpacity();
+  }
+
+  public function scale(scale:V2) {
+    this.rc.scale(scale);
+  }
+
+  public function setOpacity(opacity:Float) {
+    this.rc.setOpacity(opacity);
+  }
+
+  public function resetOpacity() {
+    this.rc.setOpacity(1.0);
+  }
 }

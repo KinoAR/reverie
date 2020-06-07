@@ -49,6 +49,16 @@
 			"original_height": 16
 		},
 		{
+			"name": "mplus_1c_light",
+			"files": [
+				"mplus-1c-light.ttf"
+			],
+			"file_sizes": [
+				1756252
+			],
+			"type": "font"
+		},
+		{
 			"name": "painter_colored_frag",
 			"files": [
 				"painter-colored.frag.essl",

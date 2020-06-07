@@ -15,23 +15,6 @@ class Bitmap extends Drawable {
    super(rc, parent); 
   }
 
-
-  public function pushOpacity(opacity:Float) {
-    this.rc.pushOpacity(opacity);
-  }
-
-  public function popOpacity() : Float {
-    return this.rc.popOpacity();
-  }
-
-  public function scale(scale:V2) {
-    this.rc.scale(scale);
-  }
-
-  public function setOpacity(opacity:Float) {
-    this.rc.setOpacity(opacity);
-  }
-
   public function drawRect(v2:V2, width:Float, height:Float, strength:Float=1.0) {
     this.rc.drawRect(v2.add(this.position), width, height, strength);
   }

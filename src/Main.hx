@@ -7,10 +7,12 @@ import kha.Scheduler;
 import kha.System;
 import rev.RenderContext;
 import rev.Bitmap;
+import rev.Text;
 import kha.Image;
 import math.V2;
 
 class Main {
+	public static var debugFont:kha.Font;
 	public static var exampleImage:Image;
 	
 
@@ -21,6 +23,7 @@ class Main {
 		// Avoid passing update/render directly,
 				// so replacing them via code injection works
 				exampleImage = Assets.images.human_sprite;
+				debugFont = Assets.fonts.mplus_1c_light;
 		Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
 		System.notifyOnFrames(function (frames) { render(frames); });
 	}
@@ -39,6 +42,8 @@ class Main {
 		// rc.pushTranslation(new V2(64, 64));
 		// Fill the following rects with red
 		var bitmap = new Bitmap(rc);
+		// rc.font = 
+		var text = new Text(rc, debugFont);
 		bitmap.setColor(0xFFFFFFFF);
 		bitmap.setOpacity(0.5);
 		bitmap.setPosition(new V2(200, 100));
@@ -48,6 +53,8 @@ class Main {
 		bitmap.setOpacity(1.0);
 		bitmap.setColor(Color.Red);
 		bitmap.drawRect(new V2(100, 100), 300, 300, 2.0);
+		text.fontSize = 24;
+		text.drawText("Hello Kha", new V2(150, 150));
 
 		// Pop the pushed translation so it will not accumulate over multiple frames
 		// rc.popTransformation();

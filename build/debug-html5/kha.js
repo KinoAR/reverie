@@ -111,6 +111,7 @@ Main.update = function() {
 };
 Main.onAssetsLoaded = function() {
 	Main.exampleImage = kha_Assets.images.human_sprite;
+	Main.debugFont = kha_Assets.fonts.mplus_1c_light;
 	kha_Scheduler.addTimeTask(function() {
 		Main.update();
 	},0,0.0166666666666666664);
@@ -124,6 +125,7 @@ Main.render = function(frames) {
 	var rc = new rev_RenderContext(g2);
 	rc.begin(true,kha__$Color_Color_$Impl_$.fromBytes(0,95,106));
 	var bitmap = new rev_Bitmap(rc);
+	var text = new rev_Text(rc,Main.debugFont);
 	bitmap.setColor(-1);
 	bitmap.setOpacity(0.5);
 	bitmap.setPosition(new math_V2(200,100));
@@ -133,6 +135,8 @@ Main.render = function(frames) {
 	bitmap.setOpacity(1.0);
 	bitmap.setColor(-65536);
 	bitmap.drawRect(new math_V2(100,100),300,300,2.0);
+	text.set_fontSize(24);
+	text.drawText("Hello Kha",new math_V2(150,150));
 	rc.end();
 };
 Main.main = function() {
@@ -1615,13 +1619,28 @@ kha__$Assets_BlobList.prototype = {
 	,__class__: kha__$Assets_BlobList
 };
 var kha__$Assets_FontList = function() {
-	this.names = [];
+	this.names = ["mplus_1c_light"];
+	this.mplus_1c_lightDescription = { name : "mplus_1c_light", file_sizes : [1756252], files : ["mplus-1c-light.ttf"], type : "font"};
+	this.mplus_1c_lightName = "mplus_1c_light";
+	this.mplus_1c_light = null;
 };
 $hxClasses["kha._Assets.FontList"] = kha__$Assets_FontList;
 kha__$Assets_FontList.__name__ = true;
 kha__$Assets_FontList.prototype = {
 	get: function(name) {
 		return Reflect.field(this,name);
+	}
+	,mplus_1c_light: null
+	,mplus_1c_lightName: null
+	,mplus_1c_lightDescription: null
+	,mplus_1c_lightLoad: function(done,failure) {
+		kha_Assets.loadFont("mplus_1c_light",function(font) {
+			done();
+		},failure,{ fileName : "kha/internal/AssetsBuilder.hx", lineNumber : 138, className : "kha._Assets.FontList", methodName : "mplus_1c_lightLoad"});
+	}
+	,mplus_1c_lightUnload: function() {
+		this.mplus_1c_light.unload();
+		this.mplus_1c_light = null;
 	}
 	,names: null
 	,__class__: kha__$Assets_FontList
@@ -22524,16 +22543,7 @@ rev_Drawable.prototype = {
 	,getPosition: function() {
 		return this.position;
 	}
-	,__class__: rev_Drawable
-};
-var rev_Bitmap = function(rc,parent) {
-	rev_Drawable.call(this,rc,parent);
-};
-$hxClasses["rev.Bitmap"] = rev_Bitmap;
-rev_Bitmap.__name__ = true;
-rev_Bitmap.__super__ = rev_Drawable;
-rev_Bitmap.prototype = $extend(rev_Drawable.prototype,{
-	pushOpacity: function(opacity) {
+	,pushOpacity: function(opacity) {
 		this.rc.pushOpacity(opacity);
 	}
 	,popOpacity: function() {
@@ -22545,7 +22555,19 @@ rev_Bitmap.prototype = $extend(rev_Drawable.prototype,{
 	,setOpacity: function(opacity) {
 		this.rc.setOpacity(opacity);
 	}
-	,drawRect: function(v2,width,height,strength) {
+	,resetOpacity: function() {
+		this.rc.setOpacity(1.0);
+	}
+	,__class__: rev_Drawable
+};
+var rev_Bitmap = function(rc,parent) {
+	rev_Drawable.call(this,rc,parent);
+};
+$hxClasses["rev.Bitmap"] = rev_Bitmap;
+rev_Bitmap.__name__ = true;
+rev_Bitmap.__super__ = rev_Drawable;
+rev_Bitmap.prototype = $extend(rev_Drawable.prototype,{
+	drawRect: function(v2,width,height,strength) {
 		if(strength == null) {
 			strength = 1.0;
 		}
@@ -22712,6 +22734,65 @@ rev_RenderContext.prototype = {
 	}
 	,__class__: rev_RenderContext
 };
+var rev_Text = function(rc,font,parent) {
+	rev_Drawable.call(this,rc,parent);
+	this.textColor = 16777215;
+	this.set_font(font);
+	this.text = "";
+};
+$hxClasses["rev.Text"] = rev_Text;
+rev_Text.__name__ = true;
+rev_Text.__super__ = rev_Drawable;
+rev_Text.prototype = $extend(rev_Drawable.prototype,{
+	letterSpacing: null
+	,lineSpacing: null
+	,maxWidth: null
+	,textColor: null
+	,textHeight: null
+	,textWidth: null
+	,text: null
+	,get_fontSize: function() {
+		return this.rc.get_fontSize();
+	}
+	,set_fontSize: function(fontSize) {
+		return this.rc.set_fontSize(fontSize);
+	}
+	,get_font: function() {
+		return this.rc.get_font();
+	}
+	,set_font: function(font) {
+		return this.rc.set_font(font);
+	}
+	,get_textHeight: function() {
+		return this.get_font().height(this.get_fontSize());
+	}
+	,get_textWidth: function() {
+		return this.get_font().width(this.get_fontSize(),this.text);
+	}
+	,setText: function(text) {
+		this.text = text;
+	}
+	,getText: function() {
+		return this.text;
+	}
+	,setFontSize: function(fontSize) {
+		this.set_fontSize(fontSize);
+	}
+	,getFontSize: function() {
+		return this.get_fontSize();
+	}
+	,drawText: function(text,position) {
+		this.setText(text);
+		this.rc.drawText(this.text,position.add(this.position));
+	}
+	,setColor: function(color) {
+		this.textColor = color;
+	}
+	,resetColor: function() {
+		this.textColor = 16777215;
+	}
+	,__class__: rev_Text
+});
 var rev_utils_ColorUtils = function() { };
 $hxClasses["rev.utils.ColorUtils"] = rev_utils_ColorUtils;
 rev_utils_ColorUtils.__name__ = true;
