@@ -1,10 +1,10 @@
 package component;
 
-import exp.ecs.component.Component;
+// import exp.ecs.component.Component;
 
-class RigidBody2D extends Component {
-  public function new() {
+// class RigidBody2D extends Component {
+//   public function new() {
 
-  }
-}
+//   }
+// }
 

@@ -3,6 +3,7 @@ package rev;
 import kha.Image;
 import kha.FastFloat;
 import kha.graphics2.ImageScaleQuality;
+import Std;
 import math.V2;
 
 class RenderContext {

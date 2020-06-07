@@ -9,12 +9,13 @@ import kha.Scheduler;
 import kha.System;
 import Globals;
 import rev.RenderContext;
+import rev.Bitmap;
 
 class Project {
   var exampleImage:Image;
   public function new() {
     Assets.loadEverything(onAssetsLoaded);
-    
+    trace("Assets Loaded");
   }
 
   function onAssetsLoaded() {
@@ -32,11 +33,10 @@ class Project {
   function render(frameBuffers: Array<Framebuffer>) {
    var g2 = frameBuffers[0].g2; 
    var rc = new RenderContext(g2);
-   trace("Render");
-   Globals.setGraphics(g2);
    rc.begin();
-   trace(exampleImage);
-   rc.drawImage(exampleImage, new V2(30, 30));
+   var bitmap = new Bitmap(rc);
+  //  bitmap.drawImage(exampleImage, new V2(100, 100));
+  //  bitmap.drawRect(new V2(100, 100), 300, 300, 2.0);
    rc.end();
   }
 }
