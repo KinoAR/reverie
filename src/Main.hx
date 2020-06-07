@@ -36,17 +36,21 @@ class Main {
 		rc.begin(true, Color.fromBytes(0, 95, 106));
 		
 		// Offset all following drawing operations from the top-left a bit
-		rc.pushTranslation(new V2(64, 64));
+		// rc.pushTranslation(new V2(64, 64));
 		// Fill the following rects with red
-		rc.color = Color.Red;
 		var bitmap = new Bitmap(rc);
+		bitmap.setColor(0xFFFFFFFF);
+		bitmap.setOpacity(0.5);
+		bitmap.setPosition(new V2(200, 100));
+		bitmap.drawRect(new V2(50, 40), 300, 300, 2.0);
 		bitmap.resetColor();
 		bitmap.drawImage(exampleImage, new V2(30, 30));
+		bitmap.setOpacity(1.0);
 		bitmap.setColor(Color.Red);
 		bitmap.drawRect(new V2(100, 100), 300, 300, 2.0);
 
 		// Pop the pushed translation so it will not accumulate over multiple frames
-		rc.popTransformation();
+		// rc.popTransformation();
 		// Finish the drawing operations
 		rc.end();
 	}

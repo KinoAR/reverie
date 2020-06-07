@@ -121,17 +121,19 @@ Main.onAssetsLoaded = function() {
 Main.render = function(frames) {
 	var fb = frames[0];
 	var g2 = fb.get_g2();
-	g2.begin(true,kha__$Color_Color_$Impl_$.fromBytes(0,95,106));
 	var rc = new rev_RenderContext(g2);
-	g2.pushTranslation(64,64);
-	rc.set_color(-65536);
+	rc.begin(true,kha__$Color_Color_$Impl_$.fromBytes(0,95,106));
 	var bitmap = new rev_Bitmap(rc);
+	bitmap.setColor(-1);
+	bitmap.setOpacity(0.5);
+	bitmap.setPosition(new math_V2(200,100));
+	bitmap.drawRect(new math_V2(50,40),300,300,2.0);
 	bitmap.resetColor();
 	bitmap.drawImage(Main.exampleImage,new math_V2(30,30));
+	bitmap.setOpacity(1.0);
 	bitmap.setColor(-65536);
 	bitmap.drawRect(new math_V2(100,100),300,300,2.0);
-	g2.popTransformation();
-	g2.end();
+	rc.end();
 };
 Main.main = function() {
 	kha_System.start(new kha_SystemOptions("Reverie",1024,768,null,null),function(_) {
@@ -22467,7 +22469,7 @@ math_V2.prototype = {
 		return new math_V2(this.x - v2.x,this.y - v2.y);
 	}
 	,normalize: function() {
-		return new math_V2(this.x / this.magnitude(),this.y / this.magnitude());
+		return new math_V2(this.x / Math.sqrt(this.x * this.x + this.y * this.y),this.y / Math.sqrt(this.x * this.x + this.y * this.y));
 	}
 	,magnitude: function() {
 		return Math.sqrt(this.x * this.x + this.y * this.y);
@@ -22479,15 +22481,17 @@ math_V2.prototype = {
 var rev_Drawable = function(rc,parent) {
 	this.rc = rc;
 	this.set_color(16777215);
+	this.position = new math_V2(0,0);
+	this.parent = parent;
 };
 $hxClasses["rev.Drawable"] = rev_Drawable;
 rev_Drawable.__name__ = true;
 rev_Drawable.prototype = {
-	x: null
-	,y: null
+	position: null
 	,g2: null
 	,rc: null
 	,visible: null
+	,parent: null
 	,get_color: function() {
 		return this.rc.get_color();
 	}
@@ -22507,6 +22511,18 @@ rev_Drawable.prototype = {
 	}
 	,hide: function() {
 		this.visible = false;
+	}
+	,getParent: function() {
+		return this.parent;
+	}
+	,setParent: function(parent) {
+		this.parent = parent;
+	}
+	,setPosition: function(position) {
+		this.position = position;
+	}
+	,getPosition: function() {
+		return this.position;
 	}
 	,__class__: rev_Drawable
 };
@@ -22533,34 +22549,34 @@ rev_Bitmap.prototype = $extend(rev_Drawable.prototype,{
 		if(strength == null) {
 			strength = 1.0;
 		}
-		this.rc.drawRect(v2,width,height,strength);
+		this.rc.drawRect(v2.add(this.position),width,height,strength);
 	}
 	,fillRect: function(v2,width,height) {
-		this.rc.fillRect(v2,width,height);
+		this.rc.fillRect(v2.add(this.position),width,height);
 	}
 	,drawText: function(text,v2) {
-		this.rc.drawText(text,v2);
+		this.rc.drawText(text,v2.add(this.position));
 	}
 	,drawCharacters: function(text,start,length,position) {
-		this.rc.drawCharacters(text,start,length,position);
+		this.rc.drawCharacters(text,start,length,position.add(this.position));
 	}
 	,drawLine: function(vec1,vec2,strength) {
-		this.rc.drawLine(vec1,vec2,strength);
+		this.rc.drawLine(vec1.add(this.position),vec2.add(this.position),strength);
 	}
 	,drawImage: function(img,position) {
-		this.rc.drawImage(img,position);
+		this.rc.drawImage(img,position.add(this.position));
 	}
 	,drawSubImage: function(img,position,sx,sy,sw,sh) {
-		this.rc.drawSubImage(img,position,sx,sy,sw,sh);
+		this.rc.drawSubImage(img,position.add(this.position),sx,sy,sw,sh);
 	}
 	,drawScaledSubImage: function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
 		this.rc.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
 	}
 	,fillTriangle: function(point1,point2,point3) {
-		this.rc.fillTriangle(point1,point2,point3);
+		this.rc.fillTriangle(point1.add(this.position),point2.add(this.position),point3.add(this.position));
 	}
 	,scissor: function(position,width,height) {
-		this.rc.scissor(position,width,height);
+		this.rc.scissor(position.add(this.position),width,height);
 	}
 	,__class__: rev_Bitmap
 });
@@ -22574,8 +22590,8 @@ $hxClasses["rev.RenderContext"] = rev_RenderContext;
 rev_RenderContext.__name__ = true;
 rev_RenderContext.prototype = {
 	g2: null
-	,begin: function() {
-		this.g2.begin();
+	,begin: function(clear,clearColor) {
+		this.g2.begin(clear,clearColor);
 	}
 	,end: function() {
 		this.g2.end();
@@ -22640,8 +22656,11 @@ rev_RenderContext.prototype = {
 	,translate: function(toV) {
 		this.g2.translate(toV.x,toV.y);
 	}
-	,pushTranslation: function(toV) {
-		this.g2.pushTranslation(toV.x,toV.y);
+	,pushTranslation: function(offset) {
+		this.g2.pushTranslation(offset.x,offset.y);
+	}
+	,popTransformation: function() {
+		this.g2.popTransformation();
 	}
 	,rotate: function(angle,center) {
 		this.g2.rotate(angle,center.x,center.y);
@@ -22740,7 +22759,6 @@ js_Boot.__toStr = ({ }).toString;
 if(ArrayBuffer.prototype.slice == null) {
 	ArrayBuffer.prototype.slice = js_lib__$ArrayBuffer_ArrayBufferCompat.sliceImpl;
 }
-Main.logo = ["1 1 1 1 111","11  111 111","1 1 1 1 1 1"];
 haxe_Unserializer.DEFAULT_RESOLVER = new haxe__$Unserializer_DefaultResolver();
 haxe_Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
 haxe_crypto_Base64.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

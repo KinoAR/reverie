@@ -1,23 +1,26 @@
 package rev;
 import kha.graphics2.Graphics;
 import kha.Color;
+import math.V2;
 
 /**
  * Any object that can be rendered to the screen.
  * Must have the render context past in to be drawn.
  */
 class Drawable {
-
-  public var x:Float;
-  public var y:Float;
+  
+  public var position:V2;
   public var g2: Graphics;
   public var rc:RenderContext;
   public var color(get, set):Color;
   public var visible:Bool;
+  public var parent:Object;
 
   public function new(rc:RenderContext,?parent:Object) {
     this.rc = rc;
     this.color = 0xFFFFFF;
+    this.position = new V2(0, 0);
+    this.parent = parent;
   }
 
 
@@ -65,5 +68,21 @@ class Drawable {
    */
   public function hide() {
     this.visible = false;
+  }
+
+  public function getParent() {
+    return this.parent;
+  }
+
+  public function setParent(parent:Object) {
+    this.parent = parent;
+  }
+  
+  public function setPosition(position:math.V2) {
+    this.position = position;
+  }
+
+  public function getPosition() {
+    return this.position;
   }
 }

@@ -33,31 +33,31 @@ class Bitmap extends Drawable {
   }
 
   public function drawRect(v2:V2, width:Float, height:Float, strength:Float=1.0) {
-    this.rc.drawRect(v2, width, height, strength);
+    this.rc.drawRect(v2.add(this.position), width, height, strength);
   }
 
   public function fillRect(v2:V2, width:Float, height:Float) {
-    this.rc.fillRect(v2, width, height);
+    this.rc.fillRect(v2.add(this.position), width, height);
   }
 
   public function drawText(text:String, v2:V2) {
-    this.rc.drawText(text, v2);
+    this.rc.drawText(text, v2.add(this.position));
   }
 
   public function drawCharacters(text:Array<Int>, start:Int, length:Int, position:V2) {
-    this.rc.drawCharacters(text, start, length, position);
+    this.rc.drawCharacters(text, start, length, position.add(this.position));
   }
 
   public function drawLine(vec1:V2, vec2:V2, ?strength:Float) {
-    this.rc.drawLine(vec1, vec2, strength);
+    this.rc.drawLine(vec1.add(this.position), vec2.add(this.position), strength);
   }
 
   public function drawImage(img:Image, position:V2) {
-    this.rc.drawImage(img, position);
+    this.rc.drawImage(img, position.add(this.position));
   }
 
   public function drawSubImage(img:Image, position:V2, sx:Float, sy:Float, sw:Float, sh:Float) {
-    this.rc.drawSubImage(img, position, sx, sy, sw, sh);
+    this.rc.drawSubImage(img, position.add(this.position), sx, sy, sw, sh);
   }
 
   public function drawScaledSubImage(img:Image, sx: FastFloat, sy: FastFloat, sw: FastFloat, sh: FastFloat, dx: FastFloat, dy: FastFloat, dw: FastFloat, dh: FastFloat) {
@@ -65,10 +65,10 @@ class Bitmap extends Drawable {
   }
 
   public function fillTriangle(point1:V2, point2:V2, point3:V2) {
-    this.rc.fillTriangle(point1, point2, point3);
+    this.rc.fillTriangle(point1.add(this.position), point2.add(this.position), point3.add(this.position));
   }
 
   public function scissor(position:V2, width:Int, height:Int) {
-    this.rc.scissor(position, width, height);
+    this.rc.scissor(position.add(this.position), width, height);
   }
 }

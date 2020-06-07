@@ -6,7 +6,7 @@ class V2 {
   public var x:Float;
   public var y:Float;
 
-  public function new (x:Float, y:Float) {
+  public inline function new (x:Float, y:Float) {
     this.x = x;
     this.y = y;
   }
@@ -24,11 +24,11 @@ class V2 {
     return new V2(this.x / this.magnitude(), this.y / this.magnitude());
   }
 
-  public function magnitude() {
+  public inline function magnitude() {
     return Math.sqrt( (this.x * this.x) + ( this.y * this.y) );
   }
 
-  public function distanceTo(v2:V2) {
+  public inline function distanceTo(v2:V2) {
 
   }
 }
