@@ -10,6 +10,7 @@ import rev.Bitmap;
 import rev.Text;
 import kha.Image;
 import math.V2;
+import macros.MacroTest;
 
 class Main {
 	public static var debugFont:kha.Font;

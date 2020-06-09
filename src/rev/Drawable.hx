@@ -11,6 +11,10 @@ class Drawable {
   
   public var position:V2;
   public var g2: Graphics;
+  /**
+   * Z Index for which layer the element is drawn at;
+   */
+  public var z:Int;
   public var rc:RenderContext;
   public var color(get, set):Color;
   public var visible:Bool;
@@ -18,6 +22,7 @@ class Drawable {
 
   public function new(rc:RenderContext,?parent:Object) {
     this.rc = rc;
+    this.z=-1;
     this.color = 0xFFFFFF;
     this.position = new V2(0, 0);
     this.parent = parent;
@@ -80,6 +85,14 @@ class Drawable {
   
   public function setPosition(position:math.V2) {
     this.position = position;
+  }
+
+  public inline function getZIndex():Int {
+    return this.z;
+  }
+  
+  public function setZIndex(value:Int) {
+    this.z = value;
   }
 
   public function getPosition() {

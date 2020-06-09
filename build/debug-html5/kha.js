@@ -22472,6 +22472,23 @@ kha_vr_TimeWarpParms.prototype = {
 	,RightOverlay: null
 	,__class__: kha_vr_TimeWarpParms
 };
+var macros_MacroTest = function(x,y,str) {
+	this.y = y;
+	this.x = x;
+	this.str = str;
+	haxe_Log.trace(this.x,{ fileName : "macros/MacroTest.hx", lineNumber : 10, className : "macros.MacroTest", methodName : "new"});
+};
+$hxClasses["macros.MacroTest"] = macros_MacroTest;
+macros_MacroTest.__name__ = true;
+macros_MacroTest.prototype = {
+	x: null
+	,y: null
+	,str: null
+	,__class__: macros_MacroTest
+};
+var macros_RMacros = function() { };
+$hxClasses["macros.RMacros"] = macros_RMacros;
+macros_RMacros.__name__ = true;
 var math_V2 = function(x,y) {
 	this.x = x;
 	this.y = y;
@@ -22499,6 +22516,7 @@ math_V2.prototype = {
 };
 var rev_Drawable = function(rc,parent) {
 	this.rc = rc;
+	this.z = -1;
 	this.set_color(16777215);
 	this.position = new math_V2(0,0);
 	this.parent = parent;
@@ -22508,6 +22526,7 @@ rev_Drawable.__name__ = true;
 rev_Drawable.prototype = {
 	position: null
 	,g2: null
+	,z: null
 	,rc: null
 	,visible: null
 	,parent: null
@@ -22539,6 +22558,12 @@ rev_Drawable.prototype = {
 	}
 	,setPosition: function(position) {
 		this.position = position;
+	}
+	,getZIndex: function() {
+		return this.z;
+	}
+	,setZIndex: function(value) {
+		this.z = value;
 	}
 	,getPosition: function() {
 		return this.position;
