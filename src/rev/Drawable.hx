@@ -2,6 +2,7 @@ package rev;
 import kha.graphics2.Graphics;
 import kha.Color;
 import math.V2;
+import Type;
 
 /**
  * Any object that can be rendered to the screen.
@@ -19,6 +20,7 @@ class Drawable {
   public var color(get, set):Color;
   public var visible:Bool;
   public var parent:Object;
+  public var globalPosition(get,set):V2;
 
   public function new(rc:RenderContext,?parent:Object) {
     this.rc = rc;
@@ -125,5 +127,25 @@ class Drawable {
 
   public function resetOpacity() {
     this.rc.setOpacity(1.0);
+  }
+
+  public function set_globalPosition(position:V2):V2 {
+    var parent:Dynamic = this.parent;
+    if(parent != null && parent.position != null) {
+      var currentPosition = this.globalPosition;
+      var positionalDiff = position.sub(currentPosition);
+      return this.position = positionalDiff;
+    } else {
+      return this.position = position;
+    }
+  }
+
+  public function get_globalPosition():V2 {
+    var parent:Dynamic = this.parent;
+    if(parent != null && parent.position != null) {
+      return this.position.add(parent.globalPosition);
+    } else {
+      return this.position;
+    }
   }
 }

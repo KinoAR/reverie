@@ -20,7 +20,6 @@ class V2 {
   }
 
   public function normalize() {
-
     return new V2(this.x / this.magnitude(), this.y / this.magnitude());
   }
 
@@ -29,6 +28,6 @@ class V2 {
   }
 
   public inline function distanceTo(v2:V2) {
-
+    return Math.sqrt( Math.pow((this.x - v2.x ), 2)  + Math.pow((this.y - v2.y),2));
   }
 }

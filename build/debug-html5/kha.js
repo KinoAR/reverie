@@ -22511,6 +22511,7 @@ math_V2.prototype = {
 		return Math.sqrt(this.x * this.x + this.y * this.y);
 	}
 	,distanceTo: function(v2) {
+		return Math.sqrt(Math.pow(this.x - v2.x,2) + Math.pow(this.y - v2.y,2));
 	}
 	,__class__: math_V2
 };
@@ -22582,6 +22583,24 @@ rev_Drawable.prototype = {
 	}
 	,resetOpacity: function() {
 		this.rc.setOpacity(1.0);
+	}
+	,set_globalPosition: function(position) {
+		var parent = this.parent;
+		if(parent != null && parent.position != null) {
+			var currentPosition = this.get_globalPosition();
+			var positionalDiff = position.sub(currentPosition);
+			return this.position = positionalDiff;
+		} else {
+			return this.position = position;
+		}
+	}
+	,get_globalPosition: function() {
+		var parent = this.parent;
+		if(parent != null && parent.position != null) {
+			return this.position.add(parent.globalPosition);
+		} else {
+			return this.position;
+		}
 	}
 	,__class__: rev_Drawable
 };
