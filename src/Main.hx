@@ -11,6 +11,7 @@ import rev.Text;
 import kha.Image;
 import math.V2;
 import rev.input.Keyboard;
+import rev.input.Mouse;
 import macros.MacroTest;
 
 class Main {
@@ -26,7 +27,8 @@ class Main {
 		// so replacing them via code injection works
 				exampleImage = Assets.images.human_sprite;
 				debugFont = Assets.fonts.mplus_1c_light;
-    Keyboard.initialize();
+		Keyboard.initialize();
+		Mouse.initialize();
 		Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
 		System.notifyOnFrames(function (frames) { render(frames); });
 	}

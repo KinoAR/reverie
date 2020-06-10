@@ -123,6 +123,7 @@ Main.onAssetsLoaded = function() {
 	Main.exampleImage = kha_Assets.images.human_sprite;
 	Main.debugFont = kha_Assets.fonts.mplus_1c_light;
 	rev_input_Keyboard.initialize();
+	rev_input_Mouse.initialize();
 	kha_Scheduler.addTimeTask(function() {
 		Main.update();
 	},0,0.0166666666666666664);
@@ -22911,6 +22912,69 @@ rev_input_Keyboard.resetInputs = function() {
 	rev_input_Keyboard.keyUp.clear();
 	rev_input_Keyboard.pressed.clear();
 };
+var rev_input_Mouse = function() { };
+$hxClasses["rev.input.Mouse"] = rev_input_Mouse;
+rev_input_Mouse.__name__ = true;
+rev_input_Mouse.initialize = function() {
+	kha_input_Mouse.get().notify(rev_input_Mouse.downListener,rev_input_Mouse.upListener,rev_input_Mouse.moveListener,rev_input_Mouse.wheelListener,rev_input_Mouse.leaveListener);
+};
+rev_input_Mouse.downListener = function(button,x,y) {
+	var buttonName;
+	switch(button) {
+	case 0:
+		buttonName = "Left";
+		break;
+	case 1:
+		buttonName = "Right";
+		break;
+	case 2:
+		buttonName = "Middle";
+		break;
+	default:
+		buttonName = "Invalid";
+	}
+	switch(button) {
+	case 0:
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 18, className : "rev.input.Mouse", methodName : "downListener"});
+		break;
+	case 1:
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 20, className : "rev.input.Mouse", methodName : "downListener"});
+		break;
+	case 2:
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 22, className : "rev.input.Mouse", methodName : "downListener"});
+		break;
+	}
+};
+rev_input_Mouse.upListener = function(button,x,y) {
+};
+rev_input_Mouse.moveListener = function(x,y,moveX,moveY) {
+};
+rev_input_Mouse.wheelListener = function(delta) {
+};
+rev_input_Mouse.leaveListener = function() {
+};
+var rev_input__$MouseBtn_MouseBtn_$Impl_$ = {};
+$hxClasses["rev.input._MouseBtn.MouseBtn_Impl_"] = rev_input__$MouseBtn_MouseBtn_$Impl_$;
+rev_input__$MouseBtn_MouseBtn_$Impl_$.__name__ = true;
+rev_input__$MouseBtn_MouseBtn_$Impl_$._new = function(btn) {
+	if(btn < 0 || btn > 2) {
+		throw new js__$Boot_HaxeError("Valid mouse button values are: 0, 1, 2");
+	}
+	var this1 = btn;
+	return this1;
+};
+rev_input__$MouseBtn_MouseBtn_$Impl_$.toButtonName = function(this1) {
+	switch(this1) {
+	case 0:
+		return "Left";
+	case 1:
+		return "Right";
+	case 2:
+		return "Middle";
+	default:
+		return "Invalid";
+	}
+};
 var rev_utils_ColorUtils = function() { };
 $hxClasses["rev.utils.ColorUtils"] = rev_utils_ColorUtils;
 rev_utils_ColorUtils.__name__ = true;
@@ -23194,6 +23258,9 @@ kha_netsync_SyncBuilder.objects = [];
 rev_input_Keyboard.keyDown = new haxe_ds_List();
 rev_input_Keyboard.keyUp = new haxe_ds_List();
 rev_input_Keyboard.pressed = new haxe_ds_List();
+rev_input__$MouseBtn_MouseBtn_$Impl_$.Left = 0;
+rev_input__$MouseBtn_MouseBtn_$Impl_$.Right = 1;
+rev_input__$MouseBtn_MouseBtn_$Impl_$.Middle = 2;
 Main.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
 
