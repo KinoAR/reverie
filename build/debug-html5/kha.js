@@ -104,6 +104,16 @@ Lambda.array = function(it) {
 	}
 	return a;
 };
+Lambda.exists = function(it,f) {
+	var x = $getIterator(it);
+	while(x.hasNext()) {
+		var x1 = x.next();
+		if(f(x1)) {
+			return true;
+		}
+	}
+	return false;
+};
 var Main = function() { };
 $hxClasses["Main"] = Main;
 Main.__name__ = true;
@@ -112,6 +122,7 @@ Main.update = function() {
 Main.onAssetsLoaded = function() {
 	Main.exampleImage = kha_Assets.images.human_sprite;
 	Main.debugFont = kha_Assets.fonts.mplus_1c_light;
+	rev_input_Keyboard.initialize();
 	kha_Scheduler.addTimeTask(function() {
 		Main.update();
 	},0,0.0166666666666666664);
@@ -910,6 +921,14 @@ haxe_ds_List.prototype = {
 		this.q = x;
 		this.length++;
 	}
+	,clear: function() {
+		this.h = null;
+		this.q = null;
+		this.length = 0;
+	}
+	,iterator: function() {
+		return new haxe_ds__$List_ListIterator(this.h);
+	}
 	,__class__: haxe_ds_List
 };
 var haxe_ds__$List_ListNode = function(item,next) {
@@ -922,6 +941,23 @@ haxe_ds__$List_ListNode.prototype = {
 	item: null
 	,next: null
 	,__class__: haxe_ds__$List_ListNode
+};
+var haxe_ds__$List_ListIterator = function(head) {
+	this.head = head;
+};
+$hxClasses["haxe.ds._List.ListIterator"] = haxe_ds__$List_ListIterator;
+haxe_ds__$List_ListIterator.__name__ = true;
+haxe_ds__$List_ListIterator.prototype = {
+	head: null
+	,hasNext: function() {
+		return this.head != null;
+	}
+	,next: function() {
+		var val = this.head.item;
+		this.head = this.head.next;
+		return val;
+	}
+	,__class__: haxe_ds__$List_ListIterator
 };
 var haxe_ds_ObjectMap = function() {
 	this.h = { __keys__ : { }};
@@ -22837,6 +22873,44 @@ rev_Text.prototype = $extend(rev_Drawable.prototype,{
 	}
 	,__class__: rev_Text
 });
+var rev_input_Keyboard = function() { };
+$hxClasses["rev.input.Keyboard"] = rev_input_Keyboard;
+rev_input_Keyboard.__name__ = true;
+rev_input_Keyboard.initialize = function() {
+	kha_input_Keyboard.get().notify(rev_input_Keyboard.onKeyDown,rev_input_Keyboard.onKeyUp,rev_input_Keyboard.onPress);
+};
+rev_input_Keyboard.onKeyDown = function(key) {
+	rev_input_Keyboard.keyDown.add(key);
+	haxe_Log.trace("Key down " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 22, className : "rev.input.Keyboard", methodName : "onKeyDown"});
+};
+rev_input_Keyboard.onKeyUp = function(key) {
+	rev_input_Keyboard.keyUp.add(key);
+	haxe_Log.trace("Key up: " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 27, className : "rev.input.Keyboard", methodName : "onKeyUp"});
+};
+rev_input_Keyboard.onPress = function(char) {
+	rev_input_Keyboard.pressed.add(char);
+	haxe_Log.trace("Pressed : " + char,{ fileName : "rev/input/Keyboard.hx", lineNumber : 32, className : "rev.input.Keyboard", methodName : "onPress"});
+};
+rev_input_Keyboard.isKeyDown = function(key) {
+	return Lambda.exists(rev_input_Keyboard.keyDown,function(element) {
+		return element == key;
+	});
+};
+rev_input_Keyboard.isKeyUp = function(key) {
+	return Lambda.exists(rev_input_Keyboard.keyUp,function(element) {
+		return element == key;
+	});
+};
+rev_input_Keyboard.isPressed = function(char) {
+	return Lambda.exists(rev_input_Keyboard.pressed,function(element) {
+		return element == char;
+	});
+};
+rev_input_Keyboard.resetInputs = function() {
+	rev_input_Keyboard.keyDown.clear();
+	rev_input_Keyboard.keyUp.clear();
+	rev_input_Keyboard.pressed.clear();
+};
 var rev_utils_ColorUtils = function() { };
 $hxClasses["rev.utils.ColorUtils"] = rev_utils_ColorUtils;
 rev_utils_ColorUtils.__name__ = true;
@@ -23117,6 +23191,9 @@ kha_netsync_Session.RPC_SERVER = 0;
 kha_netsync_Session.RPC_ALL = 1;
 kha_netsync_SyncBuilder.nextId = 0;
 kha_netsync_SyncBuilder.objects = [];
+rev_input_Keyboard.keyDown = new haxe_ds_List();
+rev_input_Keyboard.keyUp = new haxe_ds_List();
+rev_input_Keyboard.pressed = new haxe_ds_List();
 Main.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
 

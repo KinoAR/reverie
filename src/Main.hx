@@ -10,6 +10,7 @@ import rev.Bitmap;
 import rev.Text;
 import kha.Image;
 import math.V2;
+import rev.input.Keyboard;
 import macros.MacroTest;
 
 class Main {
@@ -22,9 +23,10 @@ class Main {
 
 	public static function onAssetsLoaded() {
 		// Avoid passing update/render directly,
-				// so replacing them via code injection works
+		// so replacing them via code injection works
 				exampleImage = Assets.images.human_sprite;
 				debugFont = Assets.fonts.mplus_1c_light;
+    Keyboard.initialize();
 		Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
 		System.notifyOnFrames(function (frames) { render(frames); });
 	}
