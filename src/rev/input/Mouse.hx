@@ -2,8 +2,7 @@ package rev.input;
 import math.V2;
 import kha.input.Mouse;
 import rev.input.MouseBtn;
-import rev.Types.ListenerType;
-import rev.Types.LstnrCntnr;
+import rev.Types;
 using Lambda;
 
 typedef KMS = kha.input.Mouse;
@@ -127,7 +126,7 @@ class Mouse {
     return container.id;
   }
 
-  public static function removeListener(listenerType:ListenerType, id:Int) {
+  public static function removeListener(listenerType:MseListenerT, id:Int) {
     var removeById = (lstnrCntnr:LstnrCntnr<Dynamic>) -> lstnrCntnr.id == id;
 
     switch(listenerType) {

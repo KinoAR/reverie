@@ -22722,6 +22722,7 @@ rev_Interactive.prototype = {
 	,mouseDownListener: null
 	,mouseUpListener: null
 	,mouseMoveListener: null
+	,mouseWheelListener: null
 	,mouseLeaveListener: null
 	,set_onMouseDown: function(listener) {
 		if(listener != null) {
@@ -22734,6 +22735,34 @@ rev_Interactive.prototype = {
 	}
 	,get_onMouseDown: function() {
 		return this.mouseDownListener.lstnr;
+	}
+	,set_onMouseUp: function(listener) {
+		this.mouseUpListener = { id : rev_input_Mouse.addUpListener(listener), lstnr : listener};
+		return this.mouseUpListener.lstnr;
+	}
+	,get_onMouseUp: function() {
+		return this.mouseUpListener.lstnr;
+	}
+	,set_onMouseMove: function(listener) {
+		this.mouseMoveListener = { id : rev_input_Mouse.addMoveListener(listener), lstnr : listener};
+		return this.mouseMoveListener.lstnr;
+	}
+	,get_onMouseMove: function() {
+		return this.mouseMoveListener.lstnr;
+	}
+	,set_onMouseWheel: function(listener) {
+		this.mouseWheelListener = { id : rev_input_Mouse.addWheelListener(listener), lstnr : listener};
+		return this.mouseWheelListener.lstnr;
+	}
+	,get_onMouseWheel: function() {
+		return this.mouseWheelListener.lstnr;
+	}
+	,set_onMouseLeave: function(listener) {
+		this.mouseLeaveListener = { id : rev_input_Mouse.addLeaveListener(listener), lstnr : listener};
+		return this.mouseLeaveListener.lstnr;
+	}
+	,get_onMouseLeave: function() {
+		return this.mouseLeaveListener.lstnr;
 	}
 	,__class__: rev_Interactive
 };
@@ -22925,30 +22954,38 @@ rev_Text.prototype = $extend(rev_Drawable.prototype,{
 	}
 	,__class__: rev_Text
 });
-var rev_ListenerType = $hxEnums["rev.ListenerType"] = { __ename__ : true, __constructs__ : ["MouseDwn","MouseUp","MouseMove","MouseWheel","MouseLeave"]
-	,MouseDwn: {_hx_index:0,__enum__:"rev.ListenerType",toString:$estr}
-	,MouseUp: {_hx_index:1,__enum__:"rev.ListenerType",toString:$estr}
-	,MouseMove: {_hx_index:2,__enum__:"rev.ListenerType",toString:$estr}
-	,MouseWheel: {_hx_index:3,__enum__:"rev.ListenerType",toString:$estr}
-	,MouseLeave: {_hx_index:4,__enum__:"rev.ListenerType",toString:$estr}
+var rev_MseListenerT = $hxEnums["rev.MseListenerT"] = { __ename__ : true, __constructs__ : ["MouseDwn","MouseUp","MouseMove","MouseWheel","MouseLeave"]
+	,MouseDwn: {_hx_index:0,__enum__:"rev.MseListenerT",toString:$estr}
+	,MouseUp: {_hx_index:1,__enum__:"rev.MseListenerT",toString:$estr}
+	,MouseMove: {_hx_index:2,__enum__:"rev.MseListenerT",toString:$estr}
+	,MouseWheel: {_hx_index:3,__enum__:"rev.MseListenerT",toString:$estr}
+	,MouseLeave: {_hx_index:4,__enum__:"rev.MseListenerT",toString:$estr}
+};
+var rev_KeyListenerT = $hxEnums["rev.KeyListenerT"] = { __ename__ : true, __constructs__ : ["KeyDown","KeyUp","KeyPress"]
+	,KeyDown: {_hx_index:0,__enum__:"rev.KeyListenerT",toString:$estr}
+	,KeyUp: {_hx_index:1,__enum__:"rev.KeyListenerT",toString:$estr}
+	,KeyPress: {_hx_index:2,__enum__:"rev.KeyListenerT",toString:$estr}
 };
 var rev_input_Keyboard = function() { };
 $hxClasses["rev.input.Keyboard"] = rev_input_Keyboard;
 rev_input_Keyboard.__name__ = true;
 rev_input_Keyboard.initialize = function() {
+	rev_input_Keyboard.downListeners = new haxe_ds_List();
+	rev_input_Keyboard.upListeners = new haxe_ds_List();
+	rev_input_Keyboard.pressListeners = new haxe_ds_List();
 	kha_input_Keyboard.get().notify(rev_input_Keyboard.onKeyDown,rev_input_Keyboard.onKeyUp,rev_input_Keyboard.onPress);
 };
 rev_input_Keyboard.onKeyDown = function(key) {
 	rev_input_Keyboard.keyDown.add(key);
-	haxe_Log.trace("Key down " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 22, className : "rev.input.Keyboard", methodName : "onKeyDown"});
+	haxe_Log.trace("Key down " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 34, className : "rev.input.Keyboard", methodName : "onKeyDown"});
 };
 rev_input_Keyboard.onKeyUp = function(key) {
 	rev_input_Keyboard.keyUp.add(key);
-	haxe_Log.trace("Key up: " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 27, className : "rev.input.Keyboard", methodName : "onKeyUp"});
+	haxe_Log.trace("Key up: " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 39, className : "rev.input.Keyboard", methodName : "onKeyUp"});
 };
 rev_input_Keyboard.onPress = function(char) {
 	rev_input_Keyboard.pressed.add(char);
-	haxe_Log.trace("Pressed : " + char,{ fileName : "rev/input/Keyboard.hx", lineNumber : 32, className : "rev.input.Keyboard", methodName : "onPress"});
+	haxe_Log.trace("Pressed : " + char,{ fileName : "rev/input/Keyboard.hx", lineNumber : 44, className : "rev.input.Keyboard", methodName : "onPress"});
 };
 rev_input_Keyboard.isKeyDown = function(key) {
 	return Lambda.exists(rev_input_Keyboard.keyDown,function(element) {
