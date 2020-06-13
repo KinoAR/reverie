@@ -114,6 +114,13 @@ Lambda.exists = function(it,f) {
 	}
 	return false;
 };
+Lambda.iter = function(it,f) {
+	var x = $getIterator(it);
+	while(x.hasNext()) {
+		var x1 = x.next();
+		f(x1);
+	}
+};
 var Main = function() { };
 $hxClasses["Main"] = Main;
 Main.__name__ = true;
@@ -149,6 +156,12 @@ Main.render = function(frames) {
 	bitmap.drawRect(new math_V2(100,100),300,300,2.0);
 	text.set_fontSize(24);
 	text.drawText("Hello Kha",new math_V2(150,150));
+	var testInteractive = new rev_Interactive(text);
+	testInteractive.set_onMouseDown(function(button,x,y) {
+		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 66, className : "Main", methodName : "render"});
+		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 67, className : "Main", methodName : "render"});
+		return;
+	});
 	rc.end();
 };
 Main.main = function() {
@@ -929,6 +942,18 @@ haxe_ds_List.prototype = {
 	}
 	,iterator: function() {
 		return new haxe_ds__$List_ListIterator(this.h);
+	}
+	,filter: function(f) {
+		var l2 = new haxe_ds_List();
+		var l = this.h;
+		while(l != null) {
+			var v = l.item;
+			l = l.next;
+			if(f(v)) {
+				l2.add(v);
+			}
+		}
+		return l2;
 	}
 	,__class__: haxe_ds_List
 };
@@ -22552,6 +22577,9 @@ math_V2.prototype = {
 	}
 	,__class__: math_V2
 };
+var rev_Object = function() { };
+$hxClasses["rev.Object"] = rev_Object;
+rev_Object.__name__ = true;
 var rev_Drawable = function(rc,parent) {
 	this.rc = rc;
 	this.z = -1;
@@ -22561,7 +22589,8 @@ var rev_Drawable = function(rc,parent) {
 };
 $hxClasses["rev.Drawable"] = rev_Drawable;
 rev_Drawable.__name__ = true;
-rev_Drawable.prototype = {
+rev_Drawable.__super__ = rev_Object;
+rev_Drawable.prototype = $extend(rev_Object.prototype,{
 	position: null
 	,g2: null
 	,z: null
@@ -22640,7 +22669,7 @@ rev_Drawable.prototype = {
 		}
 	}
 	,__class__: rev_Drawable
-};
+});
 var rev_Bitmap = function(rc,parent) {
 	rev_Drawable.call(this,rc,parent);
 };
@@ -22683,9 +22712,31 @@ rev_Bitmap.prototype = $extend(rev_Drawable.prototype,{
 	}
 	,__class__: rev_Bitmap
 });
-var rev_Object = function() { };
-$hxClasses["rev.Object"] = rev_Object;
-rev_Object.__name__ = true;
+var rev_Interactive = function(entity) {
+	this.entity = entity;
+};
+$hxClasses["rev.Interactive"] = rev_Interactive;
+rev_Interactive.__name__ = true;
+rev_Interactive.prototype = {
+	entity: null
+	,mouseDownListener: null
+	,mouseUpListener: null
+	,mouseMoveListener: null
+	,mouseLeaveListener: null
+	,set_onMouseDown: function(listener) {
+		if(listener != null) {
+			var mouseDownId = rev_input_Mouse.addDownListener(listener);
+			this.mouseDownListener = { id : mouseDownId, lstnr : listener};
+			return this.mouseDownListener.lstnr;
+		} else {
+			return null;
+		}
+	}
+	,get_onMouseDown: function() {
+		return this.mouseDownListener.lstnr;
+	}
+	,__class__: rev_Interactive
+};
 var rev_RenderContext = function(graphics) {
 	this.g2 = graphics;
 };
@@ -22874,6 +22925,13 @@ rev_Text.prototype = $extend(rev_Drawable.prototype,{
 	}
 	,__class__: rev_Text
 });
+var rev_ListenerType = $hxEnums["rev.ListenerType"] = { __ename__ : true, __constructs__ : ["MouseDwn","MouseUp","MouseMove","MouseWheel","MouseLeave"]
+	,MouseDwn: {_hx_index:0,__enum__:"rev.ListenerType",toString:$estr}
+	,MouseUp: {_hx_index:1,__enum__:"rev.ListenerType",toString:$estr}
+	,MouseMove: {_hx_index:2,__enum__:"rev.ListenerType",toString:$estr}
+	,MouseWheel: {_hx_index:3,__enum__:"rev.ListenerType",toString:$estr}
+	,MouseLeave: {_hx_index:4,__enum__:"rev.ListenerType",toString:$estr}
+};
 var rev_input_Keyboard = function() { };
 $hxClasses["rev.input.Keyboard"] = rev_input_Keyboard;
 rev_input_Keyboard.__name__ = true;
@@ -22916,9 +22974,21 @@ var rev_input_Mouse = function() { };
 $hxClasses["rev.input.Mouse"] = rev_input_Mouse;
 rev_input_Mouse.__name__ = true;
 rev_input_Mouse.initialize = function() {
-	kha_input_Mouse.get().notify(rev_input_Mouse.downListener,rev_input_Mouse.upListener,rev_input_Mouse.moveListener,rev_input_Mouse.wheelListener,rev_input_Mouse.leaveListener);
+	rev_input_Mouse.coordinates = new math_V2(0,0);
+	rev_input_Mouse.diffCoordinates = new math_V2(0,0);
+	rev_input_Mouse.downListeners = new haxe_ds_List();
+	rev_input_Mouse.upListeners = new haxe_ds_List();
+	rev_input_Mouse.moveListeners = new haxe_ds_List();
+	rev_input_Mouse.wheelListeners = new haxe_ds_List();
+	rev_input_Mouse.leaveListeners = new haxe_ds_List();
+	rev_input_Mouse.kms = kha_input_Mouse.get();
+	rev_input_Mouse.kms.notify(rev_input_Mouse.downListener,rev_input_Mouse.upListener,rev_input_Mouse.moveListener,rev_input_Mouse.wheelListener,rev_input_Mouse.leaveListener);
 };
 rev_input_Mouse.downListener = function(button,x,y) {
+	Lambda.iter(rev_input_Mouse.downListeners,function(lstnrContainer) {
+		lstnrContainer.lstnr(button,x,y);
+		return;
+	});
 	var buttonName;
 	switch(button) {
 	case 0:
@@ -22935,23 +23005,101 @@ rev_input_Mouse.downListener = function(button,x,y) {
 	}
 	switch(button) {
 	case 0:
-		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 18, className : "rev.input.Mouse", methodName : "downListener"});
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 45, className : "rev.input.Mouse", methodName : "downListener"});
 		break;
 	case 1:
-		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 20, className : "rev.input.Mouse", methodName : "downListener"});
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 47, className : "rev.input.Mouse", methodName : "downListener"});
 		break;
 	case 2:
-		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 22, className : "rev.input.Mouse", methodName : "downListener"});
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 49, className : "rev.input.Mouse", methodName : "downListener"});
 		break;
 	}
 };
 rev_input_Mouse.upListener = function(button,x,y) {
+	Lambda.iter(rev_input_Mouse.upListeners,function(lstnrContainer) {
+		lstnrContainer.lstnr(button,x,y);
+		return;
+	});
 };
 rev_input_Mouse.moveListener = function(x,y,moveX,moveY) {
+	Lambda.iter(rev_input_Mouse.moveListeners,function(lstnrContainer) {
+		lstnrContainer.lstnr(x,y,moveX,moveY);
+		return;
+	});
+	haxe_Log.trace("Mouse Coordinates",{ fileName : "rev/input/Mouse.hx", lineNumber : 59, className : "rev.input.Mouse", methodName : "moveListener", customParams : [x,y]});
+	haxe_Log.trace("Move Coordinates Difference",{ fileName : "rev/input/Mouse.hx", lineNumber : 60, className : "rev.input.Mouse", methodName : "moveListener", customParams : [moveX,moveY]});
+	rev_input_Mouse.coordinates.x = x;
+	rev_input_Mouse.coordinates.y = y;
+	rev_input_Mouse.diffCoordinates.x = moveX;
+	rev_input_Mouse.diffCoordinates.y = moveY;
 };
 rev_input_Mouse.wheelListener = function(delta) {
+	Lambda.iter(rev_input_Mouse.wheelListeners,function(lstnrContainer) {
+		lstnrContainer.lstnr(delta);
+		return;
+	});
 };
 rev_input_Mouse.leaveListener = function() {
+	Lambda.iter(rev_input_Mouse.leaveListeners,function(lstnrContainer) {
+		lstnrContainer.lstnr();
+		return;
+	});
+};
+rev_input_Mouse.lockCursor = function() {
+	rev_input_Mouse.kms.lock();
+};
+rev_input_Mouse.unlockCursor = function() {
+	rev_input_Mouse.kms.unlock();
+};
+rev_input_Mouse.isLocked = function() {
+	return rev_input_Mouse.kms.isLocked();
+};
+rev_input_Mouse.addDownListener = function(listener) {
+	var container = { id : rev_input_Mouse.downListeners.length + 1, lstnr : listener};
+	rev_input_Mouse.downListeners.add(container);
+	return container.id;
+};
+rev_input_Mouse.addUpListener = function(listener) {
+	var container = { id : rev_input_Mouse.upListeners.length + 1, lstnr : listener};
+	rev_input_Mouse.upListeners.add(container);
+	return container.id;
+};
+rev_input_Mouse.addMoveListener = function(listener) {
+	var container = { id : rev_input_Mouse.moveListeners.length + 1, lstnr : listener};
+	rev_input_Mouse.moveListeners.add(container);
+	return container.id;
+};
+rev_input_Mouse.addWheelListener = function(listener) {
+	var container = { id : rev_input_Mouse.wheelListeners.length + 1, lstnr : listener};
+	rev_input_Mouse.wheelListeners.add(container);
+	return container.id;
+};
+rev_input_Mouse.addLeaveListener = function(listener) {
+	var container = { id : rev_input_Mouse.leaveListeners.length + 1, lstnr : listener};
+	rev_input_Mouse.leaveListeners.add(container);
+	return container.id;
+};
+rev_input_Mouse.removeListener = function(listenerType,id) {
+	var removeById = function(lstnrCntnr) {
+		return lstnrCntnr.id == id;
+	};
+	switch(listenerType._hx_index) {
+	case 0:
+		rev_input_Mouse.downListeners = rev_input_Mouse.downListeners.filter(removeById);
+		break;
+	case 1:
+		rev_input_Mouse.upListeners = rev_input_Mouse.upListeners.filter(removeById);
+		break;
+	case 2:
+		rev_input_Mouse.moveListeners = rev_input_Mouse.moveListeners.filter(removeById);
+		break;
+	case 3:
+		rev_input_Mouse.wheelListeners = rev_input_Mouse.wheelListeners.filter(removeById);
+		break;
+	case 4:
+		rev_input_Mouse.leaveListeners = rev_input_Mouse.leaveListeners.filter(removeById);
+		break;
+	}
 };
 var rev_input__$MouseBtn_MouseBtn_$Impl_$ = {};
 $hxClasses["rev.input._MouseBtn.MouseBtn_Impl_"] = rev_input__$MouseBtn_MouseBtn_$Impl_$;

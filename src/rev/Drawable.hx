@@ -8,7 +8,7 @@ import Type;
  * Any object that can be rendered to the screen.
  * Must have the render context past in to be drawn.
  */
-class Drawable {
+class Drawable extends Object{
   
   public var position:V2;
   public var g2: Graphics;

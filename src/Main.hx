@@ -13,6 +13,7 @@ import math.V2;
 import rev.input.Keyboard;
 import rev.input.Mouse;
 import macros.MacroTest;
+import rev.Interactive;
 
 class Main {
 	public static var debugFont:kha.Font;
@@ -60,6 +61,11 @@ class Main {
 		bitmap.drawRect(new V2(100, 100), 300, 300, 2.0);
 		text.fontSize = 24;
 		text.drawText("Hello Kha", new V2(150, 150));
+		var testInteractive = new Interactive(text);
+		testInteractive.onMouseDown = (button, x, y) -> {
+			trace(testInteractive.entity.text);
+			trace("Mouse Down Check");
+		}
 
 		// Pop the pushed translation so it will not accumulate over multiple frames
 		// rc.popTransformation();
