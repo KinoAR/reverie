@@ -104,16 +104,6 @@ Lambda.array = function(it) {
 	}
 	return a;
 };
-Lambda.exists = function(it,f) {
-	var x = $getIterator(it);
-	while(x.hasNext()) {
-		var x1 = x.next();
-		if(f(x1)) {
-			return true;
-		}
-	}
-	return false;
-};
 Lambda.iter = function(it,f) {
 	var x = $getIterator(it);
 	while(x.hasNext()) {
@@ -934,11 +924,6 @@ haxe_ds_List.prototype = {
 		}
 		this.q = x;
 		this.length++;
-	}
-	,clear: function() {
-		this.h = null;
-		this.q = null;
-		this.length = 0;
 	}
 	,iterator: function() {
 		return new haxe_ds__$List_ListIterator(this.h);
@@ -22724,7 +22709,13 @@ rev_Interactive.prototype = {
 	,mouseMoveListener: null
 	,mouseWheelListener: null
 	,mouseLeaveListener: null
+	,keyDownListener: null
+	,keyUpListener: null
+	,keyPressListener: null
 	,set_onMouseDown: function(listener) {
+		if(this.mouseDownListener != null) {
+			rev_input_Mouse.removeListener(rev_MseListenerT.MouseDwn,this.mouseDownListener.id);
+		}
 		if(listener != null) {
 			var mouseDownId = rev_input_Mouse.addDownListener(listener);
 			this.mouseDownListener = { id : mouseDownId, lstnr : listener};
@@ -22737,32 +22728,102 @@ rev_Interactive.prototype = {
 		return this.mouseDownListener.lstnr;
 	}
 	,set_onMouseUp: function(listener) {
-		this.mouseUpListener = { id : rev_input_Mouse.addUpListener(listener), lstnr : listener};
-		return this.mouseUpListener.lstnr;
+		if(this.mouseUpListener != null) {
+			rev_input_Mouse.removeListener(rev_MseListenerT.MouseUp,this.mouseUpListener.id);
+		}
+		if(listener != null) {
+			this.mouseUpListener = { id : rev_input_Mouse.addUpListener(listener), lstnr : listener};
+			return this.mouseUpListener.lstnr;
+		} else {
+			return null;
+		}
 	}
 	,get_onMouseUp: function() {
 		return this.mouseUpListener.lstnr;
 	}
 	,set_onMouseMove: function(listener) {
-		this.mouseMoveListener = { id : rev_input_Mouse.addMoveListener(listener), lstnr : listener};
-		return this.mouseMoveListener.lstnr;
+		if(this.mouseMoveListener != null) {
+			rev_input_Mouse.removeListener(rev_MseListenerT.MouseDwn,this.mouseMoveListener.id);
+		}
+		if(listener != null) {
+			this.mouseMoveListener = { id : rev_input_Mouse.addMoveListener(listener), lstnr : listener};
+			return this.mouseMoveListener.lstnr;
+		} else {
+			return null;
+		}
 	}
 	,get_onMouseMove: function() {
 		return this.mouseMoveListener.lstnr;
 	}
 	,set_onMouseWheel: function(listener) {
-		this.mouseWheelListener = { id : rev_input_Mouse.addWheelListener(listener), lstnr : listener};
-		return this.mouseWheelListener.lstnr;
+		if(this.mouseWheelListener != null) {
+			rev_input_Mouse.removeListener(rev_MseListenerT.MouseMove,this.mouseWheelListener.id);
+		}
+		if(listener != null) {
+			this.mouseWheelListener = { id : rev_input_Mouse.addWheelListener(listener), lstnr : listener};
+			return this.mouseWheelListener.lstnr;
+		} else {
+			return null;
+		}
 	}
 	,get_onMouseWheel: function() {
 		return this.mouseWheelListener.lstnr;
 	}
 	,set_onMouseLeave: function(listener) {
-		this.mouseLeaveListener = { id : rev_input_Mouse.addLeaveListener(listener), lstnr : listener};
-		return this.mouseLeaveListener.lstnr;
+		if(this.mouseLeaveListener != null) {
+			rev_input_Mouse.removeListener(rev_MseListenerT.MouseLeave,this.mouseLeaveListener.id);
+		}
+		if(listener != null) {
+			this.mouseLeaveListener = { id : rev_input_Mouse.addLeaveListener(listener), lstnr : listener};
+			return this.mouseLeaveListener.lstnr;
+		} else {
+			return null;
+		}
 	}
 	,get_onMouseLeave: function() {
 		return this.mouseLeaveListener.lstnr;
+	}
+	,set_onKeyDown: function(listener) {
+		if(this.keyDownListener != null) {
+			rev_input_Keyboard.removeListener(rev_KeyListenerT.KeyDown,this.keyDownListener.id);
+		}
+		if(listener != null) {
+			this.keyDownListener = { id : rev_input_Keyboard.addDownListener(listener), lstnr : listener};
+			return this.keyDownListener.lstnr;
+		} else {
+			return null;
+		}
+	}
+	,get_onKeyDown: function() {
+		return this.keyDownListener.lstnr;
+	}
+	,set_onKeyUp: function(listener) {
+		if(this.keyUpListener != null) {
+			rev_input_Keyboard.removeListener(rev_KeyListenerT.KeyUp,this.keyUpListener.id);
+		}
+		if(listener != null) {
+			this.keyUpListener = { id : rev_input_Keyboard.addUpListener(listener), lstnr : listener};
+			return this.keyUpListener.lstnr;
+		} else {
+			return null;
+		}
+	}
+	,get_onKeyUp: function() {
+		return this.keyUpListener.lstnr;
+	}
+	,set_onKeyPress: function(listener) {
+		if(this.keyPressListener != null) {
+			rev_input_Keyboard.removeListener(rev_KeyListenerT.KeyPress,this.keyPressListener.id);
+		}
+		if(listener != null) {
+			this.keyPressListener = { id : rev_input_Keyboard.addPressListener(listener), lstnr : listener};
+			return this.keyPressListener.lstnr;
+		} else {
+			return null;
+		}
+	}
+	,get_onKeyPress: function() {
+		return this.keyPressListener.lstnr;
 	}
 	,__class__: rev_Interactive
 };
@@ -22976,36 +23037,56 @@ rev_input_Keyboard.initialize = function() {
 	kha_input_Keyboard.get().notify(rev_input_Keyboard.onKeyDown,rev_input_Keyboard.onKeyUp,rev_input_Keyboard.onPress);
 };
 rev_input_Keyboard.onKeyDown = function(key) {
-	rev_input_Keyboard.keyDown.add(key);
-	haxe_Log.trace("Key down " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 34, className : "rev.input.Keyboard", methodName : "onKeyDown"});
+	Lambda.iter(rev_input_Keyboard.downListeners,function(listenerContainer) {
+		listenerContainer.lstnr(key);
+		return;
+	});
+	haxe_Log.trace("Key down " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 28, className : "rev.input.Keyboard", methodName : "onKeyDown"});
 };
 rev_input_Keyboard.onKeyUp = function(key) {
-	rev_input_Keyboard.keyUp.add(key);
-	haxe_Log.trace("Key up: " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 39, className : "rev.input.Keyboard", methodName : "onKeyUp"});
+	Lambda.iter(rev_input_Keyboard.upListeners,function(listenerContainer) {
+		listenerContainer.lstnr(key);
+		return;
+	});
+	haxe_Log.trace("Key up: " + key,{ fileName : "rev/input/Keyboard.hx", lineNumber : 33, className : "rev.input.Keyboard", methodName : "onKeyUp"});
 };
 rev_input_Keyboard.onPress = function(char) {
-	rev_input_Keyboard.pressed.add(char);
-	haxe_Log.trace("Pressed : " + char,{ fileName : "rev/input/Keyboard.hx", lineNumber : 44, className : "rev.input.Keyboard", methodName : "onPress"});
-};
-rev_input_Keyboard.isKeyDown = function(key) {
-	return Lambda.exists(rev_input_Keyboard.keyDown,function(element) {
-		return element == key;
+	Lambda.iter(rev_input_Keyboard.pressListeners,function(listenerContainer) {
+		listenerContainer.lstnr(char);
+		return;
 	});
+	haxe_Log.trace("Pressed : " + char,{ fileName : "rev/input/Keyboard.hx", lineNumber : 38, className : "rev.input.Keyboard", methodName : "onPress"});
 };
-rev_input_Keyboard.isKeyUp = function(key) {
-	return Lambda.exists(rev_input_Keyboard.keyUp,function(element) {
-		return element == key;
-	});
+rev_input_Keyboard.addDownListener = function(listener) {
+	var container = { id : rev_input_Keyboard.downListeners.length + 1, lstnr : listener};
+	rev_input_Keyboard.downListeners.add(container);
+	return container.id;
 };
-rev_input_Keyboard.isPressed = function(char) {
-	return Lambda.exists(rev_input_Keyboard.pressed,function(element) {
-		return element == char;
-	});
+rev_input_Keyboard.addUpListener = function(listener) {
+	var container = { id : rev_input_Keyboard.upListeners.length + 1, lstnr : listener};
+	rev_input_Keyboard.upListeners.add(container);
+	return container.id;
 };
-rev_input_Keyboard.resetInputs = function() {
-	rev_input_Keyboard.keyDown.clear();
-	rev_input_Keyboard.keyUp.clear();
-	rev_input_Keyboard.pressed.clear();
+rev_input_Keyboard.addPressListener = function(listener) {
+	var container = { id : rev_input_Keyboard.pressListeners.length + 1, lstnr : listener};
+	rev_input_Keyboard.pressListeners.add(container);
+	return container.id;
+};
+rev_input_Keyboard.removeListener = function(listenerType,id) {
+	var removeById = function(lstnrCntnr) {
+		return lstnrCntnr.id == id;
+	};
+	switch(listenerType._hx_index) {
+	case 0:
+		rev_input_Keyboard.downListeners = rev_input_Keyboard.downListeners.filter(removeById);
+		break;
+	case 1:
+		rev_input_Keyboard.upListeners = rev_input_Keyboard.upListeners.filter(removeById);
+		break;
+	case 2:
+		rev_input_Keyboard.pressListeners = rev_input_Keyboard.pressListeners.filter(removeById);
+		break;
+	}
 };
 var rev_input_Mouse = function() { };
 $hxClasses["rev.input.Mouse"] = rev_input_Mouse;
@@ -23042,13 +23123,13 @@ rev_input_Mouse.downListener = function(button,x,y) {
 	}
 	switch(button) {
 	case 0:
-		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 45, className : "rev.input.Mouse", methodName : "downListener"});
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 44, className : "rev.input.Mouse", methodName : "downListener"});
 		break;
 	case 1:
-		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 47, className : "rev.input.Mouse", methodName : "downListener"});
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 46, className : "rev.input.Mouse", methodName : "downListener"});
 		break;
 	case 2:
-		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 49, className : "rev.input.Mouse", methodName : "downListener"});
+		haxe_Log.trace("Clicked :" + buttonName,{ fileName : "rev/input/Mouse.hx", lineNumber : 48, className : "rev.input.Mouse", methodName : "downListener"});
 		break;
 	}
 };
@@ -23063,8 +23144,8 @@ rev_input_Mouse.moveListener = function(x,y,moveX,moveY) {
 		lstnrContainer.lstnr(x,y,moveX,moveY);
 		return;
 	});
-	haxe_Log.trace("Mouse Coordinates",{ fileName : "rev/input/Mouse.hx", lineNumber : 59, className : "rev.input.Mouse", methodName : "moveListener", customParams : [x,y]});
-	haxe_Log.trace("Move Coordinates Difference",{ fileName : "rev/input/Mouse.hx", lineNumber : 60, className : "rev.input.Mouse", methodName : "moveListener", customParams : [moveX,moveY]});
+	haxe_Log.trace("Mouse Coordinates",{ fileName : "rev/input/Mouse.hx", lineNumber : 58, className : "rev.input.Mouse", methodName : "moveListener", customParams : [x,y]});
+	haxe_Log.trace("Move Coordinates Difference",{ fileName : "rev/input/Mouse.hx", lineNumber : 59, className : "rev.input.Mouse", methodName : "moveListener", customParams : [moveX,moveY]});
 	rev_input_Mouse.coordinates.x = x;
 	rev_input_Mouse.coordinates.y = y;
 	rev_input_Mouse.diffCoordinates.x = moveX;
@@ -23440,9 +23521,6 @@ kha_netsync_Session.RPC_SERVER = 0;
 kha_netsync_Session.RPC_ALL = 1;
 kha_netsync_SyncBuilder.nextId = 0;
 kha_netsync_SyncBuilder.objects = [];
-rev_input_Keyboard.keyDown = new haxe_ds_List();
-rev_input_Keyboard.keyUp = new haxe_ds_List();
-rev_input_Keyboard.pressed = new haxe_ds_List();
 rev_input__$MouseBtn_MouseBtn_$Impl_$.Left = 0;
 rev_input__$MouseBtn_MouseBtn_$Impl_$.Right = 1;
 rev_input__$MouseBtn_MouseBtn_$Impl_$.Middle = 2;
