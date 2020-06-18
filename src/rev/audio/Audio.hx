@@ -36,6 +36,70 @@ class Audio {
     audioStreamChannel = KAudio.stream(sound, loop);
   } 
 
+  public static function pauseSound() {
+    soundChannel.pause();
+  }
+
+  public static function pauseSoundStream() {
+    soundStreamChannel.pause();
+  }
+
+  public static function pauseAudio() {
+    audioChannel.pause();
+  }
+
+  public static function pauseAudioStream() {
+    audioStreamChannel.pause();
+  }
+
+  public static function stopSound() {
+    soundChannel.stop();
+  }
+
+  public static function stopSoundStream() {
+    soundStreamChannel.stop();
+  }
+
+  public static function stopAudio() {
+    audioChannel.stop();
+  }
+
+  public static function stopAudioStream() {
+    return audioStreamChannel.stop();
+  }
+
+  public static function setSoundVolume(volume:Float) {
+    soundChannel.volume = volume;
+  }
+
+  public static function getSoundVolume() {
+    return soundChannel.volume;
+  }
+
+  public static function setAudioVolume(volume:Float) {
+    audioChannel.volume = volume;
+  }
+
+  public static function getAudioVolume() {
+    return audioChannel.volume;
+  }
+
+  public static function setSoundStreamVolume(volume:Float) {
+    soundStreamChannel.volume = volume;
+  }
+
+  public static function getSoundStreamVolume() {
+    return soundStreamChannel.volume;
+  }
+
+  public static function setAudioStreamVolume(volume:Float) {
+    audioStreamChannel.volume = volume;
+  }
+
+  public static function getAudioStreamVolume() {
+    return audioStreamChannel.volume;
+  }
+
   public static function isSoundPlaying() {
     return soundChannel != null ? soundChannel.finished : false;
   }

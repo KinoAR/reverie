@@ -30,4 +30,25 @@ class V2 {
   public inline function distanceTo(v2:V2) {
     return Math.sqrt( Math.pow((this.x - v2.x ), 2)  + Math.pow((this.y - v2.y),2));
   }
+
+  /**
+   * Dot Product result.
+   * @param v2 
+   * @return Float
+   */
+  public inline function dotProduct(v2:V2):Float {
+    return (this.x * v2.x) + (this.y + v2.y);
+  }
+
+  /**
+   * Normalized Dot Product anywhere from 1 - 1.
+   * @param v2 
+   * @return Float
+   */
+  public inline function dotProductN(v2:V2) :Float {
+    var norm1 = this.normalize();
+    var norm2 = v2.normalize();
+    return (norm1.x * norm2.x ) + (norm1.y + norm2.y);
+  }
+
 }

@@ -22560,6 +22560,14 @@ math_V2.prototype = {
 	,distanceTo: function(v2) {
 		return Math.sqrt(Math.pow(this.x - v2.x,2) + Math.pow(this.y - v2.y,2));
 	}
+	,dotProduct: function(v2) {
+		return this.x * v2.x + (this.y + v2.y);
+	}
+	,dotProductN: function(v2) {
+		var norm1 = this.normalize();
+		var norm2 = v2.normalize();
+		return norm1.x * norm2.x + (norm1.y + norm2.y);
+	}
 	,__class__: math_V2
 };
 var rev_Object = function() { };
