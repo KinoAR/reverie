@@ -36,6 +36,22 @@ class Audio {
     audioStreamChannel = KAudio.stream(sound, loop);
   } 
 
+  public static function resumeSound() {
+    soundChannel.play();
+  }
+
+  public static function resumeAudio() {
+    audioChannel.play();
+  }
+
+  public static function resumeSoundStream() {
+    soundStreamChannel.play();
+  }
+
+  public static function resumeAudioStream() {
+    audioStreamChannel.play();
+  }
+
   public static function pauseSound() {
     soundChannel.pause();
   }
