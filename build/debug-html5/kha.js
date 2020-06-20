@@ -131,10 +131,12 @@ Main.onAssetsLoaded = function() {
 Main.render = function(frames) {
 	var fb = frames[0];
 	var g2 = fb.get_g2();
-	var rc = new rev_RenderContext(g2);
+	var rc = rev_core_RenderContext;
+	var renderTarget = kha_Image.createRenderTarget(800,600);
+	rc.setupContext(renderTarget.get_g2());
 	rc.begin(true,kha__$Color_Color_$Impl_$.fromBytes(0,95,106));
-	var bitmap = new rev_Bitmap(rc);
-	var text = new rev_Text(rc,Main.debugFont);
+	var bitmap = new rev_core_Bitmap();
+	var text = new rev_core_Text(Main.debugFont);
 	bitmap.setColor(-1);
 	bitmap.setOpacity(0.5);
 	bitmap.setPosition(new math_V2(200,100));
@@ -144,15 +146,21 @@ Main.render = function(frames) {
 	bitmap.setOpacity(1.0);
 	bitmap.setColor(-65536);
 	bitmap.drawRect(new math_V2(100,100),300,300,2.0);
-	text.set_fontSize(24);
+	text.fontSize = 24;
 	text.drawText("Hello Kha",new math_V2(150,150));
-	var testInteractive = new rev_Interactive(text);
+	renderTarget.get_g2().drawString("Hello Kha",150,150);
+	var testInteractive = new rev_core_Interactive(text);
 	testInteractive.set_onMouseDown(function(button,x,y) {
-		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 66, className : "Main", methodName : "render"});
-		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 67, className : "Main", methodName : "render"});
+		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 74, className : "Main", methodName : "render"});
+		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 75, className : "Main", methodName : "render"});
 		return;
 	});
+	var node = new rev_nodes_Node2D();
+	haxe_Log.trace(node.name,{ fileName : "Main.hx", lineNumber : 82, className : "Main", methodName : "render"});
 	rc.end();
+	g2.begin();
+	kha_Scaler.scale(renderTarget,frames[0],kha_System.get_screenRotation());
+	g2.end();
 };
 Main.main = function() {
 	kha_System.start(new kha_SystemOptions("Reverie",1024,768,null,null),function(_) {
@@ -2937,6 +2945,202 @@ kha_LoaderImpl.loadFontFromDescription = function(desc,done,failed) {
 	kha_LoaderImpl.loadBlobFromDescription(desc,function(blob) {
 		done(new kha_Kravur(blob));
 	},failed);
+};
+var kha_TargetRectangle = function(x,y,w,h,s,r) {
+	this.x = x;
+	this.y = y;
+	this.width = w;
+	this.height = h;
+	this.scaleFactor = s;
+	this.rotation = r;
+};
+$hxClasses["kha.TargetRectangle"] = kha_TargetRectangle;
+kha_TargetRectangle.__name__ = true;
+kha_TargetRectangle.prototype = {
+	x: null
+	,y: null
+	,width: null
+	,height: null
+	,scaleFactor: null
+	,rotation: null
+	,__class__: kha_TargetRectangle
+};
+var kha_Scaler = function() { };
+$hxClasses["kha.Scaler"] = kha_Scaler;
+kha_Scaler.__name__ = true;
+kha_Scaler.targetRect = function(width,height,destinationWidth,destinationHeight,rotation) {
+	var scalex;
+	var scaley;
+	var scalew;
+	var scaleh;
+	var scale;
+	switch(rotation) {
+	case 0:
+		if(width / height > destinationWidth / destinationHeight) {
+			scale = destinationWidth / width;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = 0;
+			scaley = (destinationHeight - scaleh) * 0.5;
+		} else {
+			scale = destinationHeight / height;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = (destinationWidth - scalew) * 0.5;
+			scaley = 0;
+		}
+		break;
+	case 90:
+		if(width / height > destinationHeight / destinationWidth) {
+			scale = destinationHeight / width;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = (destinationWidth - scaleh) * 0.5 + scaleh;
+			scaley = 0;
+		} else {
+			scale = destinationWidth / height;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = scaleh;
+			scaley = (destinationHeight - scalew) * 0.5;
+		}
+		break;
+	case 180:
+		if(width / height > destinationWidth / destinationHeight) {
+			scale = destinationWidth / width;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = scalew;
+			scaley = (destinationHeight - scaleh) * 0.5 + scaleh;
+		} else {
+			scale = destinationHeight / height;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = (destinationWidth - scalew) * 0.5 + scalew;
+			scaley = scaleh;
+		}
+		break;
+	case 270:
+		if(width / height > destinationHeight / destinationWidth) {
+			scale = destinationHeight / width;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = (destinationWidth - scaleh) * 0.5;
+			scaley = scalew;
+		} else {
+			scale = destinationWidth / height;
+			scalew = width * scale;
+			scaleh = height * scale;
+			scalex = 0;
+			scaley = (destinationHeight - scalew) * 0.5 + scalew;
+		}
+		break;
+	}
+	return new kha_TargetRectangle(scalex,scaley,scalew,scaleh,scale,rotation);
+};
+kha_Scaler.transformXDirectly = function(x,y,sourceWidth,sourceHeight,destinationWidth,destinationHeight,rotation) {
+	var targetRect = kha_Scaler.targetRect(sourceWidth,sourceHeight,destinationWidth,destinationHeight,rotation);
+	switch(targetRect.rotation) {
+	case 0:
+		return (x - targetRect.x) / targetRect.scaleFactor | 0;
+	case 90:
+		return (y - targetRect.y) / targetRect.scaleFactor | 0;
+	case 180:
+		return (targetRect.x - x) / targetRect.scaleFactor | 0;
+	case 270:
+		return (targetRect.y - y) / targetRect.scaleFactor | 0;
+	}
+};
+kha_Scaler.transformX = function(x,y,source,destination,rotation) {
+	return kha_Scaler.transformXDirectly(x,y,source.get_width(),source.get_height(),destination.get_width(),destination.get_height(),rotation);
+};
+kha_Scaler.transformYDirectly = function(x,y,sourceWidth,sourceHeight,destinationWidth,destinationHeight,rotation) {
+	var targetRect = kha_Scaler.targetRect(sourceWidth,sourceHeight,destinationWidth,destinationHeight,rotation);
+	switch(targetRect.rotation) {
+	case 0:
+		return (y - targetRect.y) / targetRect.scaleFactor | 0;
+	case 90:
+		return (targetRect.x - x) / targetRect.scaleFactor | 0;
+	case 180:
+		return (targetRect.y - y) / targetRect.scaleFactor | 0;
+	case 270:
+		return (x - targetRect.x) / targetRect.scaleFactor | 0;
+	}
+};
+kha_Scaler.transformY = function(x,y,source,destination,rotation) {
+	return kha_Scaler.transformYDirectly(x,y,source.get_width(),source.get_height(),destination.get_width(),destination.get_height(),rotation);
+};
+kha_Scaler.scale = function(source,destination,rotation) {
+	var g = destination.get_g2();
+	var trans = kha_Scaler.getScaledTransformation(source.get_width(),source.get_height(),destination.get_width(),destination.get_height(),rotation);
+	g.transformationIndex++;
+	if(g.transformationIndex == g.transformations.length) {
+		g.transformations.push(new kha_math_FastMatrix3(1,0,0,0,1,0,0,0,1));
+	}
+	var _this = g.transformations[g.transformationIndex];
+	_this._00 = trans._00;
+	_this._10 = trans._10;
+	_this._20 = trans._20;
+	_this._01 = trans._01;
+	_this._11 = trans._11;
+	_this._21 = trans._21;
+	_this._02 = trans._02;
+	_this._12 = trans._12;
+	_this._22 = trans._22;
+	g.setTransformation(g.transformations[g.transformationIndex]);
+	g.set_color(-1);
+	g.set_opacity(1);
+	g.drawImage(source,0,0);
+	g.popTransformation();
+};
+kha_Scaler.getScaledTransformation = function(width,height,destinationWidth,destinationHeight,rotation) {
+	var rect = kha_Scaler.targetRect(width,height,destinationWidth,destinationHeight,rotation);
+	var sf = rect.scaleFactor;
+	var transformation = new kha_math_FastMatrix3(sf,0,rect.x,0,sf,rect.y,0,0,1);
+	switch(rotation) {
+	case 0:
+		break;
+	case 90:
+		var alpha = Math.PI / 2;
+		var m__00 = Math.cos(alpha);
+		var m__10 = -Math.sin(alpha);
+		var m__20 = 0;
+		var m__01 = Math.sin(alpha);
+		var m__11 = Math.cos(alpha);
+		var m__21 = 0;
+		var m__02 = 0;
+		var m__12 = 0;
+		var m__22 = 1;
+		transformation = new kha_math_FastMatrix3(transformation._00 * m__00 + transformation._10 * m__01 + transformation._20 * m__02,transformation._00 * m__10 + transformation._10 * m__11 + transformation._20 * m__12,transformation._00 * m__20 + transformation._10 * m__21 + transformation._20 * m__22,transformation._01 * m__00 + transformation._11 * m__01 + transformation._21 * m__02,transformation._01 * m__10 + transformation._11 * m__11 + transformation._21 * m__12,transformation._01 * m__20 + transformation._11 * m__21 + transformation._21 * m__22,transformation._02 * m__00 + transformation._12 * m__01 + transformation._22 * m__02,transformation._02 * m__10 + transformation._12 * m__11 + transformation._22 * m__12,transformation._02 * m__20 + transformation._12 * m__21 + transformation._22 * m__22);
+		break;
+	case 180:
+		var alpha1 = Math.PI;
+		var m__001 = Math.cos(alpha1);
+		var m__101 = -Math.sin(alpha1);
+		var m__201 = 0;
+		var m__011 = Math.sin(alpha1);
+		var m__111 = Math.cos(alpha1);
+		var m__211 = 0;
+		var m__021 = 0;
+		var m__121 = 0;
+		var m__221 = 1;
+		transformation = new kha_math_FastMatrix3(transformation._00 * m__001 + transformation._10 * m__011 + transformation._20 * m__021,transformation._00 * m__101 + transformation._10 * m__111 + transformation._20 * m__121,transformation._00 * m__201 + transformation._10 * m__211 + transformation._20 * m__221,transformation._01 * m__001 + transformation._11 * m__011 + transformation._21 * m__021,transformation._01 * m__101 + transformation._11 * m__111 + transformation._21 * m__121,transformation._01 * m__201 + transformation._11 * m__211 + transformation._21 * m__221,transformation._02 * m__001 + transformation._12 * m__011 + transformation._22 * m__021,transformation._02 * m__101 + transformation._12 * m__111 + transformation._22 * m__121,transformation._02 * m__201 + transformation._12 * m__211 + transformation._22 * m__221);
+		break;
+	case 270:
+		var alpha2 = Math.PI * 3 / 2;
+		var m__002 = Math.cos(alpha2);
+		var m__102 = -Math.sin(alpha2);
+		var m__202 = 0;
+		var m__012 = Math.sin(alpha2);
+		var m__112 = Math.cos(alpha2);
+		var m__212 = 0;
+		var m__022 = 0;
+		var m__122 = 0;
+		var m__222 = 1;
+		transformation = new kha_math_FastMatrix3(transformation._00 * m__002 + transformation._10 * m__012 + transformation._20 * m__022,transformation._00 * m__102 + transformation._10 * m__112 + transformation._20 * m__122,transformation._00 * m__202 + transformation._10 * m__212 + transformation._20 * m__222,transformation._01 * m__002 + transformation._11 * m__012 + transformation._21 * m__022,transformation._01 * m__102 + transformation._11 * m__112 + transformation._21 * m__122,transformation._01 * m__202 + transformation._11 * m__212 + transformation._21 * m__222,transformation._02 * m__002 + transformation._12 * m__012 + transformation._22 * m__022,transformation._02 * m__102 + transformation._12 * m__112 + transformation._22 * m__122,transformation._02 * m__202 + transformation._12 * m__212 + transformation._22 * m__222);
+		break;
+	}
+	return transformation;
 };
 var kha_TimeTask = function() {
 };
@@ -22570,39 +22774,36 @@ math_V2.prototype = {
 	}
 	,__class__: math_V2
 };
-var rev_Object = function() { };
-$hxClasses["rev.Object"] = rev_Object;
-rev_Object.__name__ = true;
-var rev_Drawable = function(rc,parent) {
-	this.rc = rc;
+var rev_core_Object = function() { };
+$hxClasses["rev.core.Object"] = rev_core_Object;
+rev_core_Object.__name__ = true;
+var rev_core_Drawable = function(parent) {
 	this.z = -1;
-	this.set_color(16777215);
+	this.color = 16777215;
 	this.position = new math_V2(0,0);
 	this.parent = parent;
+	this.opacity = 1.0;
 };
-$hxClasses["rev.Drawable"] = rev_Drawable;
-rev_Drawable.__name__ = true;
-rev_Drawable.__super__ = rev_Object;
-rev_Drawable.prototype = $extend(rev_Object.prototype,{
+$hxClasses["rev.core.Drawable"] = rev_core_Drawable;
+rev_core_Drawable.__name__ = true;
+rev_core_Drawable.__super__ = rev_core_Object;
+rev_core_Drawable.prototype = $extend(rev_core_Object.prototype,{
 	position: null
-	,g2: null
 	,z: null
-	,rc: null
+	,color: null
 	,visible: null
 	,parent: null
-	,get_color: function() {
-		return this.rc.get_color();
-	}
-	,set_color: function(color) {
-		return this.rc.set_color(color);
+	,opacity: null
+	,begin: function() {
+		rev_core_RenderContext.set_color(this.color);
 	}
 	,draw: function() {
 	}
 	,setColor: function(color) {
-		this.set_color(color);
+		this.color = color;
 	}
 	,resetColor: function() {
-		this.set_color(16777215);
+		this.color = 16777215;
 	}
 	,show: function() {
 		this.visible = true;
@@ -22628,20 +22829,14 @@ rev_Drawable.prototype = $extend(rev_Object.prototype,{
 	,getPosition: function() {
 		return this.position;
 	}
-	,pushOpacity: function(opacity) {
-		this.rc.pushOpacity(opacity);
-	}
-	,popOpacity: function() {
-		return this.rc.popOpacity();
-	}
 	,scale: function(scale) {
-		this.rc.scale(scale);
+		rev_core_RenderContext.scale(scale);
 	}
 	,setOpacity: function(opacity) {
-		this.rc.setOpacity(opacity);
+		this.opacity = opacity;
 	}
 	,resetOpacity: function() {
-		this.rc.setOpacity(1.0);
+		this.opacity = 1.0;
 	}
 	,set_globalPosition: function(position) {
 		var parent = this.parent;
@@ -22661,56 +22856,79 @@ rev_Drawable.prototype = $extend(rev_Object.prototype,{
 			return this.position;
 		}
 	}
-	,__class__: rev_Drawable
+	,end: function() {
+		rev_core_RenderContext.set_color(-1);
+	}
+	,__class__: rev_core_Drawable
 });
-var rev_Bitmap = function(rc,parent) {
-	rev_Drawable.call(this,rc,parent);
+var rev_core_Bitmap = function(parent) {
+	rev_core_Drawable.call(this,parent);
 };
-$hxClasses["rev.Bitmap"] = rev_Bitmap;
-rev_Bitmap.__name__ = true;
-rev_Bitmap.__super__ = rev_Drawable;
-rev_Bitmap.prototype = $extend(rev_Drawable.prototype,{
+$hxClasses["rev.core.Bitmap"] = rev_core_Bitmap;
+rev_core_Bitmap.__name__ = true;
+rev_core_Bitmap.__super__ = rev_core_Drawable;
+rev_core_Bitmap.prototype = $extend(rev_core_Drawable.prototype,{
 	drawRect: function(v2,width,height,strength) {
 		if(strength == null) {
 			strength = 1.0;
 		}
-		this.rc.drawRect(v2.add(this.position),width,height,strength);
+		this.begin();
+		rev_core_RenderContext.drawRect(v2.add(this.position),width,height,strength);
+		this.end();
 	}
 	,fillRect: function(v2,width,height) {
-		this.rc.fillRect(v2.add(this.position),width,height);
+		this.begin();
+		rev_core_RenderContext.fillRect(v2.add(this.position),width,height);
+		this.end();
 	}
 	,drawText: function(text,v2) {
-		this.rc.drawText(text,v2.add(this.position));
+		this.begin();
+		rev_core_RenderContext.drawText(text,v2.add(this.position));
+		this.end();
 	}
 	,drawCharacters: function(text,start,length,position) {
-		this.rc.drawCharacters(text,start,length,position.add(this.position));
+		this.begin();
+		rev_core_RenderContext.drawCharacters(text,start,length,position.add(this.position));
+		this.end();
 	}
 	,drawLine: function(vec1,vec2,strength) {
-		this.rc.drawLine(vec1.add(this.position),vec2.add(this.position),strength);
+		this.begin();
+		rev_core_RenderContext.drawLine(vec1.add(this.position),vec2.add(this.position),strength);
+		this.end();
 	}
 	,drawImage: function(img,position) {
-		this.rc.drawImage(img,position.add(this.position));
+		this.begin();
+		rev_core_RenderContext.drawImage(img,position.add(this.position));
+		this.end();
 	}
 	,drawSubImage: function(img,position,sx,sy,sw,sh) {
-		this.rc.drawSubImage(img,position.add(this.position),sx,sy,sw,sh);
+		this.begin();
+		rev_core_RenderContext.drawSubImage(img,position.add(this.position),sx,sy,sw,sh);
+		this.end();
 	}
 	,drawScaledSubImage: function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
-		this.rc.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+		this.begin();
+		rev_core_RenderContext.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+		this.end();
 	}
 	,fillTriangle: function(point1,point2,point3) {
-		this.rc.fillTriangle(point1.add(this.position),point2.add(this.position),point3.add(this.position));
+		this.begin();
+		rev_core_RenderContext.fillTriangle(point1.add(this.position),point2.add(this.position),point3.add(this.position));
+		this.end();
 	}
 	,scissor: function(position,width,height) {
-		this.rc.scissor(position.add(this.position),width,height);
+		this.begin();
+		rev_core_RenderContext.scissor(position.add(this.position),width,height);
+		this.end();
 	}
-	,__class__: rev_Bitmap
+	,__class__: rev_core_Bitmap
 });
-var rev_Interactive = function(entity) {
+var rev_core_Interactive = function(entity) {
 	this.entity = entity;
 };
-$hxClasses["rev.Interactive"] = rev_Interactive;
-rev_Interactive.__name__ = true;
-rev_Interactive.prototype = {
+$hxClasses["rev.core.Interactive"] = rev_core_Interactive;
+rev_core_Interactive.__name__ = true;
+rev_core_Interactive.prototype = {
 	entity: null
 	,mouseDownListener: null
 	,mouseUpListener: null
@@ -22722,7 +22940,7 @@ rev_Interactive.prototype = {
 	,keyPressListener: null
 	,set_onMouseDown: function(listener) {
 		if(this.mouseDownListener != null) {
-			rev_input_Mouse.removeListener(rev_MseListenerT.MouseDwn,this.mouseDownListener.id);
+			rev_input_Mouse.removeListener(rev_core_MseListenerT.MouseDwn,this.mouseDownListener.id);
 		}
 		if(listener != null) {
 			var mouseDownId = rev_input_Mouse.addDownListener(listener);
@@ -22737,7 +22955,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onMouseUp: function(listener) {
 		if(this.mouseUpListener != null) {
-			rev_input_Mouse.removeListener(rev_MseListenerT.MouseUp,this.mouseUpListener.id);
+			rev_input_Mouse.removeListener(rev_core_MseListenerT.MouseUp,this.mouseUpListener.id);
 		}
 		if(listener != null) {
 			this.mouseUpListener = { id : rev_input_Mouse.addUpListener(listener), lstnr : listener};
@@ -22751,7 +22969,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onMouseMove: function(listener) {
 		if(this.mouseMoveListener != null) {
-			rev_input_Mouse.removeListener(rev_MseListenerT.MouseDwn,this.mouseMoveListener.id);
+			rev_input_Mouse.removeListener(rev_core_MseListenerT.MouseDwn,this.mouseMoveListener.id);
 		}
 		if(listener != null) {
 			this.mouseMoveListener = { id : rev_input_Mouse.addMoveListener(listener), lstnr : listener};
@@ -22765,7 +22983,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onMouseWheel: function(listener) {
 		if(this.mouseWheelListener != null) {
-			rev_input_Mouse.removeListener(rev_MseListenerT.MouseMove,this.mouseWheelListener.id);
+			rev_input_Mouse.removeListener(rev_core_MseListenerT.MouseMove,this.mouseWheelListener.id);
 		}
 		if(listener != null) {
 			this.mouseWheelListener = { id : rev_input_Mouse.addWheelListener(listener), lstnr : listener};
@@ -22779,7 +22997,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onMouseLeave: function(listener) {
 		if(this.mouseLeaveListener != null) {
-			rev_input_Mouse.removeListener(rev_MseListenerT.MouseLeave,this.mouseLeaveListener.id);
+			rev_input_Mouse.removeListener(rev_core_MseListenerT.MouseLeave,this.mouseLeaveListener.id);
 		}
 		if(listener != null) {
 			this.mouseLeaveListener = { id : rev_input_Mouse.addLeaveListener(listener), lstnr : listener};
@@ -22793,7 +23011,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onKeyDown: function(listener) {
 		if(this.keyDownListener != null) {
-			rev_input_Keyboard.removeListener(rev_KeyListenerT.KeyDown,this.keyDownListener.id);
+			rev_input_Keyboard.removeListener(rev_core_KeyListenerT.KeyDown,this.keyDownListener.id);
 		}
 		if(listener != null) {
 			this.keyDownListener = { id : rev_input_Keyboard.addDownListener(listener), lstnr : listener};
@@ -22807,7 +23025,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onKeyUp: function(listener) {
 		if(this.keyUpListener != null) {
-			rev_input_Keyboard.removeListener(rev_KeyListenerT.KeyUp,this.keyUpListener.id);
+			rev_input_Keyboard.removeListener(rev_core_KeyListenerT.KeyUp,this.keyUpListener.id);
 		}
 		if(listener != null) {
 			this.keyUpListener = { id : rev_input_Keyboard.addUpListener(listener), lstnr : listener};
@@ -22821,7 +23039,7 @@ rev_Interactive.prototype = {
 	}
 	,set_onKeyPress: function(listener) {
 		if(this.keyPressListener != null) {
-			rev_input_Keyboard.removeListener(rev_KeyListenerT.KeyPress,this.keyPressListener.id);
+			rev_input_Keyboard.removeListener(rev_core_KeyListenerT.KeyPress,this.keyPressListener.id);
 		}
 		if(listener != null) {
 			this.keyPressListener = { id : rev_input_Keyboard.addPressListener(listener), lstnr : listener};
@@ -22833,171 +23051,164 @@ rev_Interactive.prototype = {
 	,get_onKeyPress: function() {
 		return this.keyPressListener.lstnr;
 	}
-	,__class__: rev_Interactive
+	,__class__: rev_core_Interactive
 };
-var rev_RenderContext = function(graphics) {
-	this.g2 = graphics;
+var rev_core_RenderContext = function() { };
+$hxClasses["rev.core.RenderContext"] = rev_core_RenderContext;
+rev_core_RenderContext.__name__ = true;
+rev_core_RenderContext.setupContext = function(graphics) {
+	rev_core_RenderContext.g2 = graphics;
 };
-$hxClasses["rev.RenderContext"] = rev_RenderContext;
-rev_RenderContext.__name__ = true;
-rev_RenderContext.prototype = {
-	g2: null
-	,begin: function(clear,clearColor) {
-		this.g2.begin(clear,clearColor);
+rev_core_RenderContext.begin = function(clear,clearColor) {
+	if(clear == null) {
+		clear = false;
 	}
-	,end: function() {
-		this.g2.end();
-	}
-	,flush: function() {
-		this.g2.flush();
-	}
-	,clear: function(color) {
-		this.g2.clear(color);
-	}
-	,get_color: function() {
-		return this.g2.get_color();
-	}
-	,set_color: function(color) {
-		return this.g2.set_color(color);
-	}
-	,setColor: function(color) {
-		this.g2.set_color(color);
+	rev_core_RenderContext.g2.begin(clear,clearColor);
+};
+rev_core_RenderContext.end = function() {
+	rev_core_RenderContext.g2.end();
+};
+rev_core_RenderContext.flush = function() {
+	rev_core_RenderContext.g2.flush();
+};
+rev_core_RenderContext.clear = function(color) {
+	rev_core_RenderContext.g2.clear(color);
+};
+rev_core_RenderContext.get_color = function() {
+	return rev_core_RenderContext.g2.get_color();
+};
+rev_core_RenderContext.set_color = function(color) {
+	return rev_core_RenderContext.g2.set_color(color);
+};
+rev_core_RenderContext.get_font = function() {
+	return rev_core_RenderContext.g2.get_font();
+};
+rev_core_RenderContext.set_font = function(font) {
+	return rev_core_RenderContext.g2.set_font(font);
+};
+rev_core_RenderContext.setFontSize = function(value) {
+	rev_core_RenderContext.g2.set_fontSize(value);
+};
+rev_core_RenderContext.getFontSize = function() {
+	return rev_core_RenderContext.g2.get_fontSize();
+};
+rev_core_RenderContext.get_fontSize = function() {
+	return rev_core_RenderContext.g2.get_fontSize();
+};
+rev_core_RenderContext.set_fontSize = function(value) {
+	return rev_core_RenderContext.g2.set_fontSize(value);
+};
+rev_core_RenderContext.get_imageScaleQuality = function() {
+	return rev_core_RenderContext.g2.get_imageScaleQuality();
+};
+rev_core_RenderContext.set_imageScaleQuality = function(value) {
+	return rev_core_RenderContext.g2.set_imageScaleQuality(value);
+};
+rev_core_RenderContext.get_mipmapScaleQuality = function() {
+	return rev_core_RenderContext.g2.get_mipmapScaleQuality();
+};
+rev_core_RenderContext.set_mipmapScaleQuality = function(value) {
+	return rev_core_RenderContext.g2.set_mipmapScaleQuality(value);
+};
+rev_core_RenderContext.scale = function(scaleV) {
+	rev_core_RenderContext.g2.scale(scaleV.x,scaleV.y);
+};
+rev_core_RenderContext.translate = function(toV) {
+	rev_core_RenderContext.g2.translate(toV.x,toV.y);
+};
+rev_core_RenderContext.pushTranslation = function(offset) {
+	rev_core_RenderContext.g2.pushTranslation(offset.x,offset.y);
+};
+rev_core_RenderContext.popTransformation = function() {
+	rev_core_RenderContext.g2.popTransformation();
+};
+rev_core_RenderContext.rotate = function(angle,center) {
+	rev_core_RenderContext.g2.rotate(angle,center.x,center.y);
+};
+rev_core_RenderContext.pushRotation = function(angle,center) {
+	rev_core_RenderContext.g2.pushRotation(angle,center.x,center.y);
+};
+rev_core_RenderContext.pushOpacity = function(opacity) {
+	rev_core_RenderContext.g2.pushOpacity(opacity);
+};
+rev_core_RenderContext.popOpacity = function() {
+	return rev_core_RenderContext.g2.popOpacity();
+};
+rev_core_RenderContext.setOpacity = function(opacity) {
+	rev_core_RenderContext.g2.set_opacity(opacity);
+};
+rev_core_RenderContext.drawRect = function(v2,width,height,strength) {
+	rev_core_RenderContext.g2.drawRect(v2.x,v2.y,width,height,strength);
+};
+rev_core_RenderContext.fillRect = function(v2,width,height) {
+	rev_core_RenderContext.g2.fillRect(v2.x,v2.y,width,height);
+};
+rev_core_RenderContext.drawText = function(text,v2) {
+	rev_core_RenderContext.g2.drawString(text,v2.x,v2.y);
+};
+rev_core_RenderContext.drawCharacters = function(text,start,length,position) {
+	rev_core_RenderContext.g2.drawCharacters(text,start,length,position.x,position.y);
+};
+rev_core_RenderContext.drawLine = function(vec1,vec2,strength) {
+	rev_core_RenderContext.g2.drawLine(vec1.x,vec1.y,vec2.x,vec2.y,strength);
+};
+rev_core_RenderContext.drawImage = function(img,v2) {
+	rev_core_RenderContext.g2.drawImage(img,v2.x,v2.y);
+};
+rev_core_RenderContext.drawSubImage = function(img,position,sx,sy,sw,sh) {
+	rev_core_RenderContext.g2.drawSubImage(img,position.x,position.y,sx,sy,sw,sh);
+};
+rev_core_RenderContext.drawScaledSubImage = function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
+	rev_core_RenderContext.g2.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+};
+rev_core_RenderContext.fillTriangle = function(point1,point2,point3) {
+	rev_core_RenderContext.g2.fillTriangle(point1.x,point1.y,point2.x,point2.y,point3.x,point3.y);
+};
+rev_core_RenderContext.scissor = function(position,width,height) {
+	rev_core_RenderContext.g2.scissor(position.x | 0,position.y | 0,width,height);
+};
+rev_core_RenderContext.disableScissor = function() {
+	rev_core_RenderContext.g2.disableScissor();
+};
+rev_core_RenderContext.prototype = {
+	setColor: function(color) {
+		rev_core_RenderContext.g2.set_color(color);
 	}
 	,getColor: function(color) {
-		return this.g2.get_color();
+		return rev_core_RenderContext.g2.get_color();
 	}
 	,setFont: function(font) {
-		this.g2.set_font(font);
+		rev_core_RenderContext.g2.set_font(font);
 	}
 	,getFont: function() {
-		return this.g2.get_font();
+		return rev_core_RenderContext.g2.get_font();
 	}
-	,get_font: function() {
-		return this.g2.get_font();
-	}
-	,set_font: function(font) {
-		return this.g2.set_font(font);
-	}
-	,setFontSize: function(value) {
-		this.g2.set_fontSize(value);
-	}
-	,getFontSize: function() {
-		return this.g2.get_fontSize();
-	}
-	,get_fontSize: function() {
-		return this.g2.get_fontSize();
-	}
-	,set_fontSize: function(value) {
-		return this.g2.set_fontSize(value);
-	}
-	,get_imageScaleQuality: function() {
-		return this.g2.get_imageScaleQuality();
-	}
-	,set_imageScaleQuality: function(value) {
-		return this.g2.set_imageScaleQuality(value);
-	}
-	,get_mipmapScaleQuality: function() {
-		return this.g2.get_mipmapScaleQuality();
-	}
-	,set_mipmapScaleQuality: function(value) {
-		return this.g2.set_mipmapScaleQuality(value);
-	}
-	,scale: function(scaleV) {
-		this.g2.scale(scaleV.x,scaleV.y);
-	}
-	,translate: function(toV) {
-		this.g2.translate(toV.x,toV.y);
-	}
-	,pushTranslation: function(offset) {
-		this.g2.pushTranslation(offset.x,offset.y);
-	}
-	,popTransformation: function() {
-		this.g2.popTransformation();
-	}
-	,rotate: function(angle,center) {
-		this.g2.rotate(angle,center.x,center.y);
-	}
-	,pushRotation: function(angle,center) {
-		this.g2.pushRotation(angle,center.x,center.y);
-	}
-	,pushOpacity: function(opacity) {
-		this.g2.pushOpacity(opacity);
-	}
-	,popOpacity: function() {
-		return this.g2.popOpacity();
-	}
-	,setOpacity: function(opacity) {
-		this.g2.set_opacity(opacity);
-	}
-	,drawRect: function(v2,width,height,strength) {
-		this.g2.drawRect(v2.x,v2.y,width,height,strength);
-	}
-	,fillRect: function(v2,width,height) {
-		this.g2.fillRect(v2.x,v2.y,width,height);
-	}
-	,drawText: function(text,v2) {
-		this.g2.drawString(text,v2.x,v2.y);
-	}
-	,drawCharacters: function(text,start,length,position) {
-		this.g2.drawCharacters(text,start,length,position.x,position.y);
-	}
-	,drawLine: function(vec1,vec2,strength) {
-		this.g2.drawLine(vec1.x,vec1.y,vec2.x,vec2.y,strength);
-	}
-	,drawImage: function(img,v2) {
-		this.g2.drawImage(img,v2.x,v2.y);
-	}
-	,drawSubImage: function(img,position,sx,sy,sw,sh) {
-		this.g2.drawSubImage(img,position.x,position.y,sx,sy,sw,sh);
-	}
-	,drawScaledSubImage: function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
-		this.g2.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
-	}
-	,fillTriangle: function(point1,point2,point3) {
-		this.g2.fillTriangle(point1.x,point1.y,point2.x,point2.y,point3.x,point3.y);
-	}
-	,scissor: function(position,width,height) {
-		this.g2.scissor(position.x | 0,position.y | 0,width,height);
-	}
-	,disableScissor: function() {
-		this.g2.disableScissor();
-	}
-	,__class__: rev_RenderContext
+	,__class__: rev_core_RenderContext
 };
-var rev_Text = function(rc,font,parent) {
-	rev_Drawable.call(this,rc,parent);
+var rev_core_Text = function(font,parent) {
+	rev_core_Drawable.call(this,parent);
 	this.textColor = 16777215;
-	this.set_font(font);
+	this.font = font;
 	this.text = "";
 };
-$hxClasses["rev.Text"] = rev_Text;
-rev_Text.__name__ = true;
-rev_Text.__super__ = rev_Drawable;
-rev_Text.prototype = $extend(rev_Drawable.prototype,{
+$hxClasses["rev.core.Text"] = rev_core_Text;
+rev_core_Text.__name__ = true;
+rev_core_Text.__super__ = rev_core_Drawable;
+rev_core_Text.prototype = $extend(rev_core_Drawable.prototype,{
 	letterSpacing: null
 	,lineSpacing: null
 	,maxWidth: null
+	,fontSize: null
+	,font: null
 	,textColor: null
 	,textHeight: null
 	,textWidth: null
 	,text: null
-	,get_fontSize: function() {
-		return this.rc.get_fontSize();
-	}
-	,set_fontSize: function(fontSize) {
-		return this.rc.set_fontSize(fontSize);
-	}
-	,get_font: function() {
-		return this.rc.get_font();
-	}
-	,set_font: function(font) {
-		return this.rc.set_font(font);
-	}
 	,get_textHeight: function() {
-		return this.get_font().height(this.get_fontSize());
+		return this.font.height(this.fontSize);
 	}
 	,get_textWidth: function() {
-		return this.get_font().width(this.get_fontSize(),this.text);
+		return this.font.width(this.fontSize,this.text);
 	}
 	,setText: function(text) {
 		this.text = text;
@@ -23006,14 +23217,16 @@ rev_Text.prototype = $extend(rev_Drawable.prototype,{
 		return this.text;
 	}
 	,setFontSize: function(fontSize) {
-		this.set_fontSize(fontSize);
+		this.fontSize = fontSize;
 	}
 	,getFontSize: function() {
-		return this.get_fontSize();
+		return this.fontSize;
 	}
 	,drawText: function(text,position) {
+		this.begin();
 		this.setText(text);
-		this.rc.drawText(this.text,position.add(this.position));
+		rev_core_RenderContext.drawText(this.text,position.add(this.position));
+		this.end();
 	}
 	,setColor: function(color) {
 		this.textColor = color;
@@ -23021,19 +23234,24 @@ rev_Text.prototype = $extend(rev_Drawable.prototype,{
 	,resetColor: function() {
 		this.textColor = 16777215;
 	}
-	,__class__: rev_Text
+	,begin: function() {
+		rev_core_RenderContext.set_font(this.font);
+		rev_core_RenderContext.set_fontSize(this.fontSize);
+		rev_core_RenderContext.set_color(this.textColor);
+	}
+	,__class__: rev_core_Text
 });
-var rev_MseListenerT = $hxEnums["rev.MseListenerT"] = { __ename__ : true, __constructs__ : ["MouseDwn","MouseUp","MouseMove","MouseWheel","MouseLeave"]
-	,MouseDwn: {_hx_index:0,__enum__:"rev.MseListenerT",toString:$estr}
-	,MouseUp: {_hx_index:1,__enum__:"rev.MseListenerT",toString:$estr}
-	,MouseMove: {_hx_index:2,__enum__:"rev.MseListenerT",toString:$estr}
-	,MouseWheel: {_hx_index:3,__enum__:"rev.MseListenerT",toString:$estr}
-	,MouseLeave: {_hx_index:4,__enum__:"rev.MseListenerT",toString:$estr}
+var rev_core_MseListenerT = $hxEnums["rev.core.MseListenerT"] = { __ename__ : true, __constructs__ : ["MouseDwn","MouseUp","MouseMove","MouseWheel","MouseLeave"]
+	,MouseDwn: {_hx_index:0,__enum__:"rev.core.MseListenerT",toString:$estr}
+	,MouseUp: {_hx_index:1,__enum__:"rev.core.MseListenerT",toString:$estr}
+	,MouseMove: {_hx_index:2,__enum__:"rev.core.MseListenerT",toString:$estr}
+	,MouseWheel: {_hx_index:3,__enum__:"rev.core.MseListenerT",toString:$estr}
+	,MouseLeave: {_hx_index:4,__enum__:"rev.core.MseListenerT",toString:$estr}
 };
-var rev_KeyListenerT = $hxEnums["rev.KeyListenerT"] = { __ename__ : true, __constructs__ : ["KeyDown","KeyUp","KeyPress"]
-	,KeyDown: {_hx_index:0,__enum__:"rev.KeyListenerT",toString:$estr}
-	,KeyUp: {_hx_index:1,__enum__:"rev.KeyListenerT",toString:$estr}
-	,KeyPress: {_hx_index:2,__enum__:"rev.KeyListenerT",toString:$estr}
+var rev_core_KeyListenerT = $hxEnums["rev.core.KeyListenerT"] = { __ename__ : true, __constructs__ : ["KeyDown","KeyUp","KeyPress"]
+	,KeyDown: {_hx_index:0,__enum__:"rev.core.KeyListenerT",toString:$estr}
+	,KeyUp: {_hx_index:1,__enum__:"rev.core.KeyListenerT",toString:$estr}
+	,KeyPress: {_hx_index:2,__enum__:"rev.core.KeyListenerT",toString:$estr}
 };
 var rev_input_Keyboard = function() { };
 $hxClasses["rev.input.Keyboard"] = rev_input_Keyboard;
@@ -23249,6 +23467,92 @@ rev_input__$MouseBtn_MouseBtn_$Impl_$.toButtonName = function(this1) {
 		return "Invalid";
 	}
 };
+var rev_nodes_Node = function() {
+	this.name = "Node";
+};
+$hxClasses["rev.nodes.Node"] = rev_nodes_Node;
+rev_nodes_Node.__name__ = true;
+rev_nodes_Node.prototype = {
+	name: null
+	,path: null
+	,parent: null
+	,available: null
+	,children: null
+	,getParent: function() {
+		return this.parent;
+	}
+	,addChild: function(child) {
+		this.children.push(child);
+	}
+	,addChildAt: function(index,child) {
+		this.children.splice(index,0,child);
+	}
+	,removeChildAt: function(index) {
+		var child = this.children[index];
+		this.children.splice(index,1);
+		return child;
+	}
+	,clearChildren: function() {
+		this.children.length = 0;
+	}
+	,getName: function() {
+		return this.name;
+	}
+	,setName: function(name) {
+		this.name = name;
+	}
+	,setAvailable: function(available) {
+		this.available = available;
+	}
+	,isAvailable: function() {
+		return this.available;
+	}
+	,update: function() {
+	}
+	,physics: function() {
+	}
+	,__class__: rev_nodes_Node
+};
+var rev_nodes_Node2D = function() {
+	rev_nodes_Node.call(this);
+	this.name = "Node2D";
+};
+$hxClasses["rev.nodes.Node2D"] = rev_nodes_Node2D;
+rev_nodes_Node2D.__name__ = true;
+rev_nodes_Node2D.__super__ = rev_nodes_Node;
+rev_nodes_Node2D.prototype = $extend(rev_nodes_Node.prototype,{
+	visible: null
+	,position: null
+	,z: null
+	,setPosition: function(position) {
+		this.position = position;
+	}
+	,getZIndex: function() {
+		return this.z;
+	}
+	,setZIndex: function(value) {
+		this.z = value;
+	}
+	,set_globalPosition: function(position) {
+		var parent = this.parent;
+		if(parent != null && parent.position != null) {
+			var currentPosition = this.get_globalPosition();
+			var positionalDiff = position.sub(currentPosition);
+			return this.position = positionalDiff;
+		} else {
+			return this.position = position;
+		}
+	}
+	,get_globalPosition: function() {
+		var parent = this.parent;
+		if(parent != null && parent.position != null) {
+			return this.position.add(parent.globalPosition);
+		} else {
+			return this.position;
+		}
+	}
+	,__class__: rev_nodes_Node2D
+});
 var rev_utils_ColorUtils = function() { };
 $hxClasses["rev.utils.ColorUtils"] = rev_utils_ColorUtils;
 rev_utils_ColorUtils.__name__ = true;
@@ -23296,6 +23600,8 @@ js_Boot.__toStr = ({ }).toString;
 if(ArrayBuffer.prototype.slice == null) {
 	ArrayBuffer.prototype.slice = js_lib__$ArrayBuffer_ArrayBufferCompat.sliceImpl;
 }
+Main.screenWidth = 800;
+Main.screenHeight = 600;
 haxe_Unserializer.DEFAULT_RESOLVER = new haxe__$Unserializer_DefaultResolver();
 haxe_Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
 haxe_crypto_Base64.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

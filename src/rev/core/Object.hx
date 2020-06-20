@@ -1,4 +1,4 @@
-package rev;
+package rev.core;
 
 class Object {
 

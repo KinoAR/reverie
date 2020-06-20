@@ -2,7 +2,7 @@ package rev.input;
 
 import kha.input.KeyCode;
 import kha.input.Keyboard;
-import rev.Types;
+import rev.core.Types;
 using Lambda;
 
 typedef KKB = kha.input.Keyboard;

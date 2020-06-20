@@ -1,8 +1,9 @@
-package rev;
+package rev.core;
 
 import haxe.macro.Expr.Error;
 import math.V2;
 import haxe.ds.Option;
+import kha.Image;
 using Lambda;
 
 /**
@@ -10,6 +11,7 @@ using Lambda;
  * bitmaps, sprites, and graphics.
  */
 class Sprite extends Drawable {
+  public var texture:Image;
   public var children:Array<Object>;
   public var frameSize:V2;
   public var hFrames:Int;
@@ -19,6 +21,14 @@ class Sprite extends Drawable {
   public function new(rc:RenderContext, ?parent: Object) {
     super(rc,parent);
 
+  }
+
+  public function setTexture(texture:Image) {
+    this.texture = texture;
+  }
+
+  public function getTexture():Image {
+    return this.texture;
   }
 
   public function drawFrame(frame:Int) {

@@ -1,4 +1,4 @@
-package rev;
+package rev.core;
 import kha.graphics2.Graphics;
 import kha.Color;
 import math.V2;
@@ -11,32 +11,26 @@ import Type;
 class Drawable extends Object{
   
   public var position:V2;
-  public var g2: Graphics;
   /**
    * Z Index for which layer the element is drawn at;
    */
   public var z:Int;
-  public var rc:RenderContext;
-  public var color(get, set):Color;
+  public var color:rev.utils.ColorUtils.Color;
   public var visible:Bool;
   public var parent:Object;
+  public var opacity:Float;
   public var globalPosition(get,set):V2;
 
-  public function new(rc:RenderContext,?parent:Object) {
-    this.rc = rc;
+  public function new(?parent:Object) {
     this.z=-1;
     this.color = 0xFFFFFF;
     this.position = new V2(0, 0);
     this.parent = parent;
+    this.opacity = 1.0;
   }
 
-
-  private function get_color() :kha.Color{
-    return this.rc.color;
-  }
-
-  private function set_color(color:kha.Color):kha.Color {
-    return this.rc.color = color;
+  public function begin() {
+    RenderContext.color = this.color;
   }
 
   /**
@@ -101,32 +95,16 @@ class Drawable extends Object{
     return this.position;
   }
 
-  /**
-   * Pushes the opacity to be used by the rendering context.
-   * @param opacity 
-   */
-  public function pushOpacity(opacity:Float) {
-    this.rc.pushOpacity(opacity);
-  }
-
-  /**
-   * Pop the opacity being used by the rendering context.
-   * @return Float
-   */
-  public function popOpacity() : Float {
-    return this.rc.popOpacity();
-  }
-
   public function scale(scale:V2) {
-    this.rc.scale(scale);
+    RenderContext.scale(scale);
   }
 
   public function setOpacity(opacity:Float) {
-    this.rc.setOpacity(opacity);
+    this.opacity = opacity;
   }
 
   public function resetOpacity() {
-    this.rc.setOpacity(1.0);
+    this.opacity = 1.0;
   }
 
   public function set_globalPosition(position:V2):V2 {
@@ -147,5 +125,9 @@ class Drawable extends Object{
     } else {
       return this.position;
     }
+  }
+
+  public function end() {
+    RenderContext.color = Color.White;
   }
 }

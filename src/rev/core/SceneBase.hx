@@ -1,4 +1,4 @@
-package rev;
+package rev.core;
 
 class SceneBase {
   var children: Array<Object>;
@@ -16,7 +16,11 @@ class SceneBase {
     this.children.push(obj);
   }
 
-  public function removeChildAtIndex(index:Int) {
+  public function addChildAt(index:Int) {
+
+  }
+
+  public function removeChildAt(index:Int) {
     this.children.splice(index, 1);
   }
 

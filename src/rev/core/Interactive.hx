@@ -1,7 +1,7 @@
-package rev;
+package rev.core;
 import rev.input.Mouse;
 import rev.input.Keyboard;
-import rev.Types.LstnrCntnr;
+import rev.core.Types.LstnrCntnr;
 
 
 class Interactive<T> {

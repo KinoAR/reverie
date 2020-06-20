@@ -1,6 +1,7 @@
-package rev;
+package rev.core;
 
 typedef LstnrCntnr<T> = {id:Int, lstnr:T};
+typedef Font = kha.Font;
 
 enum MseListenerT {
   MouseDwn;

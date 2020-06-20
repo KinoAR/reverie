@@ -2,7 +2,7 @@ package rev.input;
 import math.V2;
 import kha.input.Mouse;
 import rev.input.MouseBtn;
-import rev.Types;
+import rev.core.Types;
 using Lambda;
 
 typedef KMS = kha.input.Mouse;

@@ -1,26 +1,31 @@
 package;
 
+import kha.Scaler;
 import kha.Assets;
 import kha.Color;
 import kha.Framebuffer;
 import kha.Scheduler;
 import kha.System;
-import rev.RenderContext;
-import rev.Bitmap;
-import rev.Text;
+import rev.core.RenderContext;
+import rev.core.Bitmap;
+import rev.core.Text;
 import kha.Image;
 import math.V2;
 import rev.input.Keyboard;
 import rev.input.Mouse;
 import macros.MacroTest;
-import rev.Interactive;
+import rev.core.Interactive;
+import rev.nodes.Node2D;
 
 class Main {
 	public static var debugFont:kha.Font;
 	public static var exampleImage:Image;
+	public static inline var screenWidth:Int=800;
+	public static inline var screenHeight:Int=600;
 	
 
 	static function update(): Void {
+
 	}
 
 	public static function onAssetsLoaded() {
@@ -39,7 +44,9 @@ class Main {
 		final fb = frames[0];
 		// Now get the `g2` graphics object so we can draw
 		final g2 = fb.g2;
-		final rc = new RenderContext(g2);	
+		var rc = RenderContext;
+		var renderTarget = Image.createRenderTarget(screenWidth, screenHeight);
+		rc.setupContext(renderTarget.g2);	
 		
 		// Start drawing, and clear the framebuffer to `petrol`
 		rc.begin(true, Color.fromBytes(0, 95, 106));
@@ -47,9 +54,9 @@ class Main {
 		// Offset all following drawing operations from the top-left a bit
 		// rc.pushTranslation(new V2(64, 64));
 		// Fill the following rects with red
-		var bitmap = new Bitmap(rc);
+		var bitmap = new Bitmap();
 		// rc.font = 
-		var text = new Text(rc, debugFont);
+		var text = new Text(debugFont);
 		bitmap.setColor(0xFFFFFFFF);
 		bitmap.setOpacity(0.5);
 		bitmap.setPosition(new V2(200, 100));
@@ -61,6 +68,7 @@ class Main {
 		bitmap.drawRect(new V2(100, 100), 300, 300, 2.0);
 		text.fontSize = 24;
 		text.drawText("Hello Kha", new V2(150, 150));
+		renderTarget.g2.drawString("Hello Kha", 150, 150);
 		var testInteractive = new Interactive(text);
 		testInteractive.onMouseDown = (button, x, y) -> {
 			trace(testInteractive.entity.text);
@@ -70,7 +78,13 @@ class Main {
 		// Pop the pushed translation so it will not accumulate over multiple frames
 		// rc.popTransformation();
 		// Finish the drawing operations
+		var node = new Node2D();
+		trace(node.name);
 		rc.end();
+
+		g2.begin();
+		Scaler.scale(renderTarget, frames[0], System.screenRotation);
+		g2.end();
 	}
 
 	public static function main() {
