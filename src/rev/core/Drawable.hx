@@ -1,6 +1,7 @@
 package rev.core;
 import kha.graphics2.Graphics;
 import kha.Color;
+import rev.core.Types.Image;
 import math.V2;
 import Type;
 
@@ -19,7 +20,9 @@ class Drawable extends Object{
   public var visible:Bool;
   public var parent:Object;
   public var opacity:Float;
+  public var g2:rev.core.Graphics;
   public var globalPosition(get,set):V2;
+  public var texture:Image;
 
   public function new(?parent:Object) {
     this.z=-1;
@@ -27,10 +30,12 @@ class Drawable extends Object{
     this.position = new V2(0, 0);
     this.parent = parent;
     this.opacity = 1.0;
+    this.texture = null;
+    this.g2 = null;
   }
 
   public function begin() {
-    RenderContext.color = this.color;
+    this.g2.begin();
   }
 
   /**
@@ -48,6 +53,7 @@ class Drawable extends Object{
    */
   public function setColor(color:Int) {
     this.color = color;
+    this.g2.color = color;
   }
 
   /**
@@ -128,6 +134,6 @@ class Drawable extends Object{
   }
 
   public function end() {
-    RenderContext.color = Color.White;
+    this.g2.end();
   }
 }

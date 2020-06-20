@@ -133,33 +133,38 @@ Main.render = function(frames) {
 	var g2 = fb.get_g2();
 	var rc = rev_core_RenderContext;
 	var renderTarget = kha_Image.createRenderTarget(800,600);
-	rc.setupContext(renderTarget.get_g2());
-	rc.begin(true,kha__$Color_Color_$Impl_$.fromBytes(0,95,106));
-	var bitmap = new rev_core_Bitmap();
-	var text = new rev_core_Text(Main.debugFont);
+	var graphics = new rev_core_Graphics(renderTarget.get_g2());
+	graphics.begin();
+	graphics.drawRect(new math_V2(100,100),100,100,1);
+	graphics.end();
+	var bitmap = new rev_core_Bitmap(400,400);
+	var text = new rev_core_Text(800,800,Main.debugFont);
 	bitmap.setColor(-1);
 	bitmap.setOpacity(0.5);
 	bitmap.setPosition(new math_V2(200,100));
-	bitmap.drawRect(new math_V2(50,40),300,300,2.0);
+	bitmap.drawRect(new math_V2(50,40),30,30,2.0);
 	bitmap.resetColor();
 	bitmap.drawImage(Main.exampleImage,new math_V2(30,30));
 	bitmap.setOpacity(1.0);
 	bitmap.setColor(-65536);
-	bitmap.drawRect(new math_V2(100,100),300,300,2.0);
-	text.fontSize = 24;
-	text.drawText("Hello Kha",new math_V2(150,150));
-	renderTarget.get_g2().drawString("Hello Kha",150,150);
+	bitmap.drawRect(new math_V2(100,100),40,40,2.0);
+	var b2 = new rev_core_Bitmap(400,400);
+	b2.setColor(-65536);
+	b2.drawRect(new math_V2(100,100),40,40,2.0);
+	text.fontSize = 100;
+	text.textColor = -65536;
+	text.drawText("Hello Kha",new math_V2(0,0));
 	var testInteractive = new rev_core_Interactive(text);
 	testInteractive.set_onMouseDown(function(button,x,y) {
-		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 74, className : "Main", methodName : "render"});
-		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 75, className : "Main", methodName : "render"});
+		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 85, className : "Main", methodName : "render"});
+		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 86, className : "Main", methodName : "render"});
 		return;
 	});
 	var node = new rev_nodes_Node2D();
-	haxe_Log.trace(node.name,{ fileName : "Main.hx", lineNumber : 82, className : "Main", methodName : "render"});
-	rc.end();
 	g2.begin();
 	kha_Scaler.scale(renderTarget,frames[0],kha_System.get_screenRotation());
+	kha_Scaler.scale(bitmap.texture,frames[0],kha_System.get_screenRotation());
+	kha_Scaler.scale(text.texture,frames[0],kha_System.get_screenRotation());
 	g2.end();
 };
 Main.main = function() {
@@ -22783,6 +22788,8 @@ var rev_core_Drawable = function(parent) {
 	this.position = new math_V2(0,0);
 	this.parent = parent;
 	this.opacity = 1.0;
+	this.texture = null;
+	this.g2 = null;
 };
 $hxClasses["rev.core.Drawable"] = rev_core_Drawable;
 rev_core_Drawable.__name__ = true;
@@ -22794,13 +22801,16 @@ rev_core_Drawable.prototype = $extend(rev_core_Object.prototype,{
 	,visible: null
 	,parent: null
 	,opacity: null
+	,g2: null
+	,texture: null
 	,begin: function() {
-		rev_core_RenderContext.set_color(this.color);
+		this.g2.begin();
 	}
 	,draw: function() {
 	}
 	,setColor: function(color) {
 		this.color = color;
+		this.g2.set_color(color);
 	}
 	,resetColor: function() {
 		this.color = 16777215;
@@ -22857,72 +22867,216 @@ rev_core_Drawable.prototype = $extend(rev_core_Object.prototype,{
 		}
 	}
 	,end: function() {
-		rev_core_RenderContext.set_color(-1);
+		this.g2.end();
 	}
 	,__class__: rev_core_Drawable
 });
-var rev_core_Bitmap = function(parent) {
+var rev_core_Bitmap = function(width,height,parent) {
 	rev_core_Drawable.call(this,parent);
+	this.width = width;
+	this.height = height;
+	this.texture = kha_Image.createRenderTarget(width,height);
+	this.g2 = new rev_core_Graphics(this.texture.get_g2());
+	this.setColor(-1);
 };
 $hxClasses["rev.core.Bitmap"] = rev_core_Bitmap;
 rev_core_Bitmap.__name__ = true;
 rev_core_Bitmap.__super__ = rev_core_Drawable;
 rev_core_Bitmap.prototype = $extend(rev_core_Drawable.prototype,{
-	drawRect: function(v2,width,height,strength) {
+	width: null
+	,height: null
+	,setColor: function(color) {
+		rev_core_Drawable.prototype.setColor.call(this,color);
+		this.g2.set_color(color);
+	}
+	,begin: function() {
+		this.g2.begin();
+	}
+	,drawRect: function(v2,width,height,strength) {
 		if(strength == null) {
 			strength = 1.0;
 		}
 		this.begin();
-		rev_core_RenderContext.drawRect(v2.add(this.position),width,height,strength);
+		this.g2.drawRect(v2,width,height,strength);
 		this.end();
 	}
 	,fillRect: function(v2,width,height) {
 		this.begin();
-		rev_core_RenderContext.fillRect(v2.add(this.position),width,height);
-		this.end();
-	}
-	,drawText: function(text,v2) {
-		this.begin();
-		rev_core_RenderContext.drawText(text,v2.add(this.position));
+		this.g2.fillRect(v2,width,height);
 		this.end();
 	}
 	,drawCharacters: function(text,start,length,position) {
 		this.begin();
-		rev_core_RenderContext.drawCharacters(text,start,length,position.add(this.position));
+		this.g2.drawCharacters(text,start,length,position);
 		this.end();
 	}
 	,drawLine: function(vec1,vec2,strength) {
 		this.begin();
-		rev_core_RenderContext.drawLine(vec1.add(this.position),vec2.add(this.position),strength);
+		this.g2.drawLine(vec1,vec2,strength);
 		this.end();
 	}
 	,drawImage: function(img,position) {
 		this.begin();
-		rev_core_RenderContext.drawImage(img,position.add(this.position));
+		this.g2.drawImage(img,position);
 		this.end();
 	}
 	,drawSubImage: function(img,position,sx,sy,sw,sh) {
 		this.begin();
-		rev_core_RenderContext.drawSubImage(img,position.add(this.position),sx,sy,sw,sh);
+		this.g2.drawSubImage(img,position,sx,sy,sw,sh);
 		this.end();
 	}
 	,drawScaledSubImage: function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
 		this.begin();
-		rev_core_RenderContext.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+		this.g2.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
 		this.end();
 	}
 	,fillTriangle: function(point1,point2,point3) {
 		this.begin();
-		rev_core_RenderContext.fillTriangle(point1.add(this.position),point2.add(this.position),point3.add(this.position));
+		this.g2.fillTriangle(point1,point2,point3);
 		this.end();
 	}
 	,scissor: function(position,width,height) {
 		this.begin();
-		rev_core_RenderContext.scissor(position.add(this.position),width,height);
+		this.g2.scissor(position,width,height);
 		this.end();
+	}
+	,end: function() {
+		this.g2.end();
 	}
 	,__class__: rev_core_Bitmap
 });
+var rev_core_Graphics = function(graphics) {
+	this.g2 = graphics;
+};
+$hxClasses["rev.core.Graphics"] = rev_core_Graphics;
+rev_core_Graphics.__name__ = true;
+rev_core_Graphics.prototype = {
+	g2: null
+	,begin: function(clear,clearColor) {
+		if(clear == null) {
+			clear = false;
+		}
+		this.g2.begin(clear,clearColor);
+	}
+	,end: function() {
+		this.g2.end();
+	}
+	,flush: function() {
+		this.g2.flush();
+	}
+	,clear: function(color) {
+		this.g2.clear(color);
+	}
+	,get_color: function() {
+		return this.g2.get_color();
+	}
+	,set_color: function(color) {
+		return this.g2.set_color(color);
+	}
+	,setColor: function(color) {
+		this.g2.set_color(color);
+	}
+	,getColor: function(color) {
+		return this.g2.get_color();
+	}
+	,setFont: function(font) {
+		this.g2.set_font(font);
+	}
+	,getFont: function() {
+		return this.g2.get_font();
+	}
+	,get_font: function() {
+		return this.g2.get_font();
+	}
+	,set_font: function(font) {
+		return this.g2.set_font(font);
+	}
+	,setFontSize: function(value) {
+		this.g2.set_fontSize(value);
+	}
+	,getFontSize: function() {
+		return this.g2.get_fontSize();
+	}
+	,get_fontSize: function() {
+		return this.g2.get_fontSize();
+	}
+	,set_fontSize: function(value) {
+		return this.g2.set_fontSize(value);
+	}
+	,get_imageScaleQuality: function() {
+		return this.g2.get_imageScaleQuality();
+	}
+	,set_imageScaleQuality: function(value) {
+		return this.g2.set_imageScaleQuality(value);
+	}
+	,get_mipmapScaleQuality: function() {
+		return this.g2.get_mipmapScaleQuality();
+	}
+	,set_mipmapScaleQuality: function(value) {
+		return this.g2.set_mipmapScaleQuality(value);
+	}
+	,scale: function(scaleV) {
+		this.g2.scale(scaleV.x,scaleV.y);
+	}
+	,translate: function(toV) {
+		this.g2.translate(toV.x,toV.y);
+	}
+	,pushTranslation: function(offset) {
+		this.g2.pushTranslation(offset.x,offset.y);
+	}
+	,popTransformation: function() {
+		this.g2.popTransformation();
+	}
+	,rotate: function(angle,center) {
+		this.g2.rotate(angle,center.x,center.y);
+	}
+	,pushRotation: function(angle,center) {
+		this.g2.pushRotation(angle,center.x,center.y);
+	}
+	,pushOpacity: function(opacity) {
+		this.g2.pushOpacity(opacity);
+	}
+	,popOpacity: function() {
+		return this.g2.popOpacity();
+	}
+	,setOpacity: function(opacity) {
+		this.g2.set_opacity(opacity);
+	}
+	,drawRect: function(v2,width,height,strength) {
+		this.g2.drawRect(v2.x,v2.y,width,height,strength);
+	}
+	,fillRect: function(v2,width,height) {
+		this.g2.fillRect(v2.x,v2.y,width,height);
+	}
+	,drawText: function(text,v2) {
+		this.g2.drawString(text,v2.x,v2.y);
+	}
+	,drawCharacters: function(text,start,length,position) {
+		this.g2.drawCharacters(text,start,length,position.x,position.y);
+	}
+	,drawLine: function(vec1,vec2,strength) {
+		this.g2.drawLine(vec1.x,vec1.y,vec2.x,vec2.y,strength);
+	}
+	,drawImage: function(img,v2) {
+		this.g2.drawImage(img,v2.x,v2.y);
+	}
+	,drawSubImage: function(img,position,sx,sy,sw,sh) {
+		this.g2.drawSubImage(img,position.x,position.y,sx,sy,sw,sh);
+	}
+	,drawScaledSubImage: function(img,sx,sy,sw,sh,dx,dy,dw,dh) {
+		this.g2.drawScaledSubImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+	}
+	,fillTriangle: function(point1,point2,point3) {
+		this.g2.fillTriangle(point1.x,point1.y,point2.x,point2.y,point3.x,point3.y);
+	}
+	,scissor: function(position,width,height) {
+		this.g2.scissor(position.x | 0,position.y | 0,width,height);
+	}
+	,disableScissor: function() {
+		this.g2.disableScissor();
+	}
+	,__class__: rev_core_Graphics
+};
 var rev_core_Interactive = function(entity) {
 	this.entity = entity;
 };
@@ -23185,11 +23339,13 @@ rev_core_RenderContext.prototype = {
 	}
 	,__class__: rev_core_RenderContext
 };
-var rev_core_Text = function(font,parent) {
+var rev_core_Text = function(width,height,font,parent) {
 	rev_core_Drawable.call(this,parent);
 	this.textColor = 16777215;
+	this.texture = kha_Image.createRenderTarget(width,height);
 	this.font = font;
 	this.text = "";
+	this.g2 = new rev_core_Graphics(this.texture.get_g2());
 };
 $hxClasses["rev.core.Text"] = rev_core_Text;
 rev_core_Text.__name__ = true;
@@ -23225,7 +23381,7 @@ rev_core_Text.prototype = $extend(rev_core_Drawable.prototype,{
 	,drawText: function(text,position) {
 		this.begin();
 		this.setText(text);
-		rev_core_RenderContext.drawText(this.text,position.add(this.position));
+		this.g2.drawText(this.text,position);
 		this.end();
 	}
 	,setColor: function(color) {
@@ -23235,9 +23391,10 @@ rev_core_Text.prototype = $extend(rev_core_Drawable.prototype,{
 		this.textColor = 16777215;
 	}
 	,begin: function() {
-		rev_core_RenderContext.set_font(this.font);
-		rev_core_RenderContext.set_fontSize(this.fontSize);
-		rev_core_RenderContext.set_color(this.textColor);
+		this.g2.set_font(this.font);
+		this.g2.set_fontSize(this.fontSize);
+		this.g2.set_color(this.textColor);
+		this.g2.begin();
 	}
 	,__class__: rev_core_Text
 });

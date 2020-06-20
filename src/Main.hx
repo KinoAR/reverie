@@ -16,6 +16,7 @@ import rev.input.Mouse;
 import macros.MacroTest;
 import rev.core.Interactive;
 import rev.nodes.Node2D;
+import rev.core.Graphics;
 
 class Main {
 	public static var debugFont:kha.Font;
@@ -46,29 +47,40 @@ class Main {
 		final g2 = fb.g2;
 		var rc = RenderContext;
 		var renderTarget = Image.createRenderTarget(screenWidth, screenHeight);
-		rc.setupContext(renderTarget.g2);	
+		var graphics = new Graphics(renderTarget.g2);
+		graphics.begin();
+		graphics.drawRect(new V2(100, 100), 100, 100, 1);
+		graphics.end();
+		// rc.setupContext(renderTarget.g2);	
 		
-		// Start drawing, and clear the framebuffer to `petrol`
-		rc.begin(true, Color.fromBytes(0, 95, 106));
+		// // Start drawing, and clear the framebuffer to `petrol`
+		// rc.begin(true, Color.fromBytes(0, 95, 106));
 		
 		// Offset all following drawing operations from the top-left a bit
 		// rc.pushTranslation(new V2(64, 64));
 		// Fill the following rects with red
-		var bitmap = new Bitmap();
+		var bitmap = new Bitmap(400, 400);
+		// bitmap.drawRect(new V2(10, 10), 100, 100);
+		
 		// rc.font = 
-		var text = new Text(debugFont);
+		//Scales to appropriate size
+		var text = new Text(screenWidth, screenWidth,debugFont);
 		bitmap.setColor(0xFFFFFFFF);
 		bitmap.setOpacity(0.5);
 		bitmap.setPosition(new V2(200, 100));
-		bitmap.drawRect(new V2(50, 40), 300, 300, 2.0);
+		bitmap.drawRect(new V2(50, 40), 30, 30, 2.0);
 		bitmap.resetColor();
 		bitmap.drawImage(exampleImage, new V2(30, 30));
 		bitmap.setOpacity(1.0);
 		bitmap.setColor(Color.Red);
-		bitmap.drawRect(new V2(100, 100), 300, 300, 2.0);
-		text.fontSize = 24;
-		text.drawText("Hello Kha", new V2(150, 150));
-		renderTarget.g2.drawString("Hello Kha", 150, 150);
+		bitmap.drawRect(new V2(100, 100), 40, 40, 2.0);
+		var b2 =new Bitmap(400, 400);
+		b2.setColor(Color.Red);
+		b2.drawRect(new V2(100, 100), 40, 40, 2.0);
+		
+		text.fontSize = 100;
+		text.textColor = Color.Red;
+		text.drawText("Hello Kha", new V2(0, 0));
 		var testInteractive = new Interactive(text);
 		testInteractive.onMouseDown = (button, x, y) -> {
 			trace(testInteractive.entity.text);
@@ -79,11 +91,12 @@ class Main {
 		// rc.popTransformation();
 		// Finish the drawing operations
 		var node = new Node2D();
-		trace(node.name);
-		rc.end();
-
-		g2.begin();
+		// rc.end();
+		g2.begin();	
+		//Next Level -- > Abstract this into draw order for higher level systems
 		Scaler.scale(renderTarget, frames[0], System.screenRotation);
+		Scaler.scale(bitmap.texture, frames[0], System.screenRotation);
+		Scaler.scale(text.texture, frames[0], System.screenRotation);
 		g2.end();
 	}
 

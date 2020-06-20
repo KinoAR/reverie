@@ -1,6 +1,8 @@
 package rev.core;
 import math.V2;
 import kha.Font;
+import kha.Image;
+import rev.core.Graphics;
 
 class Text extends Drawable {
 
@@ -13,13 +15,15 @@ class Text extends Drawable {
   public var textHeight (get, null): Float;
   public var textWidth (get, null) :Float;
   public var text:String;
-  // public var text (get,set):String;
 
-  public function new(font:kha.Font, ?parent:Object) {
+
+  public function new(width:Int, height:Int,font:kha.Font, ?parent:Object) {
     super(parent);
     this.textColor = 0xFFFFFF;
+    this.texture = Image.createRenderTarget(width, height);
     this.font = font;
     this.text = "";
+    this.g2 = new Graphics(this.texture.g2);
   }
 
 
@@ -51,7 +55,7 @@ class Text extends Drawable {
   public function drawText(text:String, position:V2) {
     this.begin();
     this.setText(text);
-    RenderContext.drawText(this.text, position.add(this.position));
+    this.g2.drawText(this.text, position);
     this.end();
   }
 
@@ -64,8 +68,9 @@ class Text extends Drawable {
   }
 
   public override function begin() {
-    RenderContext.font = this.font;
-    RenderContext.fontSize = this.fontSize;
-    RenderContext.color = this.textColor;
+    this.g2.font = this.font;
+    this.g2.fontSize = this.fontSize;
+    this.g2.color = this.textColor;
+    this.g2.begin();
   }
 }
