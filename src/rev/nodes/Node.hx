@@ -18,10 +18,12 @@ class Node {
 
   public function addChild(child:Node) {
     this.children.push(child);
+    child.parent = this;
   }
 
   public function addChildAt(index:Int, child:Node) {
     this.children.insert(index, child);
+    child.parent = this;
   }
 
   public function removeChildAt(index:Int) : Node {

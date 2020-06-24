@@ -1,13 +1,13 @@
 package rev.nodes;
 
 import macros.RMacros;
-import kha.Image;
+import rev.core.Types;
 
-class Sprite extends Node2D {
-  public var width:Int;
-  public var height:Int;
+class AnimatedSprite extends Node {
+  public var frameWidth:Int;
+  public var frameHeight:Int;
   public var texture:Image;
-  var _textureCanvas:Image;
+  private var _textureCanvas:Image;
 
   public function new() {
     super();
@@ -16,10 +16,11 @@ class Sprite extends Node2D {
 
   public function setTexture(texture:Image) {
     this.texture = texture;
-    this._textureCanvas = Image.createRenderTarget(texture.width, texture.height);
+    this._textureCanvas = Image.createRenderTarget(frameWidth, frameHeight);
   }
 
   public function getTexture():Image {
     return this.texture;
   }
+
 }

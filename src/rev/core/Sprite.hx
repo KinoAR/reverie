@@ -11,16 +11,14 @@ using Lambda;
  * bitmaps, sprites, and graphics.
  */
 class Sprite extends Drawable {
-  public var texture:Image;
   public var children:Array<Object>;
   public var frameSize:V2;
   public var hFrames:Int;
   public var vFrames:Int;
   public var frameCount:Int;
 
-  public function new(rc:RenderContext, ?parent: Object) {
-    super(rc,parent);
-
+  public function new( ?parent: Object) {
+    super(parent);
   }
 
   public function setTexture(texture:Image) {
