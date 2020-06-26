@@ -17,6 +17,7 @@ import macros.MacroTest;
 import rev.core.Interactive;
 import rev.nodes.Node2D;
 import rev.core.Graphics;
+import hxmath.math.Vector2;
 
 class Main {
 	public static var debugFont:kha.Font;
@@ -86,6 +87,10 @@ class Main {
 			trace(testInteractive.entity.text);
 			trace("Mouse Down Check");
 		}
+
+		var d = new V2(1, 1);
+		var k = d + d;
+		trace(k);
 
 		// Pop the pushed translation so it will not accumulate over multiple frames
 		// rc.popTransformation();

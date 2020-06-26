@@ -8,6 +8,7 @@ project.addShaders('shaders/**');
 project.addSources('src');
 
 project.addLibrary("echo");
+project.addLibrary("hxmath");
 
 
 resolve(project);

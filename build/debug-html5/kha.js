@@ -135,31 +135,44 @@ Main.render = function(frames) {
 	var renderTarget = kha_Image.createRenderTarget(800,600);
 	var graphics = new rev_core_Graphics(renderTarget.get_g2());
 	graphics.begin();
-	graphics.drawRect(new math_V2(100,100),100,100,1);
+	var this1 = new math_V2Base(100,100);
+	graphics.drawRect(this1,100,100,1);
 	graphics.end();
 	var bitmap = new rev_core_Bitmap(400,400);
 	var text = new rev_core_Text(800,800,Main.debugFont);
 	bitmap.setColor(-1);
 	bitmap.setOpacity(0.5);
-	bitmap.setPosition(new math_V2(200,100));
-	bitmap.drawRect(new math_V2(50,40),30,30,2.0);
+	var this2 = new math_V2Base(200,100);
+	bitmap.setPosition(this2);
+	var this3 = new math_V2Base(50,40);
+	bitmap.drawRect(this3,30,30,2.0);
 	bitmap.resetColor();
-	bitmap.drawImage(Main.exampleImage,new math_V2(30,30));
+	var tmp = Main.exampleImage;
+	var this4 = new math_V2Base(30,30);
+	bitmap.drawImage(tmp,this4);
 	bitmap.setOpacity(1.0);
 	bitmap.setColor(-65536);
-	bitmap.drawRect(new math_V2(100,100),40,40,2.0);
+	var this5 = new math_V2Base(100,100);
+	bitmap.drawRect(this5,40,40,2.0);
 	var b2 = new rev_core_Bitmap(400,400);
 	b2.setColor(-65536);
-	b2.drawRect(new math_V2(100,100),40,40,2.0);
+	var this6 = new math_V2Base(100,100);
+	b2.drawRect(this6,40,40,2.0);
 	text.fontSize = 100;
 	text.textColor = -65536;
-	text.drawText("Hello Kha",new math_V2(0,0));
+	var this7 = new math_V2Base(0,0);
+	text.drawText("Hello Kha",this7);
 	var testInteractive = new rev_core_Interactive(text);
 	testInteractive.set_onMouseDown(function(button,x,y) {
-		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 85, className : "Main", methodName : "render"});
-		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 86, className : "Main", methodName : "render"});
+		haxe_Log.trace(testInteractive.entity.text,{ fileName : "Main.hx", lineNumber : 87, className : "Main", methodName : "render"});
+		haxe_Log.trace("Mouse Down Check",{ fileName : "Main.hx", lineNumber : 88, className : "Main", methodName : "render"});
 		return;
 	});
+	var d_x = 1;
+	var d_y = 1;
+	var this8 = new math_V2Base(d_x + d_x,d_y + d_y);
+	var k = this8;
+	haxe_Log.trace(k,{ fileName : "Main.hx", lineNumber : 93, className : "Main", methodName : "render"});
 	var node = new rev_nodes_Node2D();
 	g2.begin();
 	kha_Scaler.scale(renderTarget,frames[0],kha_System.get_screenRotation());
@@ -1326,6 +1339,4220 @@ haxe_io__$UInt8Array_UInt8Array_$Impl_$.fromBytes = function(bytes,bytePos,lengt
 		length = bytes.length - bytePos;
 	}
 	return new Uint8Array(bytes.b.bufferValue,bytePos,length);
+};
+var hxmath_math_IntVector2Default = function(x,y) {
+	this.x = x;
+	this.y = y;
+};
+$hxClasses["hxmath.math.IntVector2Default"] = hxmath_math_IntVector2Default;
+hxmath_math_IntVector2Default.__name__ = true;
+hxmath_math_IntVector2Default.prototype = {
+	x: null
+	,y: null
+	,toString: function() {
+		return "(" + this.x + ", " + this.y + ")";
+	}
+	,__class__: hxmath_math_IntVector2Default
+};
+var hxmath_math__$IntVector2_IntVector2_$Impl_$ = {};
+$hxClasses["hxmath.math._IntVector2.IntVector2_Impl_"] = hxmath_math__$IntVector2_IntVector2_$Impl_$;
+hxmath_math__$IntVector2_IntVector2_$Impl_$.__name__ = true;
+hxmath_math__$IntVector2_IntVector2_$Impl_$._new = function(x,y) {
+	var this1 = new hxmath_math_IntVector2Default(x,y);
+	return this1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 2) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(rawData[0],rawData[1]);
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.toVector2 = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector2Default(self.x,self.y);
+	return this2;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.dot = function(a,b) {
+	return a.x * b.x + a.y * b.y;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.multiply = function(a,s) {
+	var self = a;
+	var self1 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self.x,self.y);
+	self1.x *= s;
+	self1.y *= s;
+	return self1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.add = function(a,b) {
+	var self = a;
+	var self1 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self.x,self.y);
+	self1.x += b.x;
+	self1.y += b.y;
+	return self1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var self1 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self.x,self.y);
+	self1.x -= b.x;
+	self1.y -= b.y;
+	return self1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.negate = function(a) {
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(-a.x,-a.y);
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.x == b.x) {
+			return a.y == b.y;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.max = function(a,b) {
+	var self = a;
+	var self1 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self.x,self.y);
+	var a1 = self1.x;
+	var b1 = b.x;
+	self1.x = b1 > a1 ? b1 : a1;
+	var a2 = self1.y;
+	var b2 = b.y;
+	self1.y = b2 > a2 ? b2 : a2;
+	return self1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.min = function(a,b) {
+	var self = a;
+	var self1 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self.x,self.y);
+	var a1 = self1.x;
+	var b1 = b.x;
+	self1.x = b1 < a1 ? b1 : a1;
+	var a2 = self1.y;
+	var b2 = b.y;
+	self1.y = b2 < a2 ? b2 : a2;
+	return self1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.set = function(this1,x,y) {
+	var self = this1;
+	self.x = x;
+	self.y = y;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.multiplyWith = function(this1,s) {
+	var self = this1;
+	self.x *= s;
+	self.y *= s;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.x += a.x;
+	self.y += a.y;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.x -= a.x;
+	self.y -= a.y;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.maxWith = function(this1,a) {
+	var self = this1;
+	var a1 = self.x;
+	var b = a.x;
+	self.x = b > a1 ? b : a1;
+	var a2 = self.y;
+	var b1 = a.y;
+	self.y = b1 > a2 ? b1 : a2;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.minWith = function(this1,a) {
+	var self = this1;
+	var a1 = self.x;
+	var b = a.x;
+	self.x = b < a1 ? b : a1;
+	var a2 = self.y;
+	var b1 = a.y;
+	self.y = b1 < a2 ? b1 : a2;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.x;
+	var self2 = target;
+	self2.x = value;
+	var self3 = self;
+	var value1 = self3.y;
+	var self4 = target;
+	self4.y = value1;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.clone = function(this1) {
+	var self = this1;
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self.x,self.y);
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x;
+	case 1:
+		return self.y;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x = value;
+	case 1:
+		return self.y = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.applyNegate = function(this1) {
+	var self = this1;
+	self.x = -self.x;
+	self.y = -self.y;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.x);
+	var self2 = self;
+	self2.x = value;
+	var self3 = self;
+	var value1 = func(self3.y);
+	var self4 = self;
+	self4.y = value1;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.rotateLeft = function(this1) {
+	var self = this1;
+	var newX = -self.y;
+	self.y = self.x;
+	self.x = newX;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.rotateRight = function(this1) {
+	var self = this1;
+	var newX = self.y;
+	self.y = -self.x;
+	self.x = newX;
+	return self;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.get_zero = function() {
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(0,0);
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.get_xAxis = function() {
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(1,0);
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.get_yAxis = function() {
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(0,1);
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.get_lengthSq = function(this1) {
+	var self = this1;
+	return self.x * self.x + self.y * self.y;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.get_rotatedLeft = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var self2 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self1.x,self1.y);
+	var newX = -self2.y;
+	self2.y = self2.x;
+	self2.x = newX;
+	return self2;
+};
+hxmath_math__$IntVector2_IntVector2_$Impl_$.get_rotatedRight = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var self2 = hxmath_math__$IntVector2_IntVector2_$Impl_$._new(self1.x,self1.y);
+	var newX = self2.y;
+	self2.y = -self2.x;
+	self2.x = newX;
+	return self2;
+};
+var hxmath_math_MathUtil = function() { };
+$hxClasses["hxmath.math.MathUtil"] = hxmath_math_MathUtil;
+hxmath_math_MathUtil.__name__ = true;
+hxmath_math_MathUtil.intMax = function(a,b) {
+	if(b > a) {
+		return b;
+	} else {
+		return a;
+	}
+};
+hxmath_math_MathUtil.intMin = function(a,b) {
+	if(b < a) {
+		return b;
+	} else {
+		return a;
+	}
+};
+hxmath_math_MathUtil.lerpCyclic = function(a,b,t,max) {
+	if(Math.abs(a - b) > 0.5 * max) {
+		if(a < b) {
+			a += max;
+		} else {
+			b += max;
+		}
+	}
+	var x = (1.0 - t) * a + t * b;
+	if(x < 0) {
+		return max - -x % max;
+	} else {
+		return x % max;
+	}
+};
+hxmath_math_MathUtil.sign = function(x,w) {
+	if(w == null) {
+		w = 0;
+	}
+	if(Math.abs(x) < w) {
+		return 0;
+	} else if(x <= -w) {
+		return -1;
+	} else {
+		return 1;
+	}
+};
+hxmath_math_MathUtil.rangeDistance = function(aStart,aWidth,bStart,bWidth) {
+	if(aStart + aWidth < bStart) {
+		return bStart - (aStart + aWidth);
+	} else if(bStart + bWidth < aStart) {
+		return aStart - (bStart + bWidth);
+	} else {
+		return 0;
+	}
+};
+hxmath_math_MathUtil.openRangeContains = function(aStart,aWidth,x) {
+	if(x > aStart) {
+		return x < aStart + aWidth;
+	} else {
+		return false;
+	}
+};
+hxmath_math_MathUtil.openRangesIntersect = function(aStart,aWidth,bStart,bWidth) {
+	return !(aStart >= bStart + bWidth || bStart >= aStart + aWidth);
+};
+hxmath_math_MathUtil.closedRangeContains = function(aStart,aWidth,x) {
+	if(x >= aStart) {
+		return x <= aStart + aWidth;
+	} else {
+		return false;
+	}
+};
+hxmath_math_MathUtil.radToDeg = function(rad) {
+	return 180 / Math.PI * rad;
+};
+hxmath_math_MathUtil.degToRad = function(deg) {
+	return Math.PI / 180 * deg;
+};
+hxmath_math_MathUtil.wrap = function(x,n) {
+	if(x < 0) {
+		return n - -x % n;
+	} else {
+		return x % n;
+	}
+};
+hxmath_math_MathUtil.clamp = function(value,min,max) {
+	if(value < min) {
+		return min;
+	} else if(value > max) {
+		return max;
+	} else {
+		return value;
+	}
+};
+hxmath_math_MathUtil.orient2d = function(a,b,c) {
+	var result = (a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x);
+	if(result > 0) {
+		return 1;
+	} else if(result < 0) {
+		return -1;
+	} else {
+		return 0;
+	}
+};
+hxmath_math_MathUtil.det2x2 = function(m00,m10,m01,m11) {
+	return m00 * m11 - m10 * m01;
+};
+hxmath_math_MathUtil.det3x3 = function(m00,m10,m20,m01,m11,m21,m02,m12,m22) {
+	return m00 * (m11 * m22 - m21 * m12) - m10 * (m01 * m22 - m21 * m02) + m20 * (m01 * m12 - m11 * m02);
+};
+hxmath_math_MathUtil.det4x4 = function(m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33) {
+	return m00 * (m11 * (m22 * m33 - m32 * m23) - m21 * (m12 * m33 - m32 * m13) + m31 * (m12 * m23 - m22 * m13)) - m10 * (m01 * (m22 * m33 - m32 * m23) - m21 * (m02 * m33 - m32 * m03) + m31 * (m02 * m23 - m22 * m03)) + m20 * (m01 * (m12 * m33 - m32 * m13) - m11 * (m02 * m33 - m32 * m03) + m31 * (m02 * m13 - m12 * m03)) - m30 * (m01 * (m12 * m23 - m22 * m13) - m11 * (m02 * m23 - m22 * m03) + m21 * (m02 * m13 - m12 * m03));
+};
+var hxmath_math_Matrix2x2Default = function(a,b,c,d) {
+	this.a = a;
+	this.b = b;
+	this.c = c;
+	this.d = d;
+};
+$hxClasses["hxmath.math.Matrix2x2Default"] = hxmath_math_Matrix2x2Default;
+hxmath_math_Matrix2x2Default.__name__ = true;
+hxmath_math_Matrix2x2Default.prototype = {
+	a: null
+	,b: null
+	,c: null
+	,d: null
+	,toString: function() {
+		return "[a: " + this.a + ", b: " + this.b + ", c: " + this.c + ", d: " + this.d + "]";
+	}
+	,__class__: hxmath_math_Matrix2x2Default
+};
+var hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$ = {};
+$hxClasses["hxmath.math._Matrix2x2.Matrix2x2_Impl_"] = hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$;
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.__name__ = true;
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$._new = function(a,b,c,d) {
+	var this1 = new hxmath_math_Matrix2x2Default(a,b,c,d);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 4) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Matrix2x2Default(rawData[0],rawData[1],rawData[2],rawData[3]);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.fromMatrix2x2Shape = function(other) {
+	var this1 = new hxmath_math_Matrix2x2Default(other.a,other.b,other.c,other.d);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.multiplyScalar = function(s,m) {
+	var this1 = new hxmath_math_Matrix2x2Default(s * m.a,s * m.b,s * m.c,s * m.d);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.multiplyVector = function(m,v) {
+	var this1 = new hxmath_math_Vector2Default(m.a * v.x + m.c * v.y,m.b * v.x + m.d * v.y);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.multiply = function(m,n) {
+	var this1 = new hxmath_math_Matrix2x2Default(m.a * n.a + m.c * n.b,m.a * n.c + m.c * n.d,m.b * n.a + m.d * n.b,m.b * n.c + m.d * n.d);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.add = function(m,n) {
+	var self = m;
+	var this1 = new hxmath_math_Matrix2x2Default(self.a,self.b,self.c,self.d);
+	var self1 = this1;
+	self1.a += n.a;
+	self1.b += n.b;
+	self1.c += n.c;
+	self1.d += n.d;
+	return self1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.subtract = function(m,n) {
+	var self = m;
+	var this1 = new hxmath_math_Matrix2x2Default(self.a,self.b,self.c,self.d);
+	var self1 = this1;
+	self1.a -= n.a;
+	self1.b -= n.b;
+	self1.c -= n.c;
+	self1.d -= n.d;
+	return self1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.negate = function(m) {
+	var this1 = new hxmath_math_Matrix2x2Default(-m.a,-m.b,-m.c,-m.d);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.equals = function(m,n) {
+	if(!(m == null && n == null)) {
+		if(m != null && n != null && m.a == n.a && m.b == n.b && m.c == n.c) {
+			return m.d == n.d;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.rotate = function(angle) {
+	var this1 = new hxmath_math_Matrix2x2Default(0.0,0.0,0.0,0.0);
+	var self = this1;
+	var s = Math.sin(angle);
+	var c = Math.cos(angle);
+	self.a = c;
+	self.b = s;
+	self.c = -s;
+	self.d = c;
+	return self;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.scale = function(sx,sy) {
+	var this1 = new hxmath_math_Matrix2x2Default(sx,0.0,0.0,sy);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.setRotate = function(this1,angle) {
+	var self = this1;
+	var s = Math.sin(angle);
+	var c = Math.cos(angle);
+	self.a = c;
+	self.b = s;
+	self.c = -s;
+	self.d = c;
+	return self;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.set = function(this1,a,b,c,d) {
+	var self = this1;
+	self.a = a;
+	self.b = b;
+	self.c = c;
+	self.d = d;
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.addWith = function(this1,m) {
+	var self = this1;
+	self.a += m.a;
+	self.b += m.b;
+	self.c += m.c;
+	self.d += m.d;
+	return self;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.subtractWith = function(this1,m) {
+	var self = this1;
+	self.a -= m.a;
+	self.b -= m.b;
+	self.c -= m.c;
+	self.d -= m.d;
+	return self;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.a;
+	var self2 = target;
+	self2.a = value;
+	var self3 = self;
+	var value1 = self3.b;
+	var self4 = target;
+	self4.b = value1;
+	var self5 = self;
+	var value2 = self5.c;
+	var self6 = target;
+	self6.c = value2;
+	var self7 = self;
+	var value3 = self7.d;
+	var self8 = target;
+	self8.d = value3;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.a = self.a;
+	target.b = self.b;
+	target.c = self.c;
+	target.d = self.d;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.a = source.a;
+	self.b = source.b;
+	self.c = source.c;
+	self.d = source.d;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix2x2Default(self.a,self.b,self.c,self.d);
+	return this2;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.a;
+	case 1:
+		return self.b;
+	case 2:
+		return self.c;
+	case 3:
+		return self.d;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.a = value;
+	case 1:
+		return self.b = value;
+	case 2:
+		return self.c = value;
+	case 3:
+		return self.d = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.getElement = function(this1,column,row) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 2 + column) {
+	case 0:
+		return self1.a;
+	case 1:
+		return self1.b;
+	case 2:
+		return self1.c;
+	case 3:
+		return self1.d;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.setElement = function(this1,column,row,value) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 2 + column) {
+	case 0:
+		return self1.a = value;
+	case 1:
+		return self1.b = value;
+	case 2:
+		return self1.c = value;
+	case 3:
+		return self1.d = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.col = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector2Default(self.a,self.b);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector2Default(self.c,self.d);
+		return this3;
+	default:
+		throw new js__$Boot_HaxeError("Invalid column");
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.row = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector2Default(self.a,self.c);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector2Default(self.b,self.d);
+		return this3;
+	default:
+		throw new js__$Boot_HaxeError("Invalid row");
+	}
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.transposeMultiplyVector = function(this1,v) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector2Default(self.a * v.x + self.b * v.y,self.c * v.x + self.d * v.y);
+	return this2;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.a);
+	var self2 = self;
+	self2.a = value;
+	var self3 = self;
+	var value1 = func(self3.b);
+	var self4 = self;
+	self4.b = value1;
+	var self5 = self;
+	var value2 = func(self5.c);
+	var self6 = self;
+	self6.c = value2;
+	var self7 = self;
+	var value3 = func(self7.d);
+	var self8 = self;
+	self8.d = value3;
+	return self;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Matrix2x2Default(0.0,0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.get_identity = function() {
+	var this1 = new hxmath_math_Matrix2x2Default(1.0,0.0,0.0,1.0);
+	return this1;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.get_det = function(this1) {
+	var self = this1;
+	return self.a * self.d - self.c * self.b;
+};
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.get_transpose = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix2x2Default(self.a,self.c,self.b,self.d);
+	return this2;
+};
+var hxmath_math_Matrix3x2Default = function(a,b,c,d,tx,ty) {
+	this.a = a;
+	this.b = b;
+	this.c = c;
+	this.d = d;
+	this.tx = tx;
+	this.ty = ty;
+};
+$hxClasses["hxmath.math.Matrix3x2Default"] = hxmath_math_Matrix3x2Default;
+hxmath_math_Matrix3x2Default.__name__ = true;
+hxmath_math_Matrix3x2Default.prototype = {
+	a: null
+	,b: null
+	,c: null
+	,d: null
+	,tx: null
+	,ty: null
+	,toString: function() {
+		return "[a: " + this.a + ", b: " + this.b + ", c: " + this.c + ", d: " + this.d + ", tx: " + this.tx + ", ty: " + this.ty + "]";
+	}
+	,__class__: hxmath_math_Matrix3x2Default
+};
+var hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$ = {};
+$hxClasses["hxmath.math._Matrix3x2.Matrix3x2_Impl_"] = hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$;
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.__name__ = true;
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$._new = function(a,b,c,d,tx,ty) {
+	var this1 = new hxmath_math_Matrix3x2Default(a,b,c,d,tx,ty);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 6) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Matrix3x2Default(rawData[0],rawData[1],rawData[2],rawData[3],rawData[4],rawData[5]);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.fromMatrix3x2Shape = function(other) {
+	var this1 = new hxmath_math_Matrix3x2Default(other.a,other.b,other.c,other.d,other.tx,other.ty);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.multiplyScalar = function(s,m) {
+	var this1 = new hxmath_math_Matrix3x2Default(s * m.a,s * m.b,s * m.c,s * m.d,s * m.tx,s * m.ty);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.transform = function(m,v) {
+	var self = m;
+	var this1 = new hxmath_math_Matrix2x2Default(self.a,self.b,self.c,self.d);
+	var m1 = this1;
+	var this2 = new hxmath_math_Vector2Default(m1.a * v.x + m1.c * v.y,m1.b * v.x + m1.d * v.y);
+	var self1 = m;
+	var this3 = new hxmath_math_Vector2Default(self1.tx,self1.ty);
+	var b = this3;
+	var self2 = this2;
+	var this4 = new hxmath_math_Vector2Default(self2.x,self2.y);
+	var self3 = this4;
+	self3.x += b.x;
+	self3.y += b.y;
+	return self3;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.concat = function(m,n) {
+	var self = m;
+	var this1 = new hxmath_math_Matrix2x2Default(self.a,self.b,self.c,self.d);
+	var mLinear = this1;
+	var self1 = n;
+	var this2 = new hxmath_math_Matrix2x2Default(self1.a,self1.b,self1.c,self1.d);
+	var nLinear = this2;
+	var this3 = new hxmath_math_Matrix2x2Default(mLinear.a * nLinear.a + mLinear.c * nLinear.b,mLinear.a * nLinear.c + mLinear.c * nLinear.d,mLinear.b * nLinear.a + mLinear.d * nLinear.b,mLinear.b * nLinear.c + mLinear.d * nLinear.d);
+	var resultLinear = this3;
+	var this4 = new hxmath_math_Vector2Default(m.tx,m.ty);
+	var v = this4;
+	var this5 = new hxmath_math_Vector2Default(nLinear.a * v.x + nLinear.c * v.y,nLinear.b * v.x + nLinear.d * v.y);
+	var this6 = new hxmath_math_Vector2Default(n.tx,n.ty);
+	var b = this6;
+	var self2 = this5;
+	var this7 = new hxmath_math_Vector2Default(self2.x,self2.y);
+	var self3 = this7;
+	self3.x += b.x;
+	self3.y += b.y;
+	var resultAffine = self3;
+	var this8 = new hxmath_math_Matrix3x2Default(resultLinear.a,resultLinear.b,resultLinear.c,resultLinear.d,resultAffine.x,resultAffine.y);
+	return this8;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.add = function(m,n) {
+	var self = m;
+	var this1 = new hxmath_math_Matrix3x2Default(self.a,self.b,self.c,self.d,self.tx,self.ty);
+	var self1 = this1;
+	self1.a += n.a;
+	self1.b += n.b;
+	self1.c += n.c;
+	self1.d += n.d;
+	self1.tx += n.tx;
+	self1.ty += n.ty;
+	return self1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.subtract = function(m,n) {
+	var self = m;
+	var this1 = new hxmath_math_Matrix3x2Default(self.a,self.b,self.c,self.d,self.tx,self.ty);
+	var self1 = this1;
+	self1.a -= n.a;
+	self1.b -= n.b;
+	self1.c -= n.c;
+	self1.d -= n.d;
+	self1.tx -= n.tx;
+	self1.ty -= n.ty;
+	return self1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.negate = function(m) {
+	var this1 = new hxmath_math_Matrix3x2Default(-m.a,-m.b,-m.c,-m.d,-m.tx,-m.ty);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.equals = function(m,n) {
+	if(!(m == null && n == null)) {
+		if(m != null && n != null && m.a == n.a && m.b == n.b && m.c == n.c && m.d == n.d && m.tx == n.tx) {
+			return m.ty == n.ty;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.rotate = function(angle) {
+	var this1 = new hxmath_math_Matrix3x2Default(1.0,0.0,0.0,1.0,0.0,0.0);
+	var m = this1;
+	var this2 = new hxmath_math_Matrix2x2Default(0.0,0.0,0.0,0.0);
+	var self = this2;
+	var s = Math.sin(angle);
+	var c = Math.cos(angle);
+	self.a = c;
+	self.b = s;
+	self.c = -s;
+	self.d = c;
+	var value = self;
+	var self1 = m;
+	self1.a = value.a;
+	self1.b = value.b;
+	self1.c = value.c;
+	self1.d = value.d;
+	return m;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.translate = function(v) {
+	var this1 = new hxmath_math_Matrix3x2Default(1.0,0.0,0.0,1.0,0.0,0.0);
+	var m = this1;
+	var self = m;
+	self.tx = v.x;
+	self.ty = v.y;
+	return m;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.orbit = function(center,angle) {
+	var this1 = new hxmath_math_Matrix3x2Default(1.0,0.0,0.0,1.0,0.0,0.0);
+	var m = this1;
+	var this2 = new hxmath_math_Matrix2x2Default(0.0,0.0,0.0,0.0);
+	var self = this2;
+	var s = Math.sin(angle);
+	var c = Math.cos(angle);
+	self.a = c;
+	self.b = s;
+	self.c = -s;
+	self.d = c;
+	var value = self;
+	var self1 = m;
+	self1.a = value.a;
+	self1.b = value.b;
+	self1.c = value.c;
+	self1.d = value.d;
+	var self2 = m;
+	var this3 = new hxmath_math_Matrix2x2Default(self2.a,self2.b,self2.c,self2.d);
+	var m1 = this3;
+	var this4 = new hxmath_math_Vector2Default(m1.a * center.x + m1.c * center.y,m1.b * center.x + m1.d * center.y);
+	var b = this4;
+	var self3 = center;
+	var this5 = new hxmath_math_Vector2Default(self3.x,self3.y);
+	var self4 = this5;
+	self4.x -= b.x;
+	self4.y -= b.y;
+	var t = self4;
+	var self5 = m;
+	self5.tx = t.x;
+	self5.ty = t.y;
+	return m;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.a;
+	var self2 = target;
+	self2.a = value;
+	var self3 = self;
+	var value1 = self3.b;
+	var self4 = target;
+	self4.b = value1;
+	var self5 = self;
+	var value2 = self5.tx;
+	var self6 = target;
+	self6.tx = value2;
+	var self7 = self;
+	var value3 = self7.c;
+	var self8 = target;
+	self8.c = value3;
+	var self9 = self;
+	var value4 = self9.d;
+	var self10 = target;
+	self10.d = value4;
+	var self11 = self;
+	var value5 = self11.ty;
+	var self12 = target;
+	self12.ty = value5;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.a = self.a;
+	target.b = self.b;
+	target.c = self.c;
+	target.d = self.d;
+	target.tx = self.tx;
+	target.ty = self.ty;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.a = source.a;
+	self.b = source.b;
+	self.c = source.c;
+	self.d = source.d;
+	self.tx = source.tx;
+	self.ty = source.ty;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.setRotate = function(this1,angle) {
+	var self = this1;
+	var s = Math.sin(angle);
+	var c = Math.cos(angle);
+	self.a = c;
+	self.b = s;
+	self.c = -s;
+	self.d = c;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.setTranslate = function(this1,x,y) {
+	var self = this1;
+	self.tx = x;
+	self.ty = y;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.set = function(this1,a,b,c,d,tx,ty) {
+	var self = this1;
+	self.a = a;
+	self.b = b;
+	self.c = c;
+	self.d = d;
+	self.tx = tx;
+	self.ty = ty;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.addWith = function(this1,m) {
+	var self = this1;
+	self.a += m.a;
+	self.b += m.b;
+	self.c += m.c;
+	self.d += m.d;
+	self.tx += m.tx;
+	self.ty += m.ty;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.subtractWith = function(this1,m) {
+	var self = this1;
+	self.a -= m.a;
+	self.b -= m.b;
+	self.c -= m.c;
+	self.d -= m.d;
+	self.tx -= m.tx;
+	self.ty -= m.ty;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix3x2Default(self.a,self.b,self.c,self.d,self.tx,self.ty);
+	return this2;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.a;
+	case 1:
+		return self.b;
+	case 2:
+		return self.tx;
+	case 3:
+		return self.c;
+	case 4:
+		return self.d;
+	case 5:
+		return self.ty;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.a = value;
+	case 1:
+		return self.b = value;
+	case 2:
+		return self.tx = value;
+	case 3:
+		return self.c = value;
+	case 4:
+		return self.d = value;
+	case 5:
+		return self.ty = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.getElement = function(this1,column,row) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 3 + column) {
+	case 0:
+		return self1.a;
+	case 1:
+		return self1.b;
+	case 2:
+		return self1.tx;
+	case 3:
+		return self1.c;
+	case 4:
+		return self1.d;
+	case 5:
+		return self1.ty;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.setElement = function(this1,column,row,value) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 3 + column) {
+	case 0:
+		return self1.a = value;
+	case 1:
+		return self1.b = value;
+	case 2:
+		return self1.tx = value;
+	case 3:
+		return self1.c = value;
+	case 4:
+		return self1.d = value;
+	case 5:
+		return self1.ty = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.col = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector2Default(self.a,self.c);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector2Default(self.b,self.d);
+		return this3;
+	case 2:
+		var this4 = new hxmath_math_Vector2Default(self.tx,self.ty);
+		return this4;
+	default:
+		throw new js__$Boot_HaxeError("Invalid column");
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.row = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector3Default(self.a,self.b,self.tx);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector3Default(self.c,self.d,self.ty);
+		return this3;
+	default:
+		throw new js__$Boot_HaxeError("Invalid row");
+	}
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.a);
+	var self2 = self;
+	self2.a = value;
+	var self3 = self;
+	var value1 = func(self3.b);
+	var self4 = self;
+	self4.b = value1;
+	var self5 = self;
+	var value2 = func(self5.tx);
+	var self6 = self;
+	self6.tx = value2;
+	var self7 = self;
+	var value3 = func(self7.c);
+	var self8 = self;
+	self8.c = value3;
+	var self9 = self;
+	var value4 = func(self9.d);
+	var self10 = self;
+	self10.d = value4;
+	var self11 = self;
+	var value5 = func(self11.ty);
+	var self12 = self;
+	self12.ty = value5;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.applySubMatrixTranspose = function(this1) {
+	var self = this1;
+	var temp = self.c;
+	self.c = self.b;
+	self.b = temp;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.applyInvertFrame = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var temp = self1.c;
+	self1.c = self1.b;
+	self1.b = temp;
+	var tx = -(self.a * self.tx + self.c * self.ty);
+	var ty = -(self.b * self.tx + self.d * self.ty);
+	self.tx = tx;
+	self.ty = ty;
+	return self;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Matrix3x2Default(0.0,0.0,0.0,0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.get_identity = function() {
+	var this1 = new hxmath_math_Matrix3x2Default(1.0,0.0,0.0,1.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.get_t = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector2Default(self.tx,self.ty);
+	return this2;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.set_t = function(this1,t) {
+	var self = this1;
+	self.tx = t.x;
+	self.ty = t.y;
+	return t;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.get_linearSubMatrix = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix2x2Default(self.a,self.b,self.c,self.d);
+	return this2;
+};
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.set_linearSubMatrix = function(this1,value) {
+	var self = this1;
+	self.a = value.a;
+	self.b = value.b;
+	self.c = value.c;
+	self.d = value.d;
+	return value;
+};
+var hxmath_math_Matrix3x3Default = function(m00,m10,m20,m01,m11,m21,m02,m12,m22) {
+	this.m00 = m00;
+	this.m10 = m10;
+	this.m20 = m20;
+	this.m01 = m01;
+	this.m11 = m11;
+	this.m21 = m21;
+	this.m02 = m02;
+	this.m12 = m12;
+	this.m22 = m22;
+};
+$hxClasses["hxmath.math.Matrix3x3Default"] = hxmath_math_Matrix3x3Default;
+hxmath_math_Matrix3x3Default.__name__ = true;
+hxmath_math_Matrix3x3Default.prototype = {
+	m00: null
+	,m01: null
+	,m02: null
+	,m10: null
+	,m11: null
+	,m12: null
+	,m20: null
+	,m21: null
+	,m22: null
+	,toString: function() {
+		return "[[" + this.m00 + ", " + this.m10 + ", " + this.m20 + "], [" + this.m01 + ", " + this.m11 + ", " + this.m21 + "], [" + this.m02 + ", " + this.m12 + ", " + this.m22 + "]]";
+	}
+	,__class__: hxmath_math_Matrix3x3Default
+};
+var hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$ = {};
+$hxClasses["hxmath.math._Matrix3x3.Matrix3x3_Impl_"] = hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$;
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.__name__ = true;
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$._new = function(m00,m10,m20,m01,m11,m21,m02,m12,m22) {
+	var this1 = new hxmath_math_Matrix3x3Default(m00,m10,m20,m01,m11,m21,m02,m12,m22);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 9) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Matrix3x3Default(rawData[0],rawData[1],rawData[2],rawData[3],rawData[4],rawData[5],rawData[6],rawData[7],rawData[8]);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.fromMatrix3x3Shape = function(other) {
+	var this1 = new hxmath_math_Matrix3x3Default(other.m00,other.m10,other.m20,other.m01,other.m11,other.m21,other.m02,other.m12,other.m22);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.multiplyScalar = function(s,a) {
+	var this1 = new hxmath_math_Matrix3x3Default(s * a.m00,s * a.m10,s * a.m20,s * a.m01,s * a.m11,s * a.m21,s * a.m02,s * a.m12,s * a.m22);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.multiplyVector = function(a,v) {
+	var this1 = new hxmath_math_Vector3Default(a.m00 * v.x + a.m10 * v.y + a.m20 * v.z,a.m01 * v.x + a.m11 * v.y + a.m21 * v.z,a.m02 * v.x + a.m12 * v.y + a.m22 * v.z);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.multiply = function(a,b) {
+	var this1 = new hxmath_math_Matrix3x3Default(a.m00 * b.m00 + a.m10 * b.m01 + a.m20 * b.m02,a.m00 * b.m10 + a.m10 * b.m11 + a.m20 * b.m12,a.m00 * b.m20 + a.m10 * b.m21 + a.m20 * b.m22,a.m01 * b.m00 + a.m11 * b.m01 + a.m21 * b.m02,a.m01 * b.m10 + a.m11 * b.m11 + a.m21 * b.m12,a.m01 * b.m20 + a.m11 * b.m21 + a.m21 * b.m22,a.m02 * b.m00 + a.m12 * b.m01 + a.m22 * b.m02,a.m02 * b.m10 + a.m12 * b.m11 + a.m22 * b.m12,a.m02 * b.m20 + a.m12 * b.m21 + a.m22 * b.m22);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.add = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Matrix3x3Default(self.m00,self.m10,self.m20,self.m01,self.m11,self.m21,self.m02,self.m12,self.m22);
+	var self1 = this1;
+	self1.m00 += b.m00;
+	self1.m10 += b.m10;
+	self1.m20 += b.m20;
+	self1.m01 += b.m01;
+	self1.m11 += b.m11;
+	self1.m21 += b.m21;
+	self1.m02 += b.m02;
+	self1.m12 += b.m12;
+	self1.m22 += b.m22;
+	return self1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Matrix3x3Default(self.m00,self.m10,self.m20,self.m01,self.m11,self.m21,self.m02,self.m12,self.m22);
+	var self1 = this1;
+	self1.m00 -= b.m00;
+	self1.m10 -= b.m10;
+	self1.m20 -= b.m20;
+	self1.m01 -= b.m01;
+	self1.m11 -= b.m11;
+	self1.m21 -= b.m21;
+	self1.m02 -= b.m02;
+	self1.m12 -= b.m12;
+	self1.m22 -= b.m22;
+	return self1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.negate = function(a) {
+	var this1 = new hxmath_math_Matrix3x3Default(-a.m00,-a.m10,-a.m20,-a.m01,-a.m11,-a.m21,-a.m02,-a.m12,-a.m22);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.m00 == b.m00 && a.m10 == b.m10 && a.m20 == b.m20 && a.m01 == b.m01 && a.m11 == b.m11 && a.m21 == b.m21 && a.m02 == b.m02 && a.m12 == b.m12) {
+			return a.m22 == b.m22;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.rotationX = function(angleDegrees) {
+	var angleRadians = Math.PI / 180 * angleDegrees;
+	var s = Math.sin(angleRadians);
+	var c = Math.cos(angleRadians);
+	var this1 = new hxmath_math_Matrix3x3Default(1,0,0,0,c,-s,0,s,c);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.rotationY = function(angleDegrees) {
+	var angleRadians = Math.PI / 180 * angleDegrees;
+	var s = Math.sin(angleRadians);
+	var c = Math.cos(angleRadians);
+	var this1 = new hxmath_math_Matrix3x3Default(c,0,s,0,1,0,-s,0,c);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.rotationZ = function(angleDegrees) {
+	var angleRadians = Math.PI / 180 * angleDegrees;
+	var s = Math.sin(angleRadians);
+	var c = Math.cos(angleRadians);
+	var this1 = new hxmath_math_Matrix3x3Default(c,-s,0,s,c,0,0,0,1);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.scale = function(sx,sy,sz) {
+	var this1 = new hxmath_math_Matrix3x3Default(sx,0.0,0.0,0.0,sy,0.0,0.0,0.0,sz);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.set = function(this1,m00,m10,m20,m01,m11,m21,m02,m12,m22) {
+	var self = this1;
+	self.m00 = m00;
+	self.m10 = m10;
+	self.m20 = m20;
+	self.m01 = m01;
+	self.m11 = m11;
+	self.m21 = m21;
+	self.m02 = m02;
+	self.m12 = m12;
+	self.m22 = m22;
+	return self;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.m00 += a.m00;
+	self.m10 += a.m10;
+	self.m20 += a.m20;
+	self.m01 += a.m01;
+	self.m11 += a.m11;
+	self.m21 += a.m21;
+	self.m02 += a.m02;
+	self.m12 += a.m12;
+	self.m22 += a.m22;
+	return self;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.m00 -= a.m00;
+	self.m10 -= a.m10;
+	self.m20 -= a.m20;
+	self.m01 -= a.m01;
+	self.m11 -= a.m11;
+	self.m21 -= a.m21;
+	self.m02 -= a.m02;
+	self.m12 -= a.m12;
+	self.m22 -= a.m22;
+	return self;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.m00;
+	var self2 = target;
+	self2.m00 = value;
+	var self3 = self;
+	var value1 = self3.m10;
+	var self4 = target;
+	self4.m10 = value1;
+	var self5 = self;
+	var value2 = self5.m20;
+	var self6 = target;
+	self6.m20 = value2;
+	var self7 = self;
+	var value3 = self7.m01;
+	var self8 = target;
+	self8.m01 = value3;
+	var self9 = self;
+	var value4 = self9.m11;
+	var self10 = target;
+	self10.m11 = value4;
+	var self11 = self;
+	var value5 = self11.m21;
+	var self12 = target;
+	self12.m21 = value5;
+	var self13 = self;
+	var value6 = self13.m02;
+	var self14 = target;
+	self14.m02 = value6;
+	var self15 = self;
+	var value7 = self15.m12;
+	var self16 = target;
+	self16.m12 = value7;
+	var self17 = self;
+	var value8 = self17.m22;
+	var self18 = target;
+	self18.m22 = value8;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.m00 = self.m00;
+	target.m01 = self.m01;
+	target.m02 = self.m02;
+	target.m10 = self.m10;
+	target.m11 = self.m11;
+	target.m12 = self.m12;
+	target.m20 = self.m20;
+	target.m21 = self.m21;
+	target.m22 = self.m22;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.m00 = source.m00;
+	self.m01 = source.m01;
+	self.m02 = source.m02;
+	self.m10 = source.m10;
+	self.m11 = source.m11;
+	self.m12 = source.m12;
+	self.m20 = source.m20;
+	self.m21 = source.m21;
+	self.m22 = source.m22;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix3x3Default(self.m00,self.m10,self.m20,self.m01,self.m11,self.m21,self.m02,self.m12,self.m22);
+	return this2;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.m00;
+	case 1:
+		return self.m10;
+	case 2:
+		return self.m20;
+	case 3:
+		return self.m01;
+	case 4:
+		return self.m11;
+	case 5:
+		return self.m21;
+	case 6:
+		return self.m02;
+	case 7:
+		return self.m12;
+	case 8:
+		return self.m22;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.m00 = value;
+	case 1:
+		return self.m10 = value;
+	case 2:
+		return self.m20 = value;
+	case 3:
+		return self.m01 = value;
+	case 4:
+		return self.m11 = value;
+	case 5:
+		return self.m21 = value;
+	case 6:
+		return self.m02 = value;
+	case 7:
+		return self.m12 = value;
+	case 8:
+		return self.m22 = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.getElement = function(this1,column,row) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 3 + column) {
+	case 0:
+		return self1.m00;
+	case 1:
+		return self1.m10;
+	case 2:
+		return self1.m20;
+	case 3:
+		return self1.m01;
+	case 4:
+		return self1.m11;
+	case 5:
+		return self1.m21;
+	case 6:
+		return self1.m02;
+	case 7:
+		return self1.m12;
+	case 8:
+		return self1.m22;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.setElement = function(this1,column,row,value) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 3 + column) {
+	case 0:
+		return self1.m00 = value;
+	case 1:
+		return self1.m10 = value;
+	case 2:
+		return self1.m20 = value;
+	case 3:
+		return self1.m01 = value;
+	case 4:
+		return self1.m11 = value;
+	case 5:
+		return self1.m21 = value;
+	case 6:
+		return self1.m02 = value;
+	case 7:
+		return self1.m12 = value;
+	case 8:
+		return self1.m22 = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.col = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector3Default(self.m00,self.m01,self.m02);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector3Default(self.m10,self.m11,self.m12);
+		return this3;
+	case 2:
+		var this4 = new hxmath_math_Vector3Default(self.m20,self.m21,self.m22);
+		return this4;
+	default:
+		throw new js__$Boot_HaxeError("Invalid column");
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.row = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector3Default(self.m00,self.m10,self.m20);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector3Default(self.m01,self.m11,self.m21);
+		return this3;
+	case 2:
+		var this4 = new hxmath_math_Vector3Default(self.m02,self.m12,self.m22);
+		return this4;
+	default:
+		throw new js__$Boot_HaxeError("Invalid row");
+	}
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.m00);
+	var self2 = self;
+	self2.m00 = value;
+	var self3 = self;
+	var value1 = func(self3.m10);
+	var self4 = self;
+	self4.m10 = value1;
+	var self5 = self;
+	var value2 = func(self5.m20);
+	var self6 = self;
+	self6.m20 = value2;
+	var self7 = self;
+	var value3 = func(self7.m01);
+	var self8 = self;
+	self8.m01 = value3;
+	var self9 = self;
+	var value4 = func(self9.m11);
+	var self10 = self;
+	self10.m11 = value4;
+	var self11 = self;
+	var value5 = func(self11.m21);
+	var self12 = self;
+	self12.m21 = value5;
+	var self13 = self;
+	var value6 = func(self13.m02);
+	var self14 = self;
+	self14.m02 = value6;
+	var self15 = self;
+	var value7 = func(self15.m12);
+	var self16 = self;
+	self16.m12 = value7;
+	var self17 = self;
+	var value8 = func(self17.m22);
+	var self18 = self;
+	self18.m22 = value8;
+	return self;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Matrix3x3Default(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.get_identity = function() {
+	var this1 = new hxmath_math_Matrix3x3Default(1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0);
+	return this1;
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.get_det = function(this1) {
+	var self = this1;
+	var m01 = self.m01;
+	var m11 = self.m11;
+	var m21 = self.m21;
+	var m02 = self.m02;
+	var m12 = self.m12;
+	var m22 = self.m22;
+	return self.m00 * (m11 * m22 - m21 * m12) - self.m10 * (m01 * m22 - m21 * m02) + self.m20 * (m01 * m12 - m11 * m02);
+};
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.get_transpose = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix3x3Default(self.m00,self.m01,self.m02,self.m10,self.m11,self.m12,self.m20,self.m21,self.m22);
+	return this2;
+};
+var hxmath_math_Matrix4x4Default = function(m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33) {
+	this.m00 = m00;
+	this.m10 = m10;
+	this.m20 = m20;
+	this.m30 = m30;
+	this.m01 = m01;
+	this.m11 = m11;
+	this.m21 = m21;
+	this.m31 = m31;
+	this.m02 = m02;
+	this.m12 = m12;
+	this.m22 = m22;
+	this.m32 = m32;
+	this.m03 = m03;
+	this.m13 = m13;
+	this.m23 = m23;
+	this.m33 = m33;
+};
+$hxClasses["hxmath.math.Matrix4x4Default"] = hxmath_math_Matrix4x4Default;
+hxmath_math_Matrix4x4Default.__name__ = true;
+hxmath_math_Matrix4x4Default.prototype = {
+	m00: null
+	,m01: null
+	,m02: null
+	,m03: null
+	,m10: null
+	,m11: null
+	,m12: null
+	,m13: null
+	,m20: null
+	,m21: null
+	,m22: null
+	,m23: null
+	,m30: null
+	,m31: null
+	,m32: null
+	,m33: null
+	,toString: function() {
+		return "[[" + this.m00 + ", " + this.m10 + ", " + this.m20 + ", " + this.m30 + "], [" + this.m01 + ", " + this.m11 + ", " + this.m21 + ", " + this.m31 + "], [" + this.m02 + ", " + this.m12 + ", " + this.m22 + ", " + this.m32 + "], [" + this.m03 + ", " + this.m13 + ", " + this.m23 + ", " + this.m33 + "]]";
+	}
+	,__class__: hxmath_math_Matrix4x4Default
+};
+var hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$ = {};
+$hxClasses["hxmath.math._Matrix4x4.Matrix4x4_Impl_"] = hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$;
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.__name__ = true;
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$._new = function(m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33) {
+	var this1 = new hxmath_math_Matrix4x4Default(m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 16) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Matrix4x4Default(rawData[0],rawData[1],rawData[2],rawData[3],rawData[4],rawData[5],rawData[6],rawData[7],rawData[8],rawData[9],rawData[10],rawData[11],rawData[12],rawData[13],rawData[14],rawData[15]);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.fromMatrix4x4Shape = function(other) {
+	var this1 = new hxmath_math_Matrix4x4Default(other.m00,other.m10,other.m20,other.m30,other.m01,other.m11,other.m21,other.m31,other.m02,other.m12,other.m22,other.m32,other.m03,other.m13,other.m23,other.m33);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.multiplyVector = function(a,v) {
+	var this1 = new hxmath_math_Vector4Default(a.m00 * v.x + a.m10 * v.y + a.m20 * v.z + a.m30 * v.w,a.m01 * v.x + a.m11 * v.y + a.m21 * v.z + a.m31 * v.w,a.m02 * v.x + a.m12 * v.y + a.m22 * v.z + a.m32 * v.w,a.m03 * v.x + a.m13 * v.y + a.m23 * v.z + a.m33 * v.w);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.multiply = function(a,b) {
+	var this1 = new hxmath_math_Matrix4x4Default(a.m00 * b.m00 + a.m10 * b.m01 + a.m20 * b.m02 + a.m30 * b.m03,a.m00 * b.m10 + a.m10 * b.m11 + a.m20 * b.m12 + a.m30 * b.m13,a.m00 * b.m20 + a.m10 * b.m21 + a.m20 * b.m22 + a.m30 * b.m23,a.m00 * b.m30 + a.m10 * b.m31 + a.m20 * b.m32 + a.m30 * b.m33,a.m01 * b.m00 + a.m11 * b.m01 + a.m21 * b.m02 + a.m31 * b.m03,a.m01 * b.m10 + a.m11 * b.m11 + a.m21 * b.m12 + a.m31 * b.m13,a.m01 * b.m20 + a.m11 * b.m21 + a.m21 * b.m22 + a.m31 * b.m23,a.m01 * b.m30 + a.m11 * b.m31 + a.m21 * b.m32 + a.m31 * b.m33,a.m02 * b.m00 + a.m12 * b.m01 + a.m22 * b.m02 + a.m32 * b.m03,a.m02 * b.m10 + a.m12 * b.m11 + a.m22 * b.m12 + a.m32 * b.m13,a.m02 * b.m20 + a.m12 * b.m21 + a.m22 * b.m22 + a.m32 * b.m23,a.m02 * b.m30 + a.m12 * b.m31 + a.m22 * b.m32 + a.m32 * b.m33,a.m03 * b.m00 + a.m13 * b.m01 + a.m23 * b.m02 + a.m33 * b.m03,a.m03 * b.m10 + a.m13 * b.m11 + a.m23 * b.m12 + a.m33 * b.m13,a.m03 * b.m20 + a.m13 * b.m21 + a.m23 * b.m22 + a.m33 * b.m23,a.m03 * b.m30 + a.m13 * b.m31 + a.m23 * b.m32 + a.m33 * b.m33);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.add = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Matrix4x4Default(self.m00,self.m10,self.m20,self.m30,self.m01,self.m11,self.m21,self.m31,self.m02,self.m12,self.m22,self.m32,self.m03,self.m13,self.m23,self.m33);
+	var self1 = this1;
+	self1.m00 += b.m00;
+	self1.m10 += b.m10;
+	self1.m20 += b.m20;
+	self1.m30 += b.m30;
+	self1.m01 += b.m01;
+	self1.m11 += b.m11;
+	self1.m21 += b.m21;
+	self1.m31 += b.m31;
+	self1.m02 += b.m02;
+	self1.m12 += b.m12;
+	self1.m22 += b.m22;
+	self1.m32 += b.m32;
+	self1.m03 += b.m03;
+	self1.m13 += b.m13;
+	self1.m23 += b.m23;
+	self1.m33 += b.m33;
+	return self1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Matrix4x4Default(self.m00,self.m10,self.m20,self.m30,self.m01,self.m11,self.m21,self.m31,self.m02,self.m12,self.m22,self.m32,self.m03,self.m13,self.m23,self.m33);
+	var self1 = this1;
+	self1.m00 -= b.m00;
+	self1.m10 -= b.m10;
+	self1.m20 -= b.m20;
+	self1.m30 -= b.m30;
+	self1.m01 -= b.m01;
+	self1.m11 -= b.m11;
+	self1.m21 -= b.m21;
+	self1.m31 -= b.m31;
+	self1.m02 -= b.m02;
+	self1.m12 -= b.m12;
+	self1.m22 -= b.m22;
+	self1.m32 -= b.m32;
+	self1.m03 -= b.m03;
+	self1.m13 -= b.m13;
+	self1.m23 -= b.m23;
+	self1.m33 -= b.m33;
+	return self1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.negate = function(a) {
+	var this1 = new hxmath_math_Matrix4x4Default(-a.m00,-a.m10,-a.m20,-a.m30,-a.m01,-a.m11,-a.m21,-a.m31,-a.m02,-a.m12,-a.m22,-a.m32,-a.m03,-a.m13,-a.m23,-a.m33);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.m00 == b.m00 && a.m10 == b.m10 && a.m20 == b.m20 && a.m30 == b.m30 && a.m01 == b.m01 && a.m11 == b.m11 && a.m21 == b.m21 && a.m31 == b.m31 && a.m02 == b.m02 && a.m12 == b.m12 && a.m22 == b.m22 && a.m32 == b.m32 && a.m03 == b.m03 && a.m13 == b.m13 && a.m23 == b.m23) {
+			return a.m33 == b.m33;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.set = function(this1,m00,m10,m20,m30,m01,m11,m21,m31,m02,m12,m22,m32,m03,m13,m23,m33) {
+	var self = this1;
+	self.m00 = m00;
+	self.m10 = m10;
+	self.m20 = m20;
+	self.m30 = m30;
+	self.m01 = m01;
+	self.m11 = m11;
+	self.m21 = m21;
+	self.m31 = m31;
+	self.m02 = m02;
+	self.m12 = m12;
+	self.m22 = m22;
+	self.m32 = m32;
+	self.m03 = m03;
+	self.m13 = m13;
+	self.m23 = m23;
+	self.m33 = m33;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.m00 += a.m00;
+	self.m10 += a.m10;
+	self.m20 += a.m20;
+	self.m30 += a.m30;
+	self.m01 += a.m01;
+	self.m11 += a.m11;
+	self.m21 += a.m21;
+	self.m31 += a.m31;
+	self.m02 += a.m02;
+	self.m12 += a.m12;
+	self.m22 += a.m22;
+	self.m32 += a.m32;
+	self.m03 += a.m03;
+	self.m13 += a.m13;
+	self.m23 += a.m23;
+	self.m33 += a.m33;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.m00 -= a.m00;
+	self.m10 -= a.m10;
+	self.m20 -= a.m20;
+	self.m30 -= a.m30;
+	self.m01 -= a.m01;
+	self.m11 -= a.m11;
+	self.m21 -= a.m21;
+	self.m31 -= a.m31;
+	self.m02 -= a.m02;
+	self.m12 -= a.m12;
+	self.m22 -= a.m22;
+	self.m32 -= a.m32;
+	self.m03 -= a.m03;
+	self.m13 -= a.m13;
+	self.m23 -= a.m23;
+	self.m33 -= a.m33;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.m00;
+	var self2 = target;
+	self2.m00 = value;
+	var self3 = self;
+	var value1 = self3.m10;
+	var self4 = target;
+	self4.m10 = value1;
+	var self5 = self;
+	var value2 = self5.m20;
+	var self6 = target;
+	self6.m20 = value2;
+	var self7 = self;
+	var value3 = self7.m30;
+	var self8 = target;
+	self8.m30 = value3;
+	var self9 = self;
+	var value4 = self9.m01;
+	var self10 = target;
+	self10.m01 = value4;
+	var self11 = self;
+	var value5 = self11.m11;
+	var self12 = target;
+	self12.m11 = value5;
+	var self13 = self;
+	var value6 = self13.m21;
+	var self14 = target;
+	self14.m21 = value6;
+	var self15 = self;
+	var value7 = self15.m31;
+	var self16 = target;
+	self16.m31 = value7;
+	var self17 = self;
+	var value8 = self17.m02;
+	var self18 = target;
+	self18.m02 = value8;
+	var self19 = self;
+	var value9 = self19.m12;
+	var self20 = target;
+	self20.m12 = value9;
+	var self21 = self;
+	var value10 = self21.m22;
+	var self22 = target;
+	self22.m22 = value10;
+	var self23 = self;
+	var value11 = self23.m32;
+	var self24 = target;
+	self24.m32 = value11;
+	var self25 = self;
+	var value12 = self25.m03;
+	var self26 = target;
+	self26.m03 = value12;
+	var self27 = self;
+	var value13 = self27.m13;
+	var self28 = target;
+	self28.m13 = value13;
+	var self29 = self;
+	var value14 = self29.m23;
+	var self30 = target;
+	self30.m23 = value14;
+	var self31 = self;
+	var value15 = self31.m33;
+	var self32 = target;
+	self32.m33 = value15;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.m00 = self.m00;
+	target.m01 = self.m01;
+	target.m02 = self.m02;
+	target.m03 = self.m03;
+	target.m10 = self.m10;
+	target.m11 = self.m11;
+	target.m12 = self.m12;
+	target.m13 = self.m13;
+	target.m20 = self.m20;
+	target.m21 = self.m21;
+	target.m22 = self.m22;
+	target.m23 = self.m23;
+	target.m30 = self.m30;
+	target.m31 = self.m31;
+	target.m32 = self.m32;
+	target.m33 = self.m33;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.m00 = source.m00;
+	self.m01 = source.m01;
+	self.m02 = source.m02;
+	self.m03 = source.m03;
+	self.m10 = source.m10;
+	self.m11 = source.m11;
+	self.m12 = source.m12;
+	self.m13 = source.m13;
+	self.m20 = source.m20;
+	self.m21 = source.m21;
+	self.m22 = source.m22;
+	self.m23 = source.m23;
+	self.m30 = source.m30;
+	self.m31 = source.m31;
+	self.m32 = source.m32;
+	self.m33 = source.m33;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.setRotateFromQuaternion = function(this1,q) {
+	var self = this1;
+	var s = q.s;
+	var x = q.x;
+	var y = q.y;
+	var z = q.z;
+	self.m00 = 1 - 2 * (y * y + z * z);
+	self.m10 = 2 * (x * y - s * z);
+	self.m20 = 2 * (s * y + x * z);
+	self.m01 = 2 * (x * y + s * z);
+	self.m11 = 1 - 2 * (x * x + z * z);
+	self.m21 = 2 * (y * z - s * x);
+	self.m02 = 2 * (x * z - s * y);
+	self.m12 = 2 * (y * z + s * x);
+	self.m22 = 1 - 2 * (x * x + y * y);
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.setTranslate = function(this1,x,y,z) {
+	var self = this1;
+	self.m30 = x;
+	self.m31 = y;
+	self.m32 = z;
+	self.m33 = 1.0;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix4x4Default(self.m00,self.m10,self.m20,self.m30,self.m01,self.m11,self.m21,self.m31,self.m02,self.m12,self.m22,self.m32,self.m03,self.m13,self.m23,self.m33);
+	return this2;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.m00;
+	case 1:
+		return self.m10;
+	case 2:
+		return self.m20;
+	case 3:
+		return self.m30;
+	case 4:
+		return self.m01;
+	case 5:
+		return self.m11;
+	case 6:
+		return self.m21;
+	case 7:
+		return self.m31;
+	case 8:
+		return self.m02;
+	case 9:
+		return self.m12;
+	case 10:
+		return self.m22;
+	case 11:
+		return self.m32;
+	case 12:
+		return self.m03;
+	case 13:
+		return self.m13;
+	case 14:
+		return self.m23;
+	case 15:
+		return self.m33;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.m00 = value;
+	case 1:
+		return self.m10 = value;
+	case 2:
+		return self.m20 = value;
+	case 3:
+		return self.m30 = value;
+	case 4:
+		return self.m01 = value;
+	case 5:
+		return self.m11 = value;
+	case 6:
+		return self.m21 = value;
+	case 7:
+		return self.m31 = value;
+	case 8:
+		return self.m02 = value;
+	case 9:
+		return self.m12 = value;
+	case 10:
+		return self.m22 = value;
+	case 11:
+		return self.m32 = value;
+	case 12:
+		return self.m03 = value;
+	case 13:
+		return self.m13 = value;
+	case 14:
+		return self.m23 = value;
+	case 15:
+		return self.m33 = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.getElement = function(this1,column,row) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 4 + column) {
+	case 0:
+		return self1.m00;
+	case 1:
+		return self1.m10;
+	case 2:
+		return self1.m20;
+	case 3:
+		return self1.m30;
+	case 4:
+		return self1.m01;
+	case 5:
+		return self1.m11;
+	case 6:
+		return self1.m21;
+	case 7:
+		return self1.m31;
+	case 8:
+		return self1.m02;
+	case 9:
+		return self1.m12;
+	case 10:
+		return self1.m22;
+	case 11:
+		return self1.m32;
+	case 12:
+		return self1.m03;
+	case 13:
+		return self1.m13;
+	case 14:
+		return self1.m23;
+	case 15:
+		return self1.m33;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.setElement = function(this1,column,row,value) {
+	var self = this1;
+	var self1 = self;
+	switch(row * 4 + column) {
+	case 0:
+		return self1.m00 = value;
+	case 1:
+		return self1.m10 = value;
+	case 2:
+		return self1.m20 = value;
+	case 3:
+		return self1.m30 = value;
+	case 4:
+		return self1.m01 = value;
+	case 5:
+		return self1.m11 = value;
+	case 6:
+		return self1.m21 = value;
+	case 7:
+		return self1.m31 = value;
+	case 8:
+		return self1.m02 = value;
+	case 9:
+		return self1.m12 = value;
+	case 10:
+		return self1.m22 = value;
+	case 11:
+		return self1.m32 = value;
+	case 12:
+		return self1.m03 = value;
+	case 13:
+		return self1.m13 = value;
+	case 14:
+		return self1.m23 = value;
+	case 15:
+		return self1.m33 = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.col = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector4Default(self.m00,self.m01,self.m02,self.m03);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector4Default(self.m10,self.m11,self.m12,self.m13);
+		return this3;
+	case 2:
+		var this4 = new hxmath_math_Vector4Default(self.m20,self.m21,self.m22,self.m23);
+		return this4;
+	case 3:
+		var this5 = new hxmath_math_Vector4Default(self.m30,self.m31,self.m32,self.m33);
+		return this5;
+	default:
+		throw new js__$Boot_HaxeError("Invalid column");
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.row = function(this1,index) {
+	var self = this1;
+	switch(index) {
+	case 0:
+		var this2 = new hxmath_math_Vector4Default(self.m00,self.m10,self.m20,self.m30);
+		return this2;
+	case 1:
+		var this3 = new hxmath_math_Vector4Default(self.m01,self.m11,self.m21,self.m31);
+		return this3;
+	case 2:
+		var this4 = new hxmath_math_Vector4Default(self.m02,self.m12,self.m22,self.m32);
+		return this4;
+	case 3:
+		var this5 = new hxmath_math_Vector4Default(self.m03,self.m13,self.m23,self.m33);
+		return this5;
+	default:
+		throw new js__$Boot_HaxeError("Invalid row");
+	}
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.m00);
+	var self2 = self;
+	self2.m00 = value;
+	var self3 = self;
+	var value1 = func(self3.m10);
+	var self4 = self;
+	self4.m10 = value1;
+	var self5 = self;
+	var value2 = func(self5.m20);
+	var self6 = self;
+	self6.m20 = value2;
+	var self7 = self;
+	var value3 = func(self7.m30);
+	var self8 = self;
+	self8.m30 = value3;
+	var self9 = self;
+	var value4 = func(self9.m01);
+	var self10 = self;
+	self10.m01 = value4;
+	var self11 = self;
+	var value5 = func(self11.m11);
+	var self12 = self;
+	self12.m11 = value5;
+	var self13 = self;
+	var value6 = func(self13.m21);
+	var self14 = self;
+	self14.m21 = value6;
+	var self15 = self;
+	var value7 = func(self15.m31);
+	var self16 = self;
+	self16.m31 = value7;
+	var self17 = self;
+	var value8 = func(self17.m02);
+	var self18 = self;
+	self18.m02 = value8;
+	var self19 = self;
+	var value9 = func(self19.m12);
+	var self20 = self;
+	self20.m12 = value9;
+	var self21 = self;
+	var value10 = func(self21.m22);
+	var self22 = self;
+	self22.m22 = value10;
+	var self23 = self;
+	var value11 = func(self23.m32);
+	var self24 = self;
+	self24.m32 = value11;
+	var self25 = self;
+	var value12 = func(self25.m03);
+	var self26 = self;
+	self26.m03 = value12;
+	var self27 = self;
+	var value13 = func(self27.m13);
+	var self28 = self;
+	self28.m13 = value13;
+	var self29 = self;
+	var value14 = func(self29.m23);
+	var self30 = self;
+	self30.m23 = value14;
+	var self31 = self;
+	var value15 = func(self31.m33);
+	var self32 = self;
+	self32.m33 = value15;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.applySubMatrixTranspose = function(this1) {
+	var self = this1;
+	var temp = self.m01;
+	self.m01 = self.m10;
+	self.m10 = temp;
+	temp = self.m02;
+	self.m02 = self.m20;
+	self.m20 = temp;
+	temp = self.m12;
+	self.m12 = self.m21;
+	self.m21 = temp;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.applyInvertFrame = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var temp = self1.m01;
+	self1.m01 = self1.m10;
+	self1.m10 = temp;
+	temp = self1.m02;
+	self1.m02 = self1.m20;
+	self1.m20 = temp;
+	temp = self1.m12;
+	self1.m12 = self1.m21;
+	self1.m21 = temp;
+	var tx = -(self.m00 * self.m30 + self.m10 * self.m31 + self.m20 * self.m32);
+	var ty = -(self.m01 * self.m30 + self.m11 * self.m31 + self.m21 * self.m32);
+	var tz = -(self.m02 * self.m30 + self.m12 * self.m31 + self.m22 * self.m32);
+	self.m30 = tx;
+	self.m31 = ty;
+	self.m32 = tz;
+	return self;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Matrix4x4Default(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.get_identity = function() {
+	var this1 = new hxmath_math_Matrix4x4Default(1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0);
+	return this1;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.get_t = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector3Default(self.m30,self.m31,self.m32);
+	return this2;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.set_t = function(this1,t) {
+	var self = this1;
+	self.m30 = t.x;
+	self.m31 = t.y;
+	self.m32 = t.z;
+	return t;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.get_transpose = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix4x4Default(self.m00,self.m01,self.m02,self.m03,self.m10,self.m11,self.m12,self.m13,self.m20,self.m21,self.m22,self.m23,self.m30,self.m31,self.m32,self.m33);
+	return this2;
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.get_det = function(this1) {
+	var self = this1;
+	var m01 = self.m01;
+	var m11 = self.m11;
+	var m21 = self.m21;
+	var m31 = self.m31;
+	var m02 = self.m02;
+	var m12 = self.m12;
+	var m22 = self.m22;
+	var m32 = self.m32;
+	var m03 = self.m03;
+	var m13 = self.m13;
+	var m23 = self.m23;
+	var m33 = self.m33;
+	return self.m00 * (m11 * (m22 * m33 - m32 * m23) - m21 * (m12 * m33 - m32 * m13) + m31 * (m12 * m23 - m22 * m13)) - self.m10 * (m01 * (m22 * m33 - m32 * m23) - m21 * (m02 * m33 - m32 * m03) + m31 * (m02 * m23 - m22 * m03)) + self.m20 * (m01 * (m12 * m33 - m32 * m13) - m11 * (m02 * m33 - m32 * m03) + m31 * (m02 * m13 - m12 * m03)) - self.m30 * (m01 * (m12 * m23 - m22 * m13) - m11 * (m02 * m23 - m22 * m03) + m21 * (m02 * m13 - m12 * m03));
+};
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.get_subMatrix = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Matrix3x3Default(self.m00,self.m10,self.m20,self.m01,self.m11,self.m21,self.m02,self.m12,self.m22);
+	return this2;
+};
+var hxmath_math_QuaternionDefault = function(s,x,y,z) {
+	this.s = s;
+	this.x = x;
+	this.y = y;
+	this.z = z;
+};
+$hxClasses["hxmath.math.QuaternionDefault"] = hxmath_math_QuaternionDefault;
+hxmath_math_QuaternionDefault.__name__ = true;
+hxmath_math_QuaternionDefault.prototype = {
+	s: null
+	,x: null
+	,y: null
+	,z: null
+	,toString: function() {
+		return "[" + this.s + ", (" + this.x + ", " + this.y + ", " + this.z + ")]";
+	}
+	,__class__: hxmath_math_QuaternionDefault
+};
+var hxmath_math__$Quaternion_Quaternion_$Impl_$ = {};
+$hxClasses["hxmath.math._Quaternion.Quaternion_Impl_"] = hxmath_math__$Quaternion_Quaternion_$Impl_$;
+hxmath_math__$Quaternion_Quaternion_$Impl_$.__name__ = true;
+hxmath_math__$Quaternion_Quaternion_$Impl_$._new = function(s,x,y,z) {
+	var this1 = new hxmath_math_QuaternionDefault(s,x,y,z);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 4) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_QuaternionDefault(rawData[0],rawData[1],rawData[2],rawData[3]);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.fromAxisAngle = function(angleDegrees,axis) {
+	var angleRadians = Math.PI / 180 * angleDegrees;
+	var cosHalfAngle = Math.cos(angleRadians / 2.0);
+	var sinHalfAngle = Math.sin(angleRadians / 2.0);
+	var this1 = new hxmath_math_QuaternionDefault(cosHalfAngle,sinHalfAngle * axis.x,sinHalfAngle * axis.y,sinHalfAngle * axis.z);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.multiplyScalar = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_QuaternionDefault(self.s,self.x,self.y,self.z);
+	var self1 = this1;
+	self1.s *= s;
+	self1.x *= s;
+	self1.y *= s;
+	self1.z *= s;
+	return self1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.multiply = function(a,b) {
+	var this1 = new hxmath_math_QuaternionDefault(a.s * b.s - a.x * b.x - a.y * b.y - a.z * b.z,a.s * b.x + b.s * a.x + a.y * b.z - a.z * b.y,a.s * b.y + b.s * a.y + a.z * b.x - a.x * b.z,a.s * b.z + b.s * a.z + a.x * b.y - a.y * b.x);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.add = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_QuaternionDefault(self.s,self.x,self.y,self.z);
+	var self1 = this1;
+	self1.s += b.s;
+	self1.x += b.x;
+	self1.y += b.y;
+	self1.z += b.z;
+	return self1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_QuaternionDefault(self.s,self.x,self.y,self.z);
+	var self1 = this1;
+	self1.s -= b.s;
+	self1.x -= b.x;
+	self1.y -= b.y;
+	self1.z -= b.z;
+	return self1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.conjugate = function(a) {
+	var this1 = new hxmath_math_QuaternionDefault(a.s,-a.x,-a.y,-a.z);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.negate = function(a) {
+	var this1 = new hxmath_math_QuaternionDefault(-a.s,-a.x,-a.y,-a.z);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.s == b.s && a.x == b.x && a.y == b.y) {
+			return a.z == b.z;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.lerp = function(a,b,t) {
+	var s = 1.0 - t;
+	var self = a;
+	var this1 = new hxmath_math_QuaternionDefault(self.s,self.x,self.y,self.z);
+	var self1 = this1;
+	self1.s *= s;
+	self1.x *= s;
+	self1.y *= s;
+	self1.z *= s;
+	var self2 = b;
+	var this2 = new hxmath_math_QuaternionDefault(self2.s,self2.x,self2.y,self2.z);
+	var self3 = this2;
+	self3.s *= t;
+	self3.x *= t;
+	self3.y *= t;
+	self3.z *= t;
+	var b1 = self3;
+	var self4 = self1;
+	var this3 = new hxmath_math_QuaternionDefault(self4.s,self4.x,self4.y,self4.z);
+	var self5 = this3;
+	self5.s += b1.s;
+	self5.x += b1.x;
+	self5.y += b1.y;
+	self5.z += b1.z;
+	return self5;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.slerp = function(a,b,t) {
+	var cosHalfTheta = a.s * b.s + a.x * b.x + a.y * b.y + a.z * b.z;
+	if(Math.abs(cosHalfTheta) >= 1.0) {
+		return a;
+	}
+	var halfTheta = Math.acos(cosHalfTheta);
+	var sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+	if(Math.abs(sinHalfTheta) < 1e-3) {
+		var s = 1.0 - t;
+		var self = a;
+		var this1 = new hxmath_math_QuaternionDefault(self.s,self.x,self.y,self.z);
+		var self1 = this1;
+		self1.s *= s;
+		self1.x *= s;
+		self1.y *= s;
+		self1.z *= s;
+		var self2 = b;
+		var this2 = new hxmath_math_QuaternionDefault(self2.s,self2.x,self2.y,self2.z);
+		var self3 = this2;
+		self3.s *= t;
+		self3.x *= t;
+		self3.y *= t;
+		self3.z *= t;
+		var b1 = self3;
+		var self4 = self1;
+		var this3 = new hxmath_math_QuaternionDefault(self4.s,self4.x,self4.y,self4.z);
+		var self5 = this3;
+		self5.s += b1.s;
+		self5.x += b1.x;
+		self5.y += b1.y;
+		self5.z += b1.z;
+		var self6 = self5;
+		var self7 = self6;
+		var length = Math.sqrt(self7.s * self7.s + self7.x * self7.x + self7.y * self7.y + self7.z * self7.z);
+		if(length > 0.0) {
+			var k = 1.0 / length;
+			var self8 = self6;
+			self8.s *= k;
+			self8.x *= k;
+			self8.y *= k;
+			self8.z *= k;
+		}
+		return self6;
+	}
+	var ta = Math.sin((1 - t) * halfTheta) / sinHalfTheta;
+	var tb = Math.sin(t * halfTheta) / sinHalfTheta;
+	var this4 = new hxmath_math_QuaternionDefault(0,0,0,0);
+	var result = this4;
+	result.x = a.x * ta + b.x * tb;
+	result.y = a.y * ta + b.y * tb;
+	result.z = a.z * ta + b.z * tb;
+	result.s = a.s * ta + b.s * tb;
+	return result;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.dot = function(a,b) {
+	return a.s * b.s + a.x * b.x + a.y * b.y + a.z * b.z;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.set = function(this1,s,x,y,z) {
+	var self = this1;
+	self.s = s;
+	self.x = x;
+	self.y = y;
+	self.z = z;
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.invert = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_QuaternionDefault(self1.s,self1.x,self1.y,self1.z);
+	var self2 = this2;
+	var self3 = self2;
+	self3.x = -self3.x;
+	self3.y = -self3.y;
+	self3.z = -self3.z;
+	var self4 = self3;
+	var self5 = self4;
+	var length = Math.sqrt(self5.s * self5.s + self5.x * self5.x + self5.y * self5.y + self5.z * self5.z);
+	if(length > 0.0) {
+		var k = 1.0 / length;
+		var self6 = self4;
+		self6.s *= k;
+		self6.x *= k;
+		self6.y *= k;
+		self6.z *= k;
+	}
+	return self4;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.multiplyWithScalar = function(this1,s) {
+	var self = this1;
+	self.s *= s;
+	self.x *= s;
+	self.y *= s;
+	self.z *= s;
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.s += a.s;
+	self.x += a.x;
+	self.y += a.y;
+	self.z += a.z;
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.s -= a.s;
+	self.x -= a.x;
+	self.y -= a.y;
+	self.z -= a.z;
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.s;
+	var self2 = target;
+	self2.s = value;
+	var self3 = self;
+	var value1 = self3.x;
+	var self4 = target;
+	self4.x = value1;
+	var self5 = self;
+	var value2 = self5.y;
+	var self6 = target;
+	self6.y = value2;
+	var self7 = self;
+	var value3 = self7.z;
+	var self8 = target;
+	self8.z = value3;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.s = self.s;
+	target.x = self.x;
+	target.y = self.y;
+	target.z = self.z;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.s = source.s;
+	self.x = source.x;
+	self.y = source.y;
+	self.z = source.z;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_QuaternionDefault(self.s,self.x,self.y,self.z);
+	return this2;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.s;
+	case 1:
+		return self.x;
+	case 2:
+		return self.y;
+	case 3:
+		return self.z;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.s = value;
+	case 1:
+		return self.x = value;
+	case 2:
+		return self.y = value;
+	case 3:
+		return self.z = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.s);
+	var self2 = self;
+	self2.s = value;
+	var self3 = self;
+	var value1 = func(self3.x);
+	var self4 = self;
+	self4.x = value1;
+	var self5 = self;
+	var value2 = func(self5.y);
+	var self6 = self;
+	self6.y = value2;
+	var self7 = self;
+	var value3 = func(self7.z);
+	var self8 = self;
+	self8.z = value3;
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.log = function(this1) {
+	var self = this1;
+	var theta = Math.acos(self.s);
+	var sinTheta = Math.sin(theta);
+	if(sinTheta > 0.0) {
+		var k = theta / sinTheta;
+		var this2 = new hxmath_math_QuaternionDefault(0.0,k * self.x,k * self.y,k * self.z);
+		return this2;
+	} else {
+		var this3 = new hxmath_math_QuaternionDefault(0,0,0,0);
+		return this3;
+	}
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.exp = function(this1) {
+	var self = this1;
+	var theta = Math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z);
+	var sinTheta = Math.sin(theta);
+	var cosTheta = Math.cos(theta);
+	if(theta > 0.0) {
+		var this2 = new hxmath_math_QuaternionDefault(cosTheta,sinTheta * self.x,sinTheta * self.y,sinTheta * self.z);
+		return this2;
+	} else {
+		var this3 = new hxmath_math_QuaternionDefault(cosTheta,0,0,0);
+		return this3;
+	}
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.rotate = function(this1,u) {
+	var self = this1;
+	var a = 2.0 * (self.x * u.x + self.y * u.y + self.z * u.z);
+	var b = self.s * self.s - self.x * self.x - self.y * self.y - self.z * self.z;
+	var c = 2.0 * self.s;
+	var this2 = new hxmath_math_Vector3Default(a * self.x + b * u.x + c * (self.y * u.z - self.z * u.y),a * self.y + b * u.y + c * (self.z * u.x - self.x * u.z),a * self.z + b * u.z + c * (self.x * u.y - self.y * u.x));
+	return this2;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.angleWith = function(this1,b) {
+	var self = this1;
+	var self1 = self;
+	var self2 = b;
+	return 2.0 * Math.acos((self.s * b.s + self.x * b.x + self.y * b.y + self.z * b.z) / (Math.sqrt(self1.s * self1.s + self1.x * self1.x + self1.y * self1.y + self1.z * self1.z) * Math.sqrt(self2.s * self2.s + self2.x * self2.x + self2.y * self2.y + self2.z * self2.z)));
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.normalize = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.s * self1.s + self1.x * self1.x + self1.y * self1.y + self1.z * self1.z);
+	if(length > 0.0) {
+		var k = 1.0 / length;
+		var self2 = self;
+		self2.s *= k;
+		self2.x *= k;
+		self2.y *= k;
+		self2.z *= k;
+	}
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.applyConjugate = function(this1) {
+	var self = this1;
+	self.x = -self.x;
+	self.y = -self.y;
+	self.z = -self.z;
+	return self;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.applyInvert = function(this1) {
+	var self = this1;
+	var self1 = self;
+	self1.x = -self1.x;
+	self1.y = -self1.y;
+	self1.z = -self1.z;
+	var self2 = self1;
+	var self3 = self2;
+	var length = Math.sqrt(self3.s * self3.s + self3.x * self3.x + self3.y * self3.y + self3.z * self3.z);
+	if(length > 0.0) {
+		var k = 1.0 / length;
+		var self4 = self2;
+		self4.s *= k;
+		self4.x *= k;
+		self4.y *= k;
+		self4.z *= k;
+	}
+	return self2;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_QuaternionDefault(0,0,0,0);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.get_identity = function() {
+	var this1 = new hxmath_math_QuaternionDefault(1,0,0,0);
+	return this1;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.get_length = function(this1) {
+	var self = this1;
+	return Math.sqrt(self.s * self.s + self.x * self.x + self.y * self.y + self.z * self.z);
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.get_lengthSq = function(this1) {
+	var self = this1;
+	return self.s * self.s + self.x * self.x + self.y * self.y + self.z * self.z;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.get_matrix = function(this1) {
+	var self = this1;
+	var s = self.s;
+	var x = self.x;
+	var y = self.y;
+	var z = self.z;
+	var this2 = new hxmath_math_Matrix3x3Default(1 - 2 * (y * y + z * z),2 * (x * y - s * z),2 * (s * y + x * z),2 * (x * y + s * z),1 - 2 * (x * x + z * z),2 * (y * z - s * x),2 * (x * z - s * y),2 * (y * z + s * x),1 - 2 * (x * x + y * y));
+	var m = this2;
+	return m;
+};
+hxmath_math__$Quaternion_Quaternion_$Impl_$.get_normal = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var s = 1.0 / Math.sqrt(self1.s * self1.s + self1.x * self1.x + self1.y * self1.y + self1.z * self1.z);
+	var self2 = self;
+	var this2 = new hxmath_math_QuaternionDefault(self2.s,self2.x,self2.y,self2.z);
+	var self3 = this2;
+	self3.s *= s;
+	self3.x *= s;
+	self3.y *= s;
+	self3.z *= s;
+	return self3;
+};
+var hxmath_math_Vector2Default = function(x,y) {
+	this.x = x;
+	this.y = y;
+};
+$hxClasses["hxmath.math.Vector2Default"] = hxmath_math_Vector2Default;
+hxmath_math_Vector2Default.__name__ = true;
+hxmath_math_Vector2Default.prototype = {
+	x: null
+	,y: null
+	,toString: function() {
+		return "(" + this.x + ", " + this.y + ")";
+	}
+	,__class__: hxmath_math_Vector2Default
+};
+var hxmath_math__$Vector2_Vector2_$Impl_$ = {};
+$hxClasses["hxmath.math._Vector2.Vector2_Impl_"] = hxmath_math__$Vector2_Vector2_$Impl_$;
+hxmath_math__$Vector2_Vector2_$Impl_$.__name__ = true;
+hxmath_math__$Vector2_Vector2_$Impl_$._new = function(x,y) {
+	var this1 = new hxmath_math_Vector2Default(x,y);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 2) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Vector2Default(rawData[0],rawData[1]);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.fromPolar = function(angle,radius) {
+	var this1 = new hxmath_math_Vector2Default(radius * Math.cos(angle),radius * Math.sin(angle));
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.fromVector2Shape = function(other) {
+	var this1 = new hxmath_math_Vector2Default(other.x,other.y);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.toIntVector2 = function(this1,func) {
+	var self = this1;
+	if(func == null) {
+		func = function(x) {
+			return x | 0;
+		};
+	}
+	return hxmath_math__$IntVector2_IntVector2_$Impl_$._new(func(self.x),func(self.y));
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.dot = function(a,b) {
+	return a.x * b.x + a.y * b.y;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.multiply = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	self1.x *= s;
+	self1.y *= s;
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.divide = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	self1.x /= s;
+	self1.y /= s;
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.add = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	self1.x += b.x;
+	self1.y += b.y;
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	self1.x -= b.x;
+	self1.y -= b.y;
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.negate = function(a) {
+	var this1 = new hxmath_math_Vector2Default(-a.x,-a.y);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.x == b.x) {
+			return a.y == b.y;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.lerp = function(a,b,t) {
+	var this1 = new hxmath_math_Vector2Default((1.0 - t) * a.x + t * b.x,(1.0 - t) * a.y + t * b.y);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.max = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	self1.x = Math.max(self1.x,b.x);
+	self1.y = Math.max(self1.y,b.y);
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.min = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	self1.x = Math.min(self1.x,b.x);
+	self1.y = Math.min(self1.y,b.y);
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.project = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	var s = (self1.x * b.x + self1.y * b.y) / (b.x * b.x + b.y * b.y);
+	var self2 = b;
+	var self3 = self2;
+	var value = self3.x;
+	var self4 = self1;
+	self4.x = value;
+	var self5 = self2;
+	var value1 = self5.y;
+	var self6 = self1;
+	self6.y = value1;
+	var self7 = self1;
+	self7.x *= s;
+	self7.y *= s;
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.reflect = function(v,normal) {
+	var self = v;
+	var this1 = new hxmath_math_Vector2Default(self.x,self.y);
+	var self1 = this1;
+	var self2 = self1;
+	var this2 = new hxmath_math_Vector2Default(self2.x,self2.y);
+	var self3 = this2;
+	var s = (self3.x * normal.x + self3.y * normal.y) / (normal.x * normal.x + normal.y * normal.y);
+	var self4 = normal;
+	var self5 = self4;
+	var value = self5.x;
+	var self6 = self3;
+	self6.x = value;
+	var self7 = self4;
+	var value1 = self7.y;
+	var self8 = self3;
+	self8.y = value1;
+	var self9 = self3;
+	self9.x *= s;
+	self9.y *= s;
+	var projected = self3;
+	var self10 = projected;
+	self10.x *= 2.0;
+	self10.y *= 2.0;
+	var self11 = self1;
+	self11.x -= projected.x;
+	self11.y -= projected.y;
+	return self1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.orthoNormalize = function(u,v) {
+	var self = u;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y);
+	if(length > 0.0) {
+		var self2 = self;
+		self2.x /= length;
+		self2.y /= length;
+	}
+	var self3 = v;
+	var this1 = new hxmath_math_Vector2Default(self3.x,self3.y);
+	var self4 = this1;
+	var s = (self4.x * u.x + self4.y * u.y) / (u.x * u.x + u.y * u.y);
+	var self5 = u;
+	var self6 = self5;
+	var value = self6.x;
+	var self7 = self4;
+	self7.x = value;
+	var self8 = self5;
+	var value1 = self8.y;
+	var self9 = self4;
+	self9.y = value1;
+	var self10 = self4;
+	self10.x *= s;
+	self10.y *= s;
+	var a = self4;
+	var self11 = v;
+	self11.x -= a.x;
+	self11.y -= a.y;
+	var self12 = v;
+	var self13 = self12;
+	var length1 = Math.sqrt(self13.x * self13.x + self13.y * self13.y);
+	if(length1 > 0.0) {
+		var self14 = self12;
+		self14.x /= length1;
+		self14.y /= length1;
+	}
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.set = function(this1,x,y) {
+	var self = this1;
+	self.x = x;
+	self.y = y;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.multiplyWith = function(this1,s) {
+	var self = this1;
+	self.x *= s;
+	self.y *= s;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.divideWith = function(this1,s) {
+	var self = this1;
+	self.x /= s;
+	self.y /= s;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.x += a.x;
+	self.y += a.y;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.x -= a.x;
+	self.y -= a.y;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.maxWith = function(this1,a) {
+	var self = this1;
+	self.x = Math.max(self.x,a.x);
+	self.y = Math.max(self.y,a.y);
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.minWith = function(this1,a) {
+	var self = this1;
+	self.x = Math.min(self.x,a.x);
+	self.y = Math.min(self.y,a.y);
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.projectOnto = function(this1,a) {
+	var self = this1;
+	var s = (self.x * a.x + self.y * a.y) / (a.x * a.x + a.y * a.y);
+	var self1 = a;
+	var self2 = self1;
+	var value = self2.x;
+	var self3 = self;
+	self3.x = value;
+	var self4 = self1;
+	var value1 = self4.y;
+	var self5 = self;
+	self5.y = value1;
+	var self6 = self;
+	self6.x *= s;
+	self6.y *= s;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.reflectBy = function(this1,normal) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector2Default(self1.x,self1.y);
+	var self2 = this2;
+	var s = (self2.x * normal.x + self2.y * normal.y) / (normal.x * normal.x + normal.y * normal.y);
+	var self3 = normal;
+	var self4 = self3;
+	var value = self4.x;
+	var self5 = self2;
+	self5.x = value;
+	var self6 = self3;
+	var value1 = self6.y;
+	var self7 = self2;
+	self7.y = value1;
+	var self8 = self2;
+	self8.x *= s;
+	self8.y *= s;
+	var projected = self2;
+	var self9 = projected;
+	self9.x *= 2.0;
+	self9.y *= 2.0;
+	var self10 = self;
+	self10.x -= projected.x;
+	self10.y -= projected.y;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.x;
+	var self2 = target;
+	self2.x = value;
+	var self3 = self;
+	var value1 = self3.y;
+	var self4 = target;
+	self4.y = value1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.x = self.x;
+	target.y = self.y;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.x = source.x;
+	self.y = source.y;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector2Default(self.x,self.y);
+	return this2;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x;
+	case 1:
+		return self.y;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x = value;
+	case 1:
+		return self.y = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.applyNegate = function(this1) {
+	var self = this1;
+	self.x = -self.x;
+	self.y = -self.y;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.x);
+	var self2 = self;
+	self2.x = value;
+	var self3 = self;
+	var value1 = func(self3.y);
+	var self4 = self;
+	self4.y = value1;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.angleWith = function(this1,b) {
+	var self = this1;
+	var self1 = self;
+	var self2 = b;
+	return Math.acos((self.x * b.x + self.y * b.y) / (Math.sqrt(self1.x * self1.x + self1.y * self1.y) * Math.sqrt(self2.x * self2.x + self2.y * self2.y)));
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.signedAngleWith = function(this1,b) {
+	var self = this1;
+	var x = self.x * b.y - b.x * self.y;
+	var self1 = self;
+	var self2 = self1;
+	var self3 = b;
+	return (Math.abs(x) < 0 ? 0 : x <= 0 ? -1 : 1) * Math.acos((self1.x * b.x + self1.y * b.y) / (Math.sqrt(self2.x * self2.x + self2.y * self2.y) * Math.sqrt(self3.x * self3.x + self3.y * self3.y)));
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.distanceTo = function(this1,b) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector2Default(self1.x,self1.y);
+	var self2 = this2;
+	self2.x -= b.x;
+	self2.y -= b.y;
+	var self3 = self2;
+	return Math.sqrt(self3.x * self3.x + self3.y * self3.y);
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.normalize = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y);
+	if(length > 0.0) {
+		var self2 = self;
+		self2.x /= length;
+		self2.y /= length;
+	}
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.normalizeTo = function(this1,newLength) {
+	var self = this1;
+	var self1 = self;
+	var self2 = self1;
+	var length = Math.sqrt(self2.x * self2.x + self2.y * self2.y);
+	if(length > 0.0) {
+		var self3 = self1;
+		self3.x /= length;
+		self3.y /= length;
+	}
+	var self4 = self;
+	self4.x *= newLength;
+	self4.y *= newLength;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.clamp = function(this1,min,max) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y);
+	if(length < min) {
+		var self2 = self;
+		var self3 = self2;
+		var self4 = self3;
+		var length1 = Math.sqrt(self4.x * self4.x + self4.y * self4.y);
+		if(length1 > 0.0) {
+			var self5 = self3;
+			self5.x /= length1;
+			self5.y /= length1;
+		}
+		var self6 = self2;
+		self6.x *= min;
+		self6.y *= min;
+	} else if(length > max) {
+		var self7 = self;
+		var self8 = self7;
+		var self9 = self8;
+		var length2 = Math.sqrt(self9.x * self9.x + self9.y * self9.y);
+		if(length2 > 0.0) {
+			var self10 = self8;
+			self10.x /= length2;
+			self10.y /= length2;
+		}
+		var self11 = self7;
+		self11.x *= max;
+		self11.y *= max;
+	}
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.rotate = function(this1,angle,pivot) {
+	var self = this1;
+	var cosAngle = Math.cos(angle);
+	var sinAngle = Math.sin(angle);
+	var dx = self.x - pivot.x;
+	var dy = self.y - pivot.y;
+	self.x = dx * cosAngle - dy * sinAngle;
+	self.y = dx * sinAngle + dy * cosAngle;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.rotateLeft = function(this1) {
+	var self = this1;
+	var newX = -self.y;
+	self.y = self.x;
+	self.x = newX;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.rotateRight = function(this1) {
+	var self = this1;
+	var newX = self.y;
+	self.y = -self.x;
+	self.x = newX;
+	return self;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Vector2Default(0.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_xAxis = function() {
+	var this1 = new hxmath_math_Vector2Default(1.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_yAxis = function() {
+	var this1 = new hxmath_math_Vector2Default(0.0,1.0);
+	return this1;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_length = function(this1) {
+	var self = this1;
+	return Math.sqrt(self.x * self.x + self.y * self.y);
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_lengthSq = function(this1) {
+	var self = this1;
+	return self.x * self.x + self.y * self.y;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_angle = function(this1) {
+	var self = this1;
+	return Math.atan2(self.y,self.x);
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_normal = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector2Default(self1.x,self1.y);
+	var self2 = this2;
+	var self3 = self2;
+	var length = Math.sqrt(self3.x * self3.x + self3.y * self3.y);
+	if(length > 0.0) {
+		var self4 = self2;
+		self4.x /= length;
+		self4.y /= length;
+	}
+	return self2;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_rotatedLeft = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector2Default(self1.x,self1.y);
+	var self2 = this2;
+	var newX = -self2.y;
+	self2.y = self2.x;
+	self2.x = newX;
+	return self2;
+};
+hxmath_math__$Vector2_Vector2_$Impl_$.get_rotatedRight = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector2Default(self1.x,self1.y);
+	var self2 = this2;
+	var newX = self2.y;
+	self2.y = -self2.x;
+	self2.x = newX;
+	return self2;
+};
+var hxmath_math_Vector3Default = function(x,y,z) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
+};
+$hxClasses["hxmath.math.Vector3Default"] = hxmath_math_Vector3Default;
+hxmath_math_Vector3Default.__name__ = true;
+hxmath_math_Vector3Default.prototype = {
+	x: null
+	,y: null
+	,z: null
+	,toString: function() {
+		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+	}
+	,__class__: hxmath_math_Vector3Default
+};
+var hxmath_math__$Vector3_Vector3_$Impl_$ = {};
+$hxClasses["hxmath.math._Vector3.Vector3_Impl_"] = hxmath_math__$Vector3_Vector3_$Impl_$;
+hxmath_math__$Vector3_Vector3_$Impl_$.__name__ = true;
+hxmath_math__$Vector3_Vector3_$Impl_$._new = function(x,y,z) {
+	var this1 = new hxmath_math_Vector3Default(x,y,z);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 3) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Vector3Default(rawData[0],rawData[1],rawData[2]);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.fromVector3Shape = function(other) {
+	var this1 = new hxmath_math_Vector3Default(other.x,other.y,other.z);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.dot = function(a,b) {
+	return a.x * b.x + a.y * b.y + a.z * b.z;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.cross = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	var newX = self1.y * b.z - self1.z * b.y;
+	var newY = self1.z * b.x - self1.x * b.z;
+	var newZ = self1.x * b.y - self1.y * b.x;
+	self1.x = newX;
+	self1.y = newY;
+	self1.z = newZ;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.multiply = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	self1.x *= s;
+	self1.y *= s;
+	self1.z *= s;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.divide = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	self1.x /= s;
+	self1.y /= s;
+	self1.z /= s;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.add = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	self1.x += b.x;
+	self1.y += b.y;
+	self1.z += b.z;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	self1.x -= b.x;
+	self1.y -= b.y;
+	self1.z -= b.z;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.negate = function(a) {
+	var this1 = new hxmath_math_Vector3Default(-a.x,-a.y,-a.z);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.x == b.x && a.y == b.y) {
+			return a.z == b.z;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.lerp = function(a,b,t) {
+	var this1 = new hxmath_math_Vector3Default((1.0 - t) * a.x + t * b.x,(1.0 - t) * a.y + t * b.y,(1.0 - t) * a.z + t * b.z);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.max = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	self1.x = Math.max(self1.x,b.x);
+	self1.y = Math.max(self1.y,b.y);
+	self1.z = Math.max(self1.z,b.z);
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.min = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	self1.x = Math.min(self1.x,b.x);
+	self1.y = Math.min(self1.y,b.y);
+	self1.z = Math.min(self1.z,b.z);
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.project = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	var s = (self1.x * b.x + self1.y * b.y + self1.z * b.z) / (b.x * b.x + b.y * b.y + b.z * b.z);
+	var self2 = b;
+	var self3 = self2;
+	var value = self3.x;
+	var self4 = self1;
+	self4.x = value;
+	var self5 = self2;
+	var value1 = self5.y;
+	var self6 = self1;
+	self6.y = value1;
+	var self7 = self2;
+	var value2 = self7.z;
+	var self8 = self1;
+	self8.z = value2;
+	var self9 = self1;
+	self9.x *= s;
+	self9.y *= s;
+	self9.z *= s;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.reflect = function(v,normal) {
+	var self = v;
+	var this1 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	var self1 = this1;
+	var self2 = self1;
+	var this2 = new hxmath_math_Vector3Default(self2.x,self2.y,self2.z);
+	var self3 = this2;
+	var s = (self3.x * normal.x + self3.y * normal.y + self3.z * normal.z) / (normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+	var self4 = normal;
+	var self5 = self4;
+	var value = self5.x;
+	var self6 = self3;
+	self6.x = value;
+	var self7 = self4;
+	var value1 = self7.y;
+	var self8 = self3;
+	self8.y = value1;
+	var self9 = self4;
+	var value2 = self9.z;
+	var self10 = self3;
+	self10.z = value2;
+	var self11 = self3;
+	self11.x *= s;
+	self11.y *= s;
+	self11.z *= s;
+	var projected = self3;
+	var self12 = projected;
+	self12.x *= 2.0;
+	self12.y *= 2.0;
+	self12.z *= 2.0;
+	var self13 = self1;
+	self13.x -= projected.x;
+	self13.y -= projected.y;
+	self13.z -= projected.z;
+	return self1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.orthoNormalize = function(u,v,w) {
+	var self = u;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y + self1.z * self1.z);
+	if(length > 0.0) {
+		var self2 = self;
+		self2.x /= length;
+		self2.y /= length;
+		self2.z /= length;
+	}
+	var self3 = v;
+	var this1 = new hxmath_math_Vector3Default(self3.x,self3.y,self3.z);
+	var self4 = this1;
+	var s = (self4.x * u.x + self4.y * u.y + self4.z * u.z) / (u.x * u.x + u.y * u.y + u.z * u.z);
+	var self5 = u;
+	var self6 = self5;
+	var value = self6.x;
+	var self7 = self4;
+	self7.x = value;
+	var self8 = self5;
+	var value1 = self8.y;
+	var self9 = self4;
+	self9.y = value1;
+	var self10 = self5;
+	var value2 = self10.z;
+	var self11 = self4;
+	self11.z = value2;
+	var self12 = self4;
+	self12.x *= s;
+	self12.y *= s;
+	self12.z *= s;
+	var a = self4;
+	var self13 = v;
+	self13.x -= a.x;
+	self13.y -= a.y;
+	self13.z -= a.z;
+	var self14 = v;
+	var self15 = self14;
+	var length1 = Math.sqrt(self15.x * self15.x + self15.y * self15.y + self15.z * self15.z);
+	if(length1 > 0.0) {
+		var self16 = self14;
+		self16.x /= length1;
+		self16.y /= length1;
+		self16.z /= length1;
+	}
+	var self17 = w;
+	var this2 = new hxmath_math_Vector3Default(self17.x,self17.y,self17.z);
+	var self18 = this2;
+	var s1 = (self18.x * u.x + self18.y * u.y + self18.z * u.z) / (u.x * u.x + u.y * u.y + u.z * u.z);
+	var self19 = u;
+	var self20 = self19;
+	var value3 = self20.x;
+	var self21 = self18;
+	self21.x = value3;
+	var self22 = self19;
+	var value4 = self22.y;
+	var self23 = self18;
+	self23.y = value4;
+	var self24 = self19;
+	var value5 = self24.z;
+	var self25 = self18;
+	self25.z = value5;
+	var self26 = self18;
+	self26.x *= s1;
+	self26.y *= s1;
+	self26.z *= s1;
+	var a1 = self18;
+	var self27 = w;
+	self27.x -= a1.x;
+	self27.y -= a1.y;
+	self27.z -= a1.z;
+	var self28 = w;
+	var this3 = new hxmath_math_Vector3Default(self28.x,self28.y,self28.z);
+	var self29 = this3;
+	var s2 = (self29.x * v.x + self29.y * v.y + self29.z * v.z) / (v.x * v.x + v.y * v.y + v.z * v.z);
+	var self30 = v;
+	var self31 = self30;
+	var value6 = self31.x;
+	var self32 = self29;
+	self32.x = value6;
+	var self33 = self30;
+	var value7 = self33.y;
+	var self34 = self29;
+	self34.y = value7;
+	var self35 = self30;
+	var value8 = self35.z;
+	var self36 = self29;
+	self36.z = value8;
+	var self37 = self29;
+	self37.x *= s2;
+	self37.y *= s2;
+	self37.z *= s2;
+	var a2 = self29;
+	var self38 = w;
+	self38.x -= a2.x;
+	self38.y -= a2.y;
+	self38.z -= a2.z;
+	var self39 = w;
+	var self40 = self39;
+	var length2 = Math.sqrt(self40.x * self40.x + self40.y * self40.y + self40.z * self40.z);
+	if(length2 > 0.0) {
+		var self41 = self39;
+		self41.x /= length2;
+		self41.y /= length2;
+		self41.z /= length2;
+	}
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.set = function(this1,x,y,z) {
+	var self = this1;
+	self.x = x;
+	self.y = y;
+	self.z = z;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.crossWith = function(this1,a) {
+	var self = this1;
+	var newX = self.y * a.z - self.z * a.y;
+	var newY = self.z * a.x - self.x * a.z;
+	var newZ = self.x * a.y - self.y * a.x;
+	self.x = newX;
+	self.y = newY;
+	self.z = newZ;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.multiplyWith = function(this1,s) {
+	var self = this1;
+	self.x *= s;
+	self.y *= s;
+	self.z *= s;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.divideWith = function(this1,s) {
+	var self = this1;
+	self.x /= s;
+	self.y /= s;
+	self.z /= s;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.x += a.x;
+	self.y += a.y;
+	self.z += a.z;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.x -= a.x;
+	self.y -= a.y;
+	self.z -= a.z;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.maxWith = function(this1,a) {
+	var self = this1;
+	self.x = Math.max(self.x,a.x);
+	self.y = Math.max(self.y,a.y);
+	self.z = Math.max(self.z,a.z);
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.minWith = function(this1,a) {
+	var self = this1;
+	self.x = Math.min(self.x,a.x);
+	self.y = Math.min(self.y,a.y);
+	self.z = Math.min(self.z,a.z);
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.projectOnto = function(this1,a) {
+	var self = this1;
+	var s = (self.x * a.x + self.y * a.y + self.z * a.z) / (a.x * a.x + a.y * a.y + a.z * a.z);
+	var self1 = a;
+	var self2 = self1;
+	var value = self2.x;
+	var self3 = self;
+	self3.x = value;
+	var self4 = self1;
+	var value1 = self4.y;
+	var self5 = self;
+	self5.y = value1;
+	var self6 = self1;
+	var value2 = self6.z;
+	var self7 = self;
+	self7.z = value2;
+	var self8 = self;
+	self8.x *= s;
+	self8.y *= s;
+	self8.z *= s;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.projectOntoPlane = function(this1,normal) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector3Default(self1.x,self1.y,self1.z);
+	var self2 = this2;
+	var s = (self2.x * normal.x + self2.y * normal.y + self2.z * normal.z) / (normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+	var self3 = normal;
+	var self4 = self3;
+	var value = self4.x;
+	var self5 = self2;
+	self5.x = value;
+	var self6 = self3;
+	var value1 = self6.y;
+	var self7 = self2;
+	self7.y = value1;
+	var self8 = self3;
+	var value2 = self8.z;
+	var self9 = self2;
+	self9.z = value2;
+	var self10 = self2;
+	self10.x *= s;
+	self10.y *= s;
+	self10.z *= s;
+	var a = self2;
+	var self11 = self;
+	self11.x -= a.x;
+	self11.y -= a.y;
+	self11.z -= a.z;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.reflectBy = function(this1,normal) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector3Default(self1.x,self1.y,self1.z);
+	var self2 = this2;
+	var s = (self2.x * normal.x + self2.y * normal.y + self2.z * normal.z) / (normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+	var self3 = normal;
+	var self4 = self3;
+	var value = self4.x;
+	var self5 = self2;
+	self5.x = value;
+	var self6 = self3;
+	var value1 = self6.y;
+	var self7 = self2;
+	self7.y = value1;
+	var self8 = self3;
+	var value2 = self8.z;
+	var self9 = self2;
+	self9.z = value2;
+	var self10 = self2;
+	self10.x *= s;
+	self10.y *= s;
+	self10.z *= s;
+	var projected = self2;
+	var self11 = projected;
+	self11.x *= 2.0;
+	self11.y *= 2.0;
+	self11.z *= 2.0;
+	var self12 = self;
+	self12.x -= projected.x;
+	self12.y -= projected.y;
+	self12.z -= projected.z;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.x;
+	var self2 = target;
+	self2.x = value;
+	var self3 = self;
+	var value1 = self3.y;
+	var self4 = target;
+	self4.y = value1;
+	var self5 = self;
+	var value2 = self5.z;
+	var self6 = target;
+	self6.z = value2;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.x = self.x;
+	target.y = self.y;
+	target.z = self.z;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.x = source.x;
+	self.y = source.y;
+	self.z = source.z;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector3Default(self.x,self.y,self.z);
+	return this2;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x;
+	case 1:
+		return self.y;
+	case 2:
+		return self.z;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x = value;
+	case 1:
+		return self.y = value;
+	case 2:
+		return self.z = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.applyNegate = function(this1) {
+	var self = this1;
+	self.x = -self.x;
+	self.y = -self.y;
+	self.z = -self.z;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.x);
+	var self2 = self;
+	self2.x = value;
+	var self3 = self;
+	var value1 = func(self3.y);
+	var self4 = self;
+	self4.y = value1;
+	var self5 = self;
+	var value2 = func(self5.z);
+	var self6 = self;
+	self6.z = value2;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.angleWith = function(this1,b) {
+	var self = this1;
+	var self1 = self;
+	var self2 = b;
+	return Math.acos((self.x * b.x + self.y * b.y + self.z * b.z) / (Math.sqrt(self1.x * self1.x + self1.y * self1.y + self1.z * self1.z) * Math.sqrt(self2.x * self2.x + self2.y * self2.y + self2.z * self2.z)));
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.distanceTo = function(this1,b) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector3Default(self1.x,self1.y,self1.z);
+	var self2 = this2;
+	self2.x -= b.x;
+	self2.y -= b.y;
+	self2.z -= b.z;
+	var self3 = self2;
+	return Math.sqrt(self3.x * self3.x + self3.y * self3.y + self3.z * self3.z);
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.normalize = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y + self1.z * self1.z);
+	if(length > 0.0) {
+		var self2 = self;
+		self2.x /= length;
+		self2.y /= length;
+		self2.z /= length;
+	}
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.normalizeTo = function(this1,newLength) {
+	var self = this1;
+	var self1 = self;
+	var self2 = self1;
+	var length = Math.sqrt(self2.x * self2.x + self2.y * self2.y + self2.z * self2.z);
+	if(length > 0.0) {
+		var self3 = self1;
+		self3.x /= length;
+		self3.y /= length;
+		self3.z /= length;
+	}
+	var self4 = self;
+	self4.x *= newLength;
+	self4.y *= newLength;
+	self4.z *= newLength;
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.clamp = function(this1,min,max) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y + self1.z * self1.z);
+	if(length < min) {
+		var self2 = self;
+		var self3 = self2;
+		var self4 = self3;
+		var length1 = Math.sqrt(self4.x * self4.x + self4.y * self4.y + self4.z * self4.z);
+		if(length1 > 0.0) {
+			var self5 = self3;
+			self5.x /= length1;
+			self5.y /= length1;
+			self5.z /= length1;
+		}
+		var self6 = self2;
+		self6.x *= min;
+		self6.y *= min;
+		self6.z *= min;
+	} else if(length > max) {
+		var self7 = self;
+		var self8 = self7;
+		var self9 = self8;
+		var length2 = Math.sqrt(self9.x * self9.x + self9.y * self9.y + self9.z * self9.z);
+		if(length2 > 0.0) {
+			var self10 = self8;
+			self10.x /= length2;
+			self10.y /= length2;
+			self10.z /= length2;
+		}
+		var self11 = self7;
+		self11.x *= max;
+		self11.y *= max;
+		self11.z *= max;
+	}
+	return self;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.get_length = function(this1) {
+	var self = this1;
+	return Math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z);
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.get_lengthSq = function(this1) {
+	var self = this1;
+	return self.x * self.x + self.y * self.y + self.z * self.z;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Vector3Default(0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.get_xAxis = function() {
+	var this1 = new hxmath_math_Vector3Default(1.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.get_yAxis = function() {
+	var this1 = new hxmath_math_Vector3Default(0.0,1.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector3_Vector3_$Impl_$.get_zAxis = function() {
+	var this1 = new hxmath_math_Vector3Default(0.0,0.0,1.0);
+	return this1;
+};
+var hxmath_math_Vector4Default = function(x,y,z,w) {
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.w = w;
+};
+$hxClasses["hxmath.math.Vector4Default"] = hxmath_math_Vector4Default;
+hxmath_math_Vector4Default.__name__ = true;
+hxmath_math_Vector4Default.prototype = {
+	x: null
+	,y: null
+	,z: null
+	,w: null
+	,toString: function() {
+		return "(" + this.x + ", " + this.y + ", " + this.z + ", " + this.w + ")";
+	}
+	,__class__: hxmath_math_Vector4Default
+};
+var hxmath_math__$Vector4_Vector4_$Impl_$ = {};
+$hxClasses["hxmath.math._Vector4.Vector4_Impl_"] = hxmath_math__$Vector4_Vector4_$Impl_$;
+hxmath_math__$Vector4_Vector4_$Impl_$.__name__ = true;
+hxmath_math__$Vector4_Vector4_$Impl_$._new = function(x,y,z,w) {
+	var this1 = new hxmath_math_Vector4Default(x,y,z,w);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.fromArray = function(rawData) {
+	if(rawData.length != 4) {
+		throw new js__$Boot_HaxeError("Invalid rawData.");
+	}
+	var this1 = new hxmath_math_Vector4Default(rawData[0],rawData[1],rawData[2],rawData[3]);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.fromVector4Shape = function(other) {
+	var this1 = new hxmath_math_Vector4Default(other.x,other.y,other.z,other.w);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.dot = function(a,b) {
+	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.multiply = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	self1.x *= s;
+	self1.y *= s;
+	self1.z *= s;
+	self1.w *= s;
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.divide = function(a,s) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	self1.x /= s;
+	self1.y /= s;
+	self1.z /= s;
+	self1.w /= s;
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.add = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	self1.x += b.x;
+	self1.y += b.y;
+	self1.z += b.z;
+	self1.w += b.w;
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.subtract = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	self1.x -= b.x;
+	self1.y -= b.y;
+	self1.z -= b.z;
+	self1.w -= b.w;
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.negate = function(a) {
+	var this1 = new hxmath_math_Vector4Default(-a.x,-a.y,-a.z,-a.w);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.equals = function(a,b) {
+	if(!(a == null && b == null)) {
+		if(a != null && b != null && a.x == b.x && a.y == b.y && a.z == b.z) {
+			return a.w == b.w;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.lerp = function(a,b,t) {
+	var this1 = new hxmath_math_Vector4Default((1.0 - t) * a.x + t * b.x,(1.0 - t) * a.y + t * b.y,(1.0 - t) * a.z + t * b.z,(1.0 - t) * a.w + t * b.w);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.max = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	self1.x = Math.max(self1.x,b.x);
+	self1.y = Math.max(self1.y,b.y);
+	self1.z = Math.max(self1.z,b.z);
+	self1.w = Math.max(self1.w,b.w);
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.min = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	self1.x = Math.min(self1.x,b.x);
+	self1.y = Math.min(self1.y,b.y);
+	self1.z = Math.min(self1.z,b.z);
+	self1.w = Math.min(self1.w,b.w);
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.project = function(a,b) {
+	var self = a;
+	var this1 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	var self1 = this1;
+	var s = (self1.x * b.x + self1.y * b.y + self1.z * b.z + self1.w * b.w) / (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
+	var self2 = b;
+	var self3 = self2;
+	var value = self3.x;
+	var self4 = self1;
+	self4.x = value;
+	var self5 = self2;
+	var value1 = self5.y;
+	var self6 = self1;
+	self6.y = value1;
+	var self7 = self2;
+	var value2 = self7.z;
+	var self8 = self1;
+	self8.z = value2;
+	var self9 = self2;
+	var value3 = self9.w;
+	var self10 = self1;
+	self10.w = value3;
+	var self11 = self1;
+	self11.x *= s;
+	self11.y *= s;
+	self11.z *= s;
+	self11.w *= s;
+	return self1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.set = function(this1,x,y,z,w) {
+	var self = this1;
+	self.x = x;
+	self.y = y;
+	self.z = z;
+	self.w = w;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.multiplyWith = function(this1,s) {
+	var self = this1;
+	self.x *= s;
+	self.y *= s;
+	self.z *= s;
+	self.w *= s;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.divideWith = function(this1,s) {
+	var self = this1;
+	self.x /= s;
+	self.y /= s;
+	self.z /= s;
+	self.w /= s;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.addWith = function(this1,a) {
+	var self = this1;
+	self.x += a.x;
+	self.y += a.y;
+	self.z += a.z;
+	self.w += a.w;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.subtractWith = function(this1,a) {
+	var self = this1;
+	self.x -= a.x;
+	self.y -= a.y;
+	self.z -= a.z;
+	self.w -= a.w;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.maxWith = function(this1,a) {
+	var self = this1;
+	self.x = Math.max(self.x,a.x);
+	self.y = Math.max(self.y,a.y);
+	self.z = Math.max(self.z,a.z);
+	self.w = Math.max(self.w,a.w);
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.minWith = function(this1,a) {
+	var self = this1;
+	self.x = Math.min(self.x,a.x);
+	self.y = Math.min(self.y,a.y);
+	self.z = Math.min(self.z,a.z);
+	self.w = Math.min(self.w,a.w);
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.projectOnto = function(this1,a) {
+	var self = this1;
+	var s = (self.x * a.x + self.y * a.y + self.z * a.z + self.w * a.w) / (a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+	var self1 = a;
+	var self2 = self1;
+	var value = self2.x;
+	var self3 = self;
+	self3.x = value;
+	var self4 = self1;
+	var value1 = self4.y;
+	var self5 = self;
+	self5.y = value1;
+	var self6 = self1;
+	var value2 = self6.z;
+	var self7 = self;
+	self7.z = value2;
+	var self8 = self1;
+	var value3 = self8.w;
+	var self9 = self;
+	self9.w = value3;
+	var self10 = self;
+	self10.x *= s;
+	self10.y *= s;
+	self10.z *= s;
+	self10.w *= s;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.copyTo = function(this1,target) {
+	var self = this1;
+	var self1 = self;
+	var value = self1.x;
+	var self2 = target;
+	self2.x = value;
+	var self3 = self;
+	var value1 = self3.y;
+	var self4 = target;
+	self4.y = value1;
+	var self5 = self;
+	var value2 = self5.z;
+	var self6 = target;
+	self6.z = value2;
+	var self7 = self;
+	var value3 = self7.w;
+	var self8 = target;
+	self8.w = value3;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.copyToShape = function(this1,target) {
+	var self = this1;
+	target.x = self.x;
+	target.y = self.y;
+	target.z = self.z;
+	target.w = self.w;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.copyFromShape = function(this1,source) {
+	var self = this1;
+	self.x = source.x;
+	self.y = source.y;
+	self.z = source.z;
+	self.w = source.w;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.clone = function(this1) {
+	var self = this1;
+	var this2 = new hxmath_math_Vector4Default(self.x,self.y,self.z,self.w);
+	return this2;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.getArrayElement = function(this1,i) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x;
+	case 1:
+		return self.y;
+	case 2:
+		return self.z;
+	case 3:
+		return self.w;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.setArrayElement = function(this1,i,value) {
+	var self = this1;
+	switch(i) {
+	case 0:
+		return self.x = value;
+	case 1:
+		return self.y = value;
+	case 2:
+		return self.z = value;
+	case 3:
+		return self.w = value;
+	default:
+		throw new js__$Boot_HaxeError("Invalid element");
+	}
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.applyScalarFunc = function(this1,func) {
+	var self = this1;
+	var self1 = self;
+	var value = func(self1.x);
+	var self2 = self;
+	self2.x = value;
+	var self3 = self;
+	var value1 = func(self3.y);
+	var self4 = self;
+	self4.y = value1;
+	var self5 = self;
+	var value2 = func(self5.z);
+	var self6 = self;
+	self6.z = value2;
+	var self7 = self;
+	var value3 = func(self7.w);
+	var self8 = self;
+	self8.w = value3;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.distanceTo = function(this1,b) {
+	var self = this1;
+	var self1 = self;
+	var this2 = new hxmath_math_Vector4Default(self1.x,self1.y,self1.z,self1.w);
+	var self2 = this2;
+	self2.x -= b.x;
+	self2.y -= b.y;
+	self2.z -= b.z;
+	self2.w -= b.w;
+	var self3 = self2;
+	return Math.sqrt(self3.x * self3.x + self3.y * self3.y + self3.z * self3.z + self3.w * self3.w);
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.normalize = function(this1) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y + self1.z * self1.z + self1.w * self1.w);
+	if(length > 0.0) {
+		var self2 = self;
+		self2.x /= length;
+		self2.y /= length;
+		self2.z /= length;
+		self2.w /= length;
+	}
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.normalizeTo = function(this1,newLength) {
+	var self = this1;
+	var self1 = self;
+	var self2 = self1;
+	var length = Math.sqrt(self2.x * self2.x + self2.y * self2.y + self2.z * self2.z + self2.w * self2.w);
+	if(length > 0.0) {
+		var self3 = self1;
+		self3.x /= length;
+		self3.y /= length;
+		self3.z /= length;
+		self3.w /= length;
+	}
+	var self4 = self;
+	self4.x *= newLength;
+	self4.y *= newLength;
+	self4.z *= newLength;
+	self4.w *= newLength;
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.clamp = function(this1,min,max) {
+	var self = this1;
+	var self1 = self;
+	var length = Math.sqrt(self1.x * self1.x + self1.y * self1.y + self1.z * self1.z + self1.w * self1.w);
+	if(length < min) {
+		var self2 = self;
+		var self3 = self2;
+		var self4 = self3;
+		var length1 = Math.sqrt(self4.x * self4.x + self4.y * self4.y + self4.z * self4.z + self4.w * self4.w);
+		if(length1 > 0.0) {
+			var self5 = self3;
+			self5.x /= length1;
+			self5.y /= length1;
+			self5.z /= length1;
+			self5.w /= length1;
+		}
+		var self6 = self2;
+		self6.x *= min;
+		self6.y *= min;
+		self6.z *= min;
+		self6.w *= min;
+	} else if(length > max) {
+		var self7 = self;
+		var self8 = self7;
+		var self9 = self8;
+		var length2 = Math.sqrt(self9.x * self9.x + self9.y * self9.y + self9.z * self9.z + self9.w * self9.w);
+		if(length2 > 0.0) {
+			var self10 = self8;
+			self10.x /= length2;
+			self10.y /= length2;
+			self10.z /= length2;
+			self10.w /= length2;
+		}
+		var self11 = self7;
+		self11.x *= max;
+		self11.y *= max;
+		self11.z *= max;
+		self11.w *= max;
+	}
+	return self;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_length = function(this1) {
+	var self = this1;
+	return Math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z + self.w * self.w);
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_lengthSq = function(this1) {
+	var self = this1;
+	return self.x * self.x + self.y * self.y + self.z * self.z + self.w * self.w;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_zero = function() {
+	var this1 = new hxmath_math_Vector4Default(0.0,0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_xAxis = function() {
+	var this1 = new hxmath_math_Vector4Default(1.0,0.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_yAxis = function() {
+	var this1 = new hxmath_math_Vector4Default(0.0,1.0,0.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_zAxis = function() {
+	var this1 = new hxmath_math_Vector4Default(0.0,0.0,1.0,0.0);
+	return this1;
+};
+hxmath_math__$Vector4_Vector4_$Impl_$.get_wAxis = function() {
+	var this1 = new hxmath_math_Vector4Default(0.0,0.0,0.0,1.0);
+	return this1;
 };
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
@@ -22745,39 +26972,91 @@ macros_MacroTest.prototype = {
 var macros_RMacros = function() { };
 $hxClasses["macros.RMacros"] = macros_RMacros;
 macros_RMacros.__name__ = true;
-var math_V2 = function(x,y) {
+var math_V2Base = function(x,y) {
 	this.x = x;
 	this.y = y;
 };
-$hxClasses["math.V2"] = math_V2;
-math_V2.__name__ = true;
-math_V2.prototype = {
+$hxClasses["math.V2Base"] = math_V2Base;
+math_V2Base.__name__ = true;
+math_V2Base.prototype = {
 	x: null
 	,y: null
-	,add: function(v2) {
-		return new math_V2(this.x + v2.x,this.y + v2.y);
+	,toString: function() {
+		return "(" + this.x + ", " + this.y + ")";
 	}
-	,sub: function(v2) {
-		return new math_V2(this.x - v2.x,this.y - v2.y);
+	,__class__: math_V2Base
+};
+var math__$V2_V2_$Impl_$ = {};
+$hxClasses["math._V2.V2_Impl_"] = math__$V2_V2_$Impl_$;
+math__$V2_V2_$Impl_$.__name__ = true;
+math__$V2_V2_$Impl_$._new = function(x,y) {
+	var this1 = new math_V2Base(x,y);
+	return this1;
+};
+math__$V2_V2_$Impl_$.add = function(a,b) {
+	var this1 = new math_V2Base(a.x + b.x,a.y + b.y);
+	return this1;
+};
+math__$V2_V2_$Impl_$.sub = function(a,b) {
+	var this1 = new math_V2Base(a.x - b.x,a.y - b.y);
+	return this1;
+};
+math__$V2_V2_$Impl_$.negate = function(a) {
+	return new math_V2Base(-a.x,-a.y);
+};
+math__$V2_V2_$Impl_$.equals = function(a,b) {
+	if(a.x == b.x) {
+		return a.y == b.y;
+	} else {
+		return false;
 	}
-	,normalize: function() {
-		return new math_V2(this.x / Math.sqrt(this.x * this.x + this.y * this.y),this.y / Math.sqrt(this.x * this.x + this.y * this.y));
-	}
-	,magnitude: function() {
-		return Math.sqrt(this.x * this.x + this.y * this.y);
-	}
-	,distanceTo: function(v2) {
-		return Math.sqrt(Math.pow(this.x - v2.x,2) + Math.pow(this.y - v2.y,2));
-	}
-	,dotProduct: function(v2) {
-		return this.x * v2.x + (this.y + v2.y);
-	}
-	,dotProductN: function(v2) {
-		var norm1 = this.normalize();
-		var norm2 = v2.normalize();
-		return norm1.x * norm2.x + (norm1.y + norm2.y);
-	}
-	,__class__: math_V2
+};
+math__$V2_V2_$Impl_$.scalar = function(a,b) {
+	var this1 = new math_V2Base(a.x * b.x,a.y * b.y);
+	return this1;
+};
+math__$V2_V2_$Impl_$.addTo = function(this1,v2) {
+	var this2 = new math_V2Base(this1.x + v2.x,this1.y + v2.y);
+	return this2;
+};
+math__$V2_V2_$Impl_$.subTo = function(this1,v2) {
+	var this2 = new math_V2Base(this1.x - v2.x,this1.y - v2.y);
+	return this2;
+};
+math__$V2_V2_$Impl_$.normalize = function(this1) {
+	var self = this1;
+	var this2 = new math_V2Base(this1.x / Math.sqrt(self.x * self.x + self.y * self.y),this1.y / Math.sqrt(self.x * self.x + self.y * self.y));
+	return this2;
+};
+math__$V2_V2_$Impl_$.scale = function(this1,scaleV) {
+	var this2 = new math_V2Base(this1.x * scaleV.x,this1.y * scaleV.y);
+	return this2;
+};
+math__$V2_V2_$Impl_$.distanceTo = function(this1,v2) {
+	return Math.sqrt(Math.pow(this1.x - v2.x,2) + Math.pow(this1.y - v2.y,2));
+};
+math__$V2_V2_$Impl_$.magnitude = function(this1) {
+	return Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+};
+math__$V2_V2_$Impl_$.dotProduct = function(this1,v2) {
+	return this1.x * v2.x + (this1.y + v2.y);
+};
+math__$V2_V2_$Impl_$.dotProductN = function(this1,v2) {
+	var self = this1;
+	var self1 = self;
+	var norm1_x = self.x / Math.sqrt(self1.x * self1.x + self1.y * self1.y);
+	var norm1_y = self.y / Math.sqrt(self1.x * self1.x + self1.y * self1.y);
+	var self2 = v2;
+	var norm2_x = v2.x / Math.sqrt(self2.x * self2.x + self2.y * self2.y);
+	var norm2_y = v2.y / Math.sqrt(self2.x * self2.x + self2.y * self2.y);
+	return norm1_x * norm2_x + (norm1_y + norm2_y);
+};
+math__$V2_V2_$Impl_$.get_length = function(this1) {
+	return Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+};
+math__$V2_V2_$Impl_$.get_normal = function(this1) {
+	var v2 = this1;
+	return v2;
 };
 var rev_core_Object = function() { };
 $hxClasses["rev.core.Object"] = rev_core_Object;
@@ -22785,7 +27064,8 @@ rev_core_Object.__name__ = true;
 var rev_core_Drawable = function(parent) {
 	this.z = -1;
 	this.color = 16777215;
-	this.position = new math_V2(0,0);
+	var this1 = new math_V2Base(0,0);
+	this.position = this1;
 	this.parent = parent;
 	this.opacity = 1.0;
 	this.texture = null;
@@ -22852,7 +27132,8 @@ rev_core_Drawable.prototype = $extend(rev_core_Object.prototype,{
 		var parent = this.parent;
 		if(parent != null && parent.position != null) {
 			var currentPosition = this.get_globalPosition();
-			var positionalDiff = position.sub(currentPosition);
+			var this1 = new math_V2Base(position.x - currentPosition.x,position.y - currentPosition.y);
+			var positionalDiff = this1;
 			return this.position = positionalDiff;
 		} else {
 			return this.position = position;
@@ -22861,7 +27142,10 @@ rev_core_Drawable.prototype = $extend(rev_core_Object.prototype,{
 	,get_globalPosition: function() {
 		var parent = this.parent;
 		if(parent != null && parent.position != null) {
-			return this.position.add(parent.globalPosition);
+			var this1 = this.position;
+			var v2 = parent.globalPosition;
+			var this2 = new math_V2Base(this1.x + v2.x,this1.y + v2.y);
+			return this2;
 		} else {
 			return this.position;
 		}
@@ -23475,8 +27759,10 @@ var rev_input_Mouse = function() { };
 $hxClasses["rev.input.Mouse"] = rev_input_Mouse;
 rev_input_Mouse.__name__ = true;
 rev_input_Mouse.initialize = function() {
-	rev_input_Mouse.coordinates = new math_V2(0,0);
-	rev_input_Mouse.diffCoordinates = new math_V2(0,0);
+	var this1 = new math_V2Base(0,0);
+	rev_input_Mouse.coordinates = this1;
+	var this2 = new math_V2Base(0,0);
+	rev_input_Mouse.diffCoordinates = this2;
 	rev_input_Mouse.downListeners = new haxe_ds_List();
 	rev_input_Mouse.upListeners = new haxe_ds_List();
 	rev_input_Mouse.moveListeners = new haxe_ds_List();
@@ -23640,9 +27926,11 @@ rev_nodes_Node.prototype = {
 	}
 	,addChild: function(child) {
 		this.children.push(child);
+		child.parent = this;
 	}
 	,addChildAt: function(index,child) {
 		this.children.splice(index,0,child);
+		child.parent = this;
 	}
 	,removeChildAt: function(index) {
 		var child = this.children[index];
@@ -23694,7 +27982,8 @@ rev_nodes_Node2D.prototype = $extend(rev_nodes_Node.prototype,{
 		var parent = this.parent;
 		if(parent != null && parent.position != null) {
 			var currentPosition = this.get_globalPosition();
-			var positionalDiff = position.sub(currentPosition);
+			var this1 = new math_V2Base(position.x - currentPosition.x,position.y - currentPosition.y);
+			var positionalDiff = this1;
 			return this.position = positionalDiff;
 		} else {
 			return this.position = position;
@@ -23703,7 +27992,10 @@ rev_nodes_Node2D.prototype = $extend(rev_nodes_Node.prototype,{
 	,get_globalPosition: function() {
 		var parent = this.parent;
 		if(parent != null && parent.position != null) {
-			return this.position.add(parent.globalPosition);
+			var this1 = this.position;
+			var v2 = parent.globalPosition;
+			var this2 = new math_V2Base(this1.x + v2.x,this1.y + v2.y);
+			return this2;
 		} else {
 			return this.position;
 		}
@@ -23764,6 +28056,16 @@ haxe_Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 haxe_crypto_Base64.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 haxe_crypto_Base64.BYTES = haxe_io_Bytes.ofString(haxe_crypto_Base64.CHARS);
 haxe_io_FPHelper.helper = new DataView(new ArrayBuffer(8));
+hxmath_math__$IntVector2_IntVector2_$Impl_$.elementCount = 2;
+hxmath_math_MathUtil.eps = 1e-6;
+hxmath_math__$Matrix2x2_Matrix2x2_$Impl_$.elementCount = 4;
+hxmath_math__$Matrix3x2_Matrix3x2_$Impl_$.elementCount = 6;
+hxmath_math__$Matrix3x3_Matrix3x3_$Impl_$.elementCount = 9;
+hxmath_math__$Matrix4x4_Matrix4x4_$Impl_$.elementCount = 16;
+hxmath_math__$Quaternion_Quaternion_$Impl_$.elementCount = 4;
+hxmath_math__$Vector2_Vector2_$Impl_$.elementCount = 2;
+hxmath_math__$Vector3_Vector3_$Impl_$.elementCount = 3;
+hxmath_math__$Vector4_Vector4_$Impl_$.elementCount = 4;
 kha_Assets.images = new kha__$Assets_ImageList();
 kha_Assets.sounds = new kha__$Assets_SoundList();
 kha_Assets.blobs = new kha__$Assets_BlobList();
@@ -23992,6 +28294,7 @@ kha_netsync_Session.RPC_SERVER = 0;
 kha_netsync_Session.RPC_ALL = 1;
 kha_netsync_SyncBuilder.nextId = 0;
 kha_netsync_SyncBuilder.objects = [];
+math__$V2_V2_$Impl_$.elementCount = 2;
 rev_input__$MouseBtn_MouseBtn_$Impl_$.Left = 0;
 rev_input__$MouseBtn_MouseBtn_$Impl_$.Right = 1;
 rev_input__$MouseBtn_MouseBtn_$Impl_$.Middle = 2;

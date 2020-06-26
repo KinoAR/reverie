@@ -18,15 +18,19 @@
       <sourceFolder url="file:///Users/kinor/.vscode/extensions/kodetech.kha-20.4.0/Kha/Sources" isTestSource="false" />
       <sourceFolder url="file:///Users/kinor/.vscode/extensions/kodetech.kha-20.4.0/Kha/Backends/HTML5" isTestSource="false" />
       <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/src" isTestSource="false" />
-      <sourceFolder url="file:///usr/local/lib/haxe/lib/echo/1,5,0" isTestSource="false" />
-      <sourceFolder url="file:///usr/local/lib/haxe/lib/hxmath/0,16,0" isTestSource="false" />
+      <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/echo" isTestSource="false" />
+      <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/hxmath" isTestSource="false" />
+      <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/hxmath" isTestSource="false" />
 
     </content>
-    <content url="file:///usr/local/lib/haxe/lib/echo">
-      <sourceFolder url="file:///usr/local/lib/haxe/lib/echo/1,5,0" isTestSource="false" />
+    <content url="file://libs/echo">
+      <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/echo" isTestSource="false" />
     </content>
-    <content url="file:///usr/local/lib/haxe/lib/hxmath">
-      <sourceFolder url="file:///usr/local/lib/haxe/lib/hxmath/0,16,0" isTestSource="false" />
+    <content url="file://libs/hxmath">
+      <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/hxmath" isTestSource="false" />
+    </content>
+    <content url="file://libs/hxmath">
+      <sourceFolder url="file:///Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/hxmath" isTestSource="false" />
     </content>
     
     <orderEntry type="jdk" jdkName="Haxe 3.2.0" jdkType="Haxe toolkit" />

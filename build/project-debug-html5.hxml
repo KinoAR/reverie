@@ -1,8 +1,8 @@
 -cp /Users/kinor/.vscode/extensions/kodetech.kha-20.4.0/Kha/Sources
 -cp /Users/kinor/.vscode/extensions/kodetech.kha-20.4.0/Kha/Backends/HTML5
 -cp /Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/src
--cp /usr/local/lib/haxe/lib/echo/1,5,0
--cp /usr/local/lib/haxe/lib/hxmath/0,16,0
+-cp /Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/echo
+-cp /Users/kinor/Documents/development/nier-pixel/haxe-games/reverie-kha/libs/hxmath
 -D hxcpp_smart_strings
 -D echo
 -D hxmath

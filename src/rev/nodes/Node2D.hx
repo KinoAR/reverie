@@ -30,7 +30,7 @@ class Node2D extends Node {
     var parent:Dynamic = this.parent;
     if(parent != null && parent.position != null) {
       var currentPosition = this.globalPosition;
-      var positionalDiff = position.sub(currentPosition);
+      var positionalDiff = position.subTo(currentPosition);
       return this.position = positionalDiff;
     } else {
       return this.position = position;
@@ -40,7 +40,7 @@ class Node2D extends Node {
   public function get_globalPosition():V2 {
     var parent:Dynamic = this.parent;
     if(parent != null && parent.position != null) {
-      return this.position.add(parent.globalPosition);
+      return this.position.addTo(parent.globalPosition);
     } else {
       return this.position;
     }
